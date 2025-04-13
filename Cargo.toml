@@ -15,7 +15,7 @@ resolver="2"
 [workspace.package]
 authors = ["Stanislav Mikhailov <xavetar@proton.me>"]
 edition = "2018"
-version = "1.0.0"
+version = "1.0.1"
 rust-version = "1.51.0"
 license-file = "LICENSE"
 repository = "https://github.com/xavetar/Fasma"
