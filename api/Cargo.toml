@@ -1,0 +1,22 @@
+[package]
+name = "Fasma"
+authors = ["Stanislav Mikhailov <xavetar@proton.me>"]
+publish = true
+version.workspace = true
+edition.workspace = true
+license-file = "LICENSE"
+rust-version.workspace = true
+description = "Spectrum of components"
+documentation = "https://docs.rs/crate/Fasma/latest"
+repository.workspace = true
+include = ["src/", "Cargo.toml", "config.toml", "Cross.toml",  "LICENSE"]
+
+[lib]
+name = "Fasma"
+crate-type = ["lib", "cdylib"]
+
+[features]
+default = []
+eSIMD = []
+
+[dependencies]

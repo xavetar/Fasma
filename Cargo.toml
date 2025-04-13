@@ -1,0 +1,48 @@
+# Workspace
+[workspace]
+
+members = [
+    "api"
+]
+
+default-members = [
+    "api"
+]
+
+resolver="2"
+
+# Package
+[workspace.package]
+authors = ["Stanislav Mikhailov <xavetar@proton.me>"]
+edition = "2018"
+version = "1.0.0"
+rust-version = "1.51.0"
+license-file = "LICENSE"
+repository = "https://github.com/xavetar/Fasma"
+description = "Everything and nothing"
+
+# Dependencies
+[workspace.dependencies]
+
+# Profiles
+[profile.dev]
+lto = "off"
+debug = true
+strip = false
+opt-level = 0
+panic = "abort"
+incremental = false
+codegen-units = 256
+overflow-checks = true
+debug-assertions = true
+
+[profile.release]
+lto = "fat"
+strip = true
+debug = false
+opt-level = 3
+panic = "abort"
+incremental = false
+codegen-units = 256
+overflow-checks = false
+debug-assertions = false
