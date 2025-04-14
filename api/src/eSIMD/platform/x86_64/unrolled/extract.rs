@@ -27,20 +27,6 @@
  * ╚═════════════════════════════════════════════════════════════════════════════════════╝
  */
 
-#[cfg(target_feature = "avx2")]
-use super::{
-    shift::{
-        _mm256_slli_si256, _mm256_srli_si256
-    }
-};
-
-#[cfg(all(target_feature = "avx512f", target_feature = "avx512bw"))]
-use super::{
-    shift::{
-        _mm512_slli_si512, _mm512_srli_si512
-    }
-};
-
 #[cfg(target_feature = "sse2")]
 use core::{
     arch::{
@@ -72,6 +58,20 @@ use core::{
             _mm512_or_si512,
             _mm512_setzero_si512
         }
+    }
+};
+
+#[cfg(target_feature = "avx2")]
+use super::{
+    shift::{
+        _mm256_slli_si256, _mm256_srli_si256
+    }
+};
+
+#[cfg(all(target_feature = "avx512f", target_feature = "avx512bw"))]
+use super::{
+    shift::{
+        _mm512_slli_si512, _mm512_srli_si512
     }
 };
 
