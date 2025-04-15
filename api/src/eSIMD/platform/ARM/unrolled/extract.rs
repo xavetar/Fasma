@@ -27,7 +27,7 @@
  * ╚═════════════════════════════════════════════════════════════════════════════════════╝
  */
 
-#[cfg(target_arch = "arm")]
+#[cfg(all(target_arch = "arm", target_feature = "v7", target_feature = "neon"))]
 use core::{
     arch::{
         arm::{
@@ -47,7 +47,7 @@ use core::{
     }
 };
 
-#[cfg(target_arch = "aarch64")]
+#[cfg(all(target_arch = "aarch64", target_feature = "neon"))]
 use core::{
     arch::{
         aarch64::{
