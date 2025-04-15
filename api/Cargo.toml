@@ -20,3 +20,6 @@ default = []
 eSIMD = []
 
 [dependencies]
+
+[dev-dependencies]
+Fasma = { path = "../api", optional = false, features = ["eSIMD"]}

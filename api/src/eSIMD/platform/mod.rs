@@ -27,23 +27,15 @@
  * ╚═════════════════════════════════════════════════════════════════════════════════════╝
  */
 
-#[cfg(target_arch = "aarch64")]
-mod aarch64;
+#[cfg(all(any(all(target_arch = "arm", target_feature = "v7"), target_arch = "aarch64"), target_feature = "neon"))]
+mod ARM;
 
-#[cfg(target_arch = "arm")]
-mod arm;
-
-#[cfg(target_arch = "x86_64")]
-mod x86_64;
-
-#[cfg(target_arch = "x86")]
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), any(target_feature = "sse2", target_feature = "avx2", all(target_feature = "avx512f", target_feature = "avx512bw"))))]
 mod x86;
 
 #[cfg(any(
-    target_arch = "aarch64",
-    target_arch = "arm",
-    target_arch = "x86_64",
-    target_arch = "x86"
+    all(any(all(target_arch = "arm", target_feature = "v7"), target_arch = "aarch64"), target_feature = "neon"),
+    all(any(target_arch = "x86", target_arch = "x86_64"), any(target_feature = "sse2", target_feature = "avx2", all(target_feature = "avx512f", target_feature = "avx512bw")))
 ))]
 macro_rules! import {
     ($platform:ident) => {
@@ -51,14 +43,8 @@ macro_rules! import {
     };
 }
 
-#[cfg(target_arch = "aarch64")]
-import!(aarch64);
+#[cfg(all(any(all(target_arch = "arm", target_feature = "v7"), target_arch = "aarch64"), target_feature = "neon"))]
+import!(ARM);
 
-#[cfg(target_arch = "arm")]
-import!(arm);
-
-#[cfg(target_arch = "x86_64")]
-import!(x86_64);
-
-#[cfg(target_arch = "x86")]
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), any(target_feature = "sse2", target_feature = "avx2", all(target_feature = "avx512f", target_feature = "avx512bw"))))]
 import!(x86);

@@ -27,6 +27,27 @@
  * ╚═════════════════════════════════════════════════════════════════════════════════════╝
  */
 
+#[cfg(target_arch = "arm")]
+use core::{
+    arch::{
+        arm::{
+            uint8x8_t, uint8x16_t,
+            uint16x4_t, uint16x8_t,
+            uint32x2_t, uint32x4_t,
+            uint64x1_t, uint64x2_t,
+            vdup_n_u8, vdupq_n_u8,
+            vdup_n_u16, vdupq_n_u16,
+            vdup_n_u32, vdupq_n_u32,
+            vdup_n_u64, vdupq_n_u64,
+            vext_u8, vextq_u8,
+            vext_u16, vextq_u16,
+            vext_u32, vextq_u32,
+            vext_u64, vextq_u64
+        }
+    }
+};
+
+#[cfg(target_arch = "aarch64")]
 use core::{
     arch::{
         aarch64::{

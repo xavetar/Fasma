@@ -27,7 +27,7 @@
  * ╚═════════════════════════════════════════════════════════════════════════════════════╝
  */
 
-#[cfg(target_feature = "sse2")]
+#[cfg(all(target_arch = "x86", target_feature = "sse2"))]
 use core::{
     arch::{
         x86::{
@@ -39,7 +39,7 @@ use core::{
     }
 };
 
-#[cfg(target_feature = "avx2")]
+#[cfg(all(target_arch = "x86", target_feature = "avx2"))]
 use core::{
     arch::{
         x86::{
@@ -50,10 +50,44 @@ use core::{
     }
 };
 
-#[cfg(all(target_feature = "avx512f", target_feature = "avx512bw"))]
+#[cfg(all(target_arch = "x86", target_feature = "avx512f", target_feature = "avx512bw"))]
 use core::{
     arch::{
         x86::{
+            __m512i,
+            _mm512_or_si512,
+            _mm512_setzero_si512
+        }
+    }
+};
+
+#[cfg(all(target_arch = "x86_64", target_feature = "sse2"))]
+use core::{
+    arch::{
+        x86_64::{
+            __m128i,
+            _mm_or_si128,
+            _mm_slli_si128, _mm_srli_si128,
+            _mm_setzero_si128
+        }
+    }
+};
+
+#[cfg(all(target_arch = "x86_64", target_feature = "avx2"))]
+use core::{
+    arch::{
+        x86_64::{
+            __m256i,
+            _mm256_or_si256,
+            _mm256_setzero_si256
+        }
+    }
+};
+
+#[cfg(all(target_arch = "x86_64", target_feature = "avx512f", target_feature = "avx512bw"))]
+use core::{
+    arch::{
+        x86_64::{
             __m512i,
             _mm512_or_si512,
             _mm512_setzero_si512
