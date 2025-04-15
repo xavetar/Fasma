@@ -9,7 +9,7 @@ rust-version.workspace = true
 description = "Spectrum of components"
 documentation = "https://docs.rs/crate/Fasma/latest"
 repository.workspace = true
-include = ["src/", "Cargo.toml", "config.toml", "Cross.toml",  "LICENSE"]
+include = ["src/", "tests/", "Cargo.toml", "config.toml", "Cross.toml",  "LICENSE"]
 
 [lib]
 name = "Fasma"
