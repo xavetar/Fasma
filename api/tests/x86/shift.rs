@@ -31,7 +31,7 @@
 use Fasma::{
     eSIMD::{
         rolled::{
-            extract::{
+            shift::{
                 _mm_slli_epi8, _mm_srli_epi8
             }
         }
@@ -42,7 +42,7 @@ use Fasma::{
 use Fasma::{
     eSIMD::{
         rolled::{
-            extract::{
+            shift::{
                 _mm256_slli_epi8, _mm256_srli_epi8,
                 _mm256_slli_si256, _mm256_srli_si256
             }
@@ -54,7 +54,7 @@ use Fasma::{
 use Fasma::{
     eSIMD::{
         rolled::{
-            extract::{
+            shift::{
                 _mm512_slli_epi8, _mm512_srli_epi8,
                 _mm512_slli_si512, _mm512_srli_si512
             }
