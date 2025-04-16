@@ -27,14 +27,5 @@
  * ╚═════════════════════════════════════════════════════════════════════════════════════╝
  */
 
-
-#![allow(non_snake_case)]
-#![allow(non_camel_case_types)]
-
-#![cfg_attr(any(target_arch = "x86", target_arch = "x86_64"), feature(stdarch_x86_avx512))]
-
-#[cfg(all(any(all(target_arch = "arm", target_feature = "v7"), target_arch = "aarch64"), target_feature = "neon"))]
-mod ARM;
-
-#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), any(target_feature = "sse2", target_feature = "avx2", all(target_feature = "avx512f", target_feature = "avx512bw"))))]
-mod x86;
+mod extract;
+mod shift;

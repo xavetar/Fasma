@@ -27,6 +27,7 @@
  * ╚═════════════════════════════════════════════════════════════════════════════════════╝
  */
 
+#[cfg(all(any(all(target_arch = "arm", target_feature = "v7"), target_arch = "aarch64"), target_feature = "neon"))]
 use Fasma::{
     eSIMD::{
         rolled::{
@@ -50,7 +51,7 @@ use core::{
     },
 };
 
-#[cfg(all(target_arch = "arm"))]
+#[cfg(all(target_arch = "arm", target_feature = "v7", target_feature = "neon"))]
 use core::{
     arch::{
         arm::{
@@ -66,7 +67,7 @@ use core::{
     }
 };
 
-#[cfg(all(target_arch = "aarch64"))]
+#[cfg(all(target_arch = "aarch64", target_feature = "neon"))]
 use core::{
     arch::{
         aarch64::{
@@ -83,15 +84,15 @@ use core::{
 };
 
 #[test]
-#[cfg(all(any(target_arch = "arm", target_arch = "aarch64"), target_feature = "neon"))]
+#[cfg(all(any(all(target_arch = "arm", target_feature = "v7"), target_arch = "aarch64"), target_feature = "neon"))]
 fn alvext_u8_test() {
     let arr_v: [u8; 8_usize] = [0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08];
     let arr_a: [u8; 8_usize] = [0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F, 0x10];
 
-    let v = unsafe {
+    let v: uint8x8_t = unsafe {
         vld1_u8(arr_v.as_ptr())
     };
-    let a = unsafe {
+    let a: uint8x8_t = unsafe {
         vld1_u8(arr_a.as_ptr())
     };
 
@@ -114,15 +115,15 @@ fn alvext_u8_test() {
 }
 
 #[test]
-#[cfg(all(any(target_arch = "arm", target_arch = "aarch64"), target_feature = "neon"))]
+#[cfg(all(any(all(target_arch = "arm", target_feature = "v7"), target_arch = "aarch64"), target_feature = "neon"))]
 fn arvext_u8_test() {
     let arr_v: [u8; 8_usize] = [0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08];
     let arr_a: [u8; 8_usize] = [0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F, 0x10];
 
-    let v = unsafe {
+    let v: uint8x8_t = unsafe {
         vld1_u8(arr_v.as_ptr())
     };
-    let a = unsafe {
+    let a: uint8x8_t = unsafe {
         vld1_u8(arr_a.as_ptr())
     };
 
@@ -145,15 +146,15 @@ fn arvext_u8_test() {
 }
 
 #[test]
-#[cfg(all(any(target_arch = "arm", target_arch = "aarch64"), target_feature = "neon"))]
+#[cfg(all(any(all(target_arch = "arm", target_feature = "v7"), target_arch = "aarch64"), target_feature = "neon"))]
 fn alvextq_u8_test() {
     let arr_v: [u8; 16_usize] = [0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F, 0x10];
     let arr_a: [u8; 16_usize] = [0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F, 0x20];
 
-    let v = unsafe {
+    let v: uint8x16_t = unsafe {
         vld1q_u8(arr_v.as_ptr())
     };
-    let a = unsafe {
+    let a: uint8x16_t = unsafe {
         vld1q_u8(arr_a.as_ptr())
     };
 
@@ -192,15 +193,15 @@ fn alvextq_u8_test() {
 }
 
 #[test]
-#[cfg(all(any(target_arch = "arm", target_arch = "aarch64"), target_feature = "neon"))]
+#[cfg(all(any(all(target_arch = "arm", target_feature = "v7"), target_arch = "aarch64"), target_feature = "neon"))]
 fn arvextq_u8_test() {
     let arr_v: [u8; 16_usize] = [0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F, 0x10];
     let arr_a: [u8; 16_usize] = [0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F, 0x20];
 
-    let v = unsafe {
+    let v: uint8x16_t = unsafe {
         vld1q_u8(arr_v.as_ptr())
     };
-    let a = unsafe {
+    let a: uint8x16_t = unsafe {
         vld1q_u8(arr_a.as_ptr())
     };
 
@@ -239,15 +240,15 @@ fn arvextq_u8_test() {
 }
 
 #[test]
-#[cfg(all(any(target_arch = "arm", target_arch = "aarch64"), target_feature = "neon"))]
+#[cfg(all(any(all(target_arch = "arm", target_feature = "v7"), target_arch = "aarch64"), target_feature = "neon"))]
 fn alvext_u16_test() {
     let arr_v: [u16; 4_usize] = [0x01, 0x02, 0x03, 0x04];
     let arr_a: [u16; 4_usize] = [0x05, 0x06, 0x07, 0x08];
 
-    let v = unsafe {
+    let v: uint16x4_t = unsafe {
         vld1_u16(arr_v.as_ptr())
     };
-    let a = unsafe {
+    let a: uint16x4_t = unsafe {
         vld1_u16(arr_a.as_ptr())
     };
 
@@ -262,15 +263,15 @@ fn alvext_u16_test() {
 }
 
 #[test]
-#[cfg(all(any(target_arch = "arm", target_arch = "aarch64"), target_feature = "neon"))]
+#[cfg(all(any(all(target_arch = "arm", target_feature = "v7"), target_arch = "aarch64"), target_feature = "neon"))]
 fn arvext_u16_test() {
     let arr_v: [u16; 4_usize] = [0x01, 0x02, 0x03, 0x04];
     let arr_a: [u16; 4_usize] = [0x05, 0x06, 0x07, 0x08];
 
-    let v = unsafe {
+    let v: uint16x4_t = unsafe {
         vld1_u16(arr_v.as_ptr())
     };
-    let a = unsafe {
+    let a: uint16x4_t = unsafe {
         vld1_u16(arr_a.as_ptr())
     };
 
@@ -285,15 +286,15 @@ fn arvext_u16_test() {
 }
 
 #[test]
-#[cfg(all(any(target_arch = "arm", target_arch = "aarch64"), target_feature = "neon"))]
+#[cfg(all(any(all(target_arch = "arm", target_feature = "v7"), target_arch = "aarch64"), target_feature = "neon"))]
 fn alvextq_u16_test() {
     let arr_v: [u16; 8_usize] = [0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08];
     let arr_a: [u16; 8_usize] = [0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F, 0x10];
 
-    let v = unsafe {
+    let v: uint16x8_t = unsafe {
         vld1q_u16(arr_v.as_ptr())
     };
-    let a = unsafe {
+    let a: uint16x8_t = unsafe {
         vld1q_u16(arr_a.as_ptr())
     };
 
@@ -316,15 +317,15 @@ fn alvextq_u16_test() {
 }
 
 #[test]
-#[cfg(all(any(target_arch = "arm", target_arch = "aarch64"), target_feature = "neon"))]
+#[cfg(all(any(all(target_arch = "arm", target_feature = "v7"), target_arch = "aarch64"), target_feature = "neon"))]
 fn arvextq_u16_test() {
     let arr_v: [u16; 8_usize] = [0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08];
     let arr_a: [u16; 8_usize] = [0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F, 0x10];
 
-    let v = unsafe {
+    let v: uint16x8_t = unsafe {
         vld1q_u16(arr_v.as_ptr())
     };
-    let a = unsafe {
+    let a: uint16x8_t = unsafe {
         vld1q_u16(arr_a.as_ptr())
     };
 
@@ -347,15 +348,15 @@ fn arvextq_u16_test() {
 }
 
 #[test]
-#[cfg(all(any(target_arch = "arm", target_arch = "aarch64"), target_feature = "neon"))]
+#[cfg(all(any(all(target_arch = "arm", target_feature = "v7"), target_arch = "aarch64"), target_feature = "neon"))]
 fn alvext_u32_test() {
     let arr_v: [u32; 2_usize] = [0x01, 0x02];
     let arr_a: [u32; 2_usize] = [0x03, 0x04];
 
-    let v = unsafe {
+    let v: uint32x2_t = unsafe {
         vld1_u32(arr_v.as_ptr())
     };
-    let a = unsafe {
+    let a: uint32x2_t = unsafe {
         vld1_u32(arr_a.as_ptr())
     };
 
@@ -366,15 +367,15 @@ fn alvext_u32_test() {
 }
 
 #[test]
-#[cfg(all(any(target_arch = "arm", target_arch = "aarch64"), target_feature = "neon"))]
+#[cfg(all(any(all(target_arch = "arm", target_feature = "v7"), target_arch = "aarch64"), target_feature = "neon"))]
 fn arvext_u32_test() {
     let arr_v: [u32; 2_usize] = [0x01, 0x02];
     let arr_a: [u32; 2_usize] = [0x03, 0x04];
 
-    let v = unsafe {
+    let v: uint32x2_t = unsafe {
         vld1_u32(arr_v.as_ptr())
     };
-    let a = unsafe {
+    let a: uint32x2_t = unsafe {
         vld1_u32(arr_a.as_ptr())
     };
 
@@ -385,15 +386,15 @@ fn arvext_u32_test() {
 }
 
 #[test]
-#[cfg(all(any(target_arch = "arm", target_arch = "aarch64"), target_feature = "neon"))]
+#[cfg(all(any(all(target_arch = "arm", target_feature = "v7"), target_arch = "aarch64"), target_feature = "neon"))]
 fn alvextq_u32_test() {
     let arr_v: [u32; 4_usize] = [0x01, 0x02, 0x03, 0x04];
     let arr_a: [u32; 4_usize] = [0x05, 0x06, 0x07, 0x08];
 
-    let v = unsafe {
+    let v: uint32x4_t = unsafe {
         vld1q_u32(arr_v.as_ptr())
     };
-    let a = unsafe {
+    let a: uint32x4_t = unsafe {
         vld1q_u32(arr_a.as_ptr())
     };
 
@@ -408,15 +409,15 @@ fn alvextq_u32_test() {
 }
 
 #[test]
-#[cfg(all(any(target_arch = "arm", target_arch = "aarch64"), target_feature = "neon"))]
+#[cfg(all(any(all(target_arch = "arm", target_feature = "v7"), target_arch = "aarch64"), target_feature = "neon"))]
 fn arvextq_u32_test() {
     let arr_v: [u32; 4_usize] = [0x01, 0x02, 0x03, 0x04];
     let arr_a: [u32; 4_usize] = [0x05, 0x06, 0x07, 0x08];
 
-    let v = unsafe {
+    let v: uint32x4_t = unsafe {
         vld1q_u32(arr_v.as_ptr())
     };
-    let a = unsafe {
+    let a: uint32x4_t = unsafe {
         vld1q_u32(arr_a.as_ptr())
     };
 
@@ -431,15 +432,15 @@ fn arvextq_u32_test() {
 }
 
 #[test]
-#[cfg(all(any(target_arch = "arm", target_arch = "aarch64"), target_feature = "neon"))]
+#[cfg(all(any(all(target_arch = "arm", target_feature = "v7"), target_arch = "aarch64"), target_feature = "neon"))]
 fn alvext_u64_test() {
     let arr_v: [u64; 1_usize] = [0x01];
     let arr_a: [u64; 1_usize] = [0x02];
 
-    let v = unsafe {
+    let v: uint64x1_t = unsafe {
         vld1_u64(arr_v.as_ptr())
     };
-    let a = unsafe {
+    let a: uint64x1_t = unsafe {
         vld1_u64(arr_a.as_ptr())
     };
 
@@ -448,15 +449,15 @@ fn alvext_u64_test() {
 }
 
 #[test]
-#[cfg(all(any(target_arch = "arm", target_arch = "aarch64"), target_feature = "neon"))]
+#[cfg(all(any(all(target_arch = "arm", target_feature = "v7"), target_arch = "aarch64"), target_feature = "neon"))]
 fn arvext_u64_test() {
     let arr_v: [u64; 1_usize] = [0x01];
     let arr_a: [u64; 1_usize] = [0x02];
 
-    let v = unsafe {
+    let v: uint64x1_t = unsafe {
         vld1_u64(arr_v.as_ptr())
     };
-    let a = unsafe {
+    let a: uint64x1_t = unsafe {
         vld1_u64(arr_a.as_ptr())
     };
 
@@ -465,15 +466,15 @@ fn arvext_u64_test() {
 }
 
 #[test]
-#[cfg(all(any(target_arch = "arm", target_arch = "aarch64"), target_feature = "neon"))]
+#[cfg(all(any(all(target_arch = "arm", target_feature = "v7"), target_arch = "aarch64"), target_feature = "neon"))]
 fn alvextq_u64_test() {
     let arr_v: [u64; 2_usize] = [0x01, 0x02];
     let arr_a: [u64; 2_usize] = [0x03, 0x04];
 
-    let v = unsafe {
+    let v: uint64x2_t = unsafe {
         vld1q_u64(arr_v.as_ptr())
     };
-    let a = unsafe {
+    let a: uint64x2_t = unsafe {
         vld1q_u64(arr_a.as_ptr())
     };
 
@@ -484,15 +485,15 @@ fn alvextq_u64_test() {
 }
 
 #[test]
-#[cfg(all(any(target_arch = "arm", target_arch = "aarch64"), target_feature = "neon"))]
+#[cfg(all(any(all(target_arch = "arm", target_feature = "v7"), target_arch = "aarch64"), target_feature = "neon"))]
 fn arvextq_u64_test() {
     let arr_v: [u64; 2_usize] = [0x01, 0x02];
     let arr_a: [u64; 2_usize] = [0x03, 0x04];
 
-    let v = unsafe {
+    let v: uint64x2_t = unsafe {
         vld1q_u64(arr_v.as_ptr())
     };
-    let a = unsafe {
+    let a: uint64x2_t = unsafe {
         vld1q_u64(arr_a.as_ptr())
     };
 
