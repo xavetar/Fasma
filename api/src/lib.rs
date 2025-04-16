@@ -35,5 +35,7 @@
 #![deny(arithmetic_overflow)]
 #![deny(overflowing_literals)]
 
+#![cfg_attr(any(target_arch = "x86", target_arch = "x86_64"), feature(stdarch_x86_avx512))]
+
 #[cfg(feature = "eSIMD")]
 pub mod eSIMD;
