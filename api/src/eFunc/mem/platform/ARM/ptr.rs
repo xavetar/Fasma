@@ -119,7 +119,9 @@ macro_rules! align_remainder_16 {
         $pointer_type:ty,
         $substitution_type:ty,
         $load_function:ident,
+        $load_half_function:ident,
         $store_function:ident,
+        $store_half_function:ident,
         $align_function:ident,
         $total_register_items:expr,
         $half_register_items:expr
@@ -134,7 +136,7 @@ macro_rules! align_remainder_16 {
                     $store_function(buffer.as_mut_ptr(), $align_function($load_function(data_ptr.add(length - $total_register_items)), $load_function(substitution_data.as_ptr()), $total_register_items - remainder));
                 } else {
                     if remainder >= $half_register_items {
-                        $store_function(buffer.as_mut_ptr(), $load_function(data_ptr)); index += $half_register_items;
+                        $store_half_function(buffer.as_mut_ptr(), $load_half_function(data_ptr)); index += $half_register_items;
                     }
     
                     while index < length { buffer[index] = *data_ptr.add(index); index += 1_usize; }
@@ -158,10 +160,10 @@ align_remainder_8!(align_remainder_32x2, u32, [u32; 2_usize], vld1_u32, vst1_u32
 align_remainder_8!(align_remainder_64x1, u64, [u64; 1_usize], vld1_u64, vst1_u64, alvext_u64, 1_usize);
 
 #[cfg(all(any(all(target_arch = "arm", target_feature = "v7"), target_arch = "aarch64"), target_feature = "neon"))]
-align_remainder_16!(align_remainder_8x16, u8, [u8; 16_usize], vld1q_u8, vst1q_u8, alvextq_u8, 16_usize, 8_usize);
+align_remainder_16!(align_remainder_8x16, u8, [u8; 16_usize], vld1q_u8, vld1_u8, vst1q_u8, vst1_u8, alvextq_u8, 16_usize, 8_usize);
 #[cfg(all(any(all(target_arch = "arm", target_feature = "v7"), target_arch = "aarch64"), target_feature = "neon"))]
-align_remainder_16!(align_remainder_16x8, u16, [u16; 8_usize], vld1q_u16, vst1q_u16, alvextq_u16, 8_usize, 4_usize);
+align_remainder_16!(align_remainder_16x8, u16, [u16; 8_usize], vld1q_u16, vld1_u16, vst1q_u16, vst1_u16, alvextq_u16, 8_usize, 4_usize);
 #[cfg(all(any(all(target_arch = "arm", target_feature = "v7"), target_arch = "aarch64"), target_feature = "neon"))]
-align_remainder_16!(align_remainder_32x4, u32, [u32; 4_usize], vld1q_u32, vst1q_u32, alvextq_u32, 4_usize, 2_usize);
+align_remainder_16!(align_remainder_32x4, u32, [u32; 4_usize], vld1q_u32, vld1_u32, vst1q_u32, vst1_u32, alvextq_u32, 4_usize, 2_usize);
 #[cfg(all(any(all(target_arch = "arm", target_feature = "v7"), target_arch = "aarch64"), target_feature = "neon"))]
-align_remainder_16!(align_remainder_64x2, u64, [u64; 2_usize], vld1q_u64, vst1q_u64, alvextq_u64, 2_usize, 1_usize);
+align_remainder_16!(align_remainder_64x2, u64, [u64; 2_usize], vld1q_u64, vld1_u64, vst1q_u64, vst1_u64, alvextq_u64, 2_usize, 1_usize);
