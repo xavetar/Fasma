@@ -18,8 +18,9 @@ crate-type = ["lib", "cdylib"]
 [features]
 default = []
 eSIMD = []
+eFunc = ["eSIMD"]
 
 [dependencies]
 
 [dev-dependencies]
-Fasma = { path = "../api", optional = false, features = ["eSIMD"]}
+Fasma = { path = "../api", optional = false, features = ["eSIMD", "eFunc"]}
