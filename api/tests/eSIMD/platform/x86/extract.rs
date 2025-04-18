@@ -140,74 +140,74 @@ use core::{
 
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
 #[repr(align(16))]
-struct int8x16([i8; 16_usize]);
+struct uint8x16([u8; 16_usize]);
 
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
 #[repr(align(16))]
-struct int16x8([i16; 8_usize]);
+struct uint16x8([u16; 8_usize]);
 
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
 #[repr(align(16))]
-struct int32x4([i32; 4_usize]);
+struct uint32x4([u32; 4_usize]);
 
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
 #[repr(align(16))]
-struct int64x2([i64; 2_usize]);
+struct uint64x2([u64; 2_usize]);
 
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
 #[repr(align(32))]
-struct int8x32([i8; 32_usize]);
+struct uint8x32([u8; 32_usize]);
 
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
 #[repr(align(32))]
-struct int16x16([i16; 16_usize]);
+struct uint16x16([u16; 16_usize]);
 
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
 #[repr(align(32))]
-struct int32x8([i32; 8_usize]);
+struct uint32x8([u32; 8_usize]);
 
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
 #[repr(align(32))]
-struct int64x4([i64; 4_usize]);
+struct uint64x4([u64; 4_usize]);
 
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
 #[repr(align(32))]
-struct int128x2([i128; 2_usize]);
+struct uint128x2([u128; 2_usize]);
 
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx512f", target_feature = "avx512bw"))]
 #[repr(align(64))]
-struct int8x64([i8; 64_usize]);
+struct uint8x64([u8; 64_usize]);
 
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx512f", target_feature = "avx512bw"))]
 #[repr(align(64))]
-struct int16x32([i16; 32_usize]);
+struct uint16x32([u16; 32_usize]);
 
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx512f", target_feature = "avx512bw"))]
 #[repr(align(64))]
-struct int32x16([i32; 16_usize]);
+struct uint32x16([u32; 16_usize]);
 
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx512f", target_feature = "avx512bw"))]
 #[repr(align(64))]
-struct int64x8([i64; 8_usize]);
+struct uint64x8([u64; 8_usize]);
 
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx512f", target_feature = "avx512bw"))]
 #[repr(align(64))]
-struct int128x4([i128; 4_usize]);
+struct uint128x4([u128; 4_usize]);
 
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx512f", target_feature = "avx512bw"))]
 #[repr(align(64))]
-struct int256x2([u128; 4_usize]);
+struct uint256x2([u128; 4_usize]);
 
 
 #[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
 fn _mm_alvext_epi8_test() {
-    let arr_v: int8x16 = int8x16 {
+    let arr_v: uint8x16 = uint8x16 {
         0: [
             0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F, 0x10
         ]
     };
-    let arr_a: int8x16 = int8x16 {
+    let arr_a: uint8x16 = uint8x16 {
         0: [
             0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F, 0x20
         ]
@@ -253,12 +253,12 @@ fn _mm_alvext_epi8_test() {
 #[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
 fn _mm_arvext_epi8_test() {
-    let arr_v: int8x16 = int8x16 {
+    let arr_v: uint8x16 = uint8x16 {
         0: [
             0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F, 0x10
         ]
     };
-    let arr_a: int8x16 = int8x16 {
+    let arr_a: uint8x16 = uint8x16 {
         0: [
             0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F, 0x20
         ]
@@ -304,12 +304,12 @@ fn _mm_arvext_epi8_test() {
 #[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
 fn _mm_alvext_epi16_test() {
-    let arr_v: int16x8 = int16x8 {
+    let arr_v: uint16x8 = uint16x8 {
         0: [
             0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08
         ]
     };
-    let arr_a: int16x8 = int16x8 {
+    let arr_a: uint16x8 = uint16x8 {
         0: [
             0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F, 0x10
         ]
@@ -339,12 +339,12 @@ fn _mm_alvext_epi16_test() {
 #[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
 fn _mm_arvext_epi16_test() {
-    let arr_v: int16x8 = int16x8 {
+    let arr_v: uint16x8 = uint16x8 {
         0: [
             0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08
         ]
     };
-    let arr_a: int16x8 = int16x8 {
+    let arr_a: uint16x8 = uint16x8 {
         0: [
             0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F, 0x10
         ]
@@ -374,12 +374,12 @@ fn _mm_arvext_epi16_test() {
 #[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
 fn _mm_alvext_epi32_test() {
-    let arr_v: int32x4 = int32x4 {
+    let arr_v: uint32x4 = uint32x4 {
         0: [
             0x01, 0x02, 0x03, 0x04
         ]
     };
-    let arr_a: int32x4 = int32x4 {
+    let arr_a: uint32x4 = uint32x4 {
         0: [
             0x05, 0x06, 0x07, 0x08
         ]
@@ -401,12 +401,12 @@ fn _mm_alvext_epi32_test() {
 #[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
 fn _mm_arvext_epi32_test() {
-    let arr_v: int32x4 = int32x4 {
+    let arr_v: uint32x4 = uint32x4 {
         0: [
             0x01, 0x02, 0x03, 0x04
         ]
     };
-    let arr_a: int32x4 = int32x4 {
+    let arr_a: uint32x4 = uint32x4 {
         0: [
             0x05, 0x06, 0x07, 0x08
         ]
@@ -428,12 +428,12 @@ fn _mm_arvext_epi32_test() {
 #[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
 fn _mm_alvext_epi64_test() {
-    let arr_v: int64x2 = int64x2 {
+    let arr_v: uint64x2 = uint64x2 {
         0: [
             0x01, 0x02
         ]
     };
-    let arr_a: int64x2 = int64x2 {
+    let arr_a: uint64x2 = uint64x2 {
         0: [
             0x03, 0x04
         ]
@@ -451,12 +451,12 @@ fn _mm_alvext_epi64_test() {
 #[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
 fn _mm_arvext_epi64_test() {
-    let arr_v: int64x2 = int64x2 {
+    let arr_v: uint64x2 = uint64x2 {
         0: [
             0x01, 0x02
         ]
     };
-    let arr_a: int64x2 = int64x2 {
+    let arr_a: uint64x2 = uint64x2 {
         0: [
             0x03, 0x04
         ]
@@ -474,13 +474,13 @@ fn _mm_arvext_epi64_test() {
 #[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
 fn _mm256_alvext_epi8_test() {
-    let arr_v: int8x32 = int8x32 {
+    let arr_v: uint8x32 = uint8x32 {
         0: [
             0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F, 0x10,
             0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F, 0x20
         ]
     };
-    let arr_a: int8x32 = int8x32 {
+    let arr_a: uint8x32 = uint8x32 {
         0: [
             0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x27, 0x28, 0x29, 0x2A, 0x2B, 0x2C, 0x2D, 0x2E, 0x2F, 0x30,
             0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x3A, 0x3B, 0x3C, 0x3D, 0x3E, 0x3F, 0x40
@@ -559,13 +559,13 @@ fn _mm256_alvext_epi8_test() {
 #[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
 fn _mm256_arvext_epi8_test() {
-    let arr_v: int8x32 = int8x32 {
+    let arr_v: uint8x32 = uint8x32 {
         0: [
             0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F, 0x10,
             0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F, 0x20
         ]
     };
-    let arr_a: int8x32 = int8x32 {
+    let arr_a: uint8x32 = uint8x32 {
         0: [
             0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x27, 0x28, 0x29, 0x2A, 0x2B, 0x2C, 0x2D, 0x2E, 0x2F, 0x30,
             0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x3A, 0x3B, 0x3C, 0x3D, 0x3E, 0x3F, 0x40
@@ -644,12 +644,12 @@ fn _mm256_arvext_epi8_test() {
 #[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
 fn _mm256_alvext_epi16_test() {
-    let arr_v: int16x16 = int16x16 {
+    let arr_v: uint16x16 = uint16x16 {
         0: [
             0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F, 0x10
         ]
     };
-    let arr_a: int16x16 = int16x16 {
+    let arr_a: uint16x16 = uint16x16 {
         0: [
             0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F, 0x20
         ]
@@ -695,12 +695,12 @@ fn _mm256_alvext_epi16_test() {
 #[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
 fn _mm256_arvext_epi16_test() {
-    let arr_v: int16x16 = int16x16 {
+    let arr_v: uint16x16 = uint16x16 {
         0: [
             0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F, 0x10
         ]
     };
-    let arr_a: int16x16 = int16x16 {
+    let arr_a: uint16x16 = uint16x16 {
         0: [
             0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F, 0x20
         ]
@@ -746,12 +746,12 @@ fn _mm256_arvext_epi16_test() {
 #[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
 fn _mm256_alvext_epi32_test() {
-    let arr_v: int32x8 = int32x8 {
+    let arr_v: uint32x8 = uint32x8 {
         0: [
             0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08
         ]
     };
-    let arr_a: int32x8 = int32x8 {
+    let arr_a: uint32x8 = uint32x8 {
         0: [
             0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F, 0x10
         ]
@@ -781,12 +781,12 @@ fn _mm256_alvext_epi32_test() {
 #[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
 fn _mm256_arvext_epi32_test() {
-    let arr_v: int32x8 = int32x8 {
+    let arr_v: uint32x8 = uint32x8 {
         0: [
             0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08
         ]
     };
-    let arr_a: int32x8 = int32x8 {
+    let arr_a: uint32x8 = uint32x8 {
         0: [
             0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F, 0x10
         ]
@@ -816,12 +816,12 @@ fn _mm256_arvext_epi32_test() {
 #[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
 fn _mm256_alvext_epi64_test() {
-    let arr_v: int64x4 = int64x4 {
+    let arr_v: uint64x4 = uint64x4 {
         0: [
             0x01, 0x02, 0x03, 0x04
         ]
     };
-    let arr_a: int64x4 = int64x4 {
+    let arr_a: uint64x4 = uint64x4 {
         0: [
             0x05, 0x06, 0x07, 0x08
         ]
@@ -843,12 +843,12 @@ fn _mm256_alvext_epi64_test() {
 #[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
 fn _mm256_arvext_epi64_test() {
-    let arr_v: int64x4 = int64x4 {
+    let arr_v: uint64x4 = uint64x4 {
         0: [
             0x01, 0x02, 0x03, 0x04
         ]
     };
-    let arr_a: int64x4 = int64x4 {
+    let arr_a: uint64x4 = uint64x4 {
         0: [
             0x05, 0x06, 0x07, 0x08
         ]
@@ -870,12 +870,12 @@ fn _mm256_arvext_epi64_test() {
 #[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
 fn _mm256_alvext_epi128_test() {
-    let arr_v: int128x2 = int128x2 {
+    let arr_v: uint128x2 = uint128x2 {
         0: [
             0x01, 0x02
         ]
     };
-    let arr_a: int128x2 = int128x2 {
+    let arr_a: uint128x2 = uint128x2 {
         0: [
             0x03, 0x04
         ]
@@ -893,12 +893,12 @@ fn _mm256_alvext_epi128_test() {
 #[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
 fn _mm256_arvext_epi128_test() {
-    let arr_v: int128x2 = int128x2 {
+    let arr_v: uint128x2 = uint128x2 {
         0: [
             0x01, 0x02
         ]
     };
-    let arr_a: int128x2 = int128x2 {
+    let arr_a: uint128x2 = uint128x2 {
         0: [
             0x03, 0x04
         ]
@@ -916,7 +916,7 @@ fn _mm256_arvext_epi128_test() {
 #[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx512f", target_feature = "avx512bw"))]
 fn _mm512_alvext_epi8_test() {
-    let arr_v: int8x64 = int8x64 {
+    let arr_v: uint8x64 = uint8x64 {
         0: [
             0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F, 0x10,
             0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F, 0x20,
@@ -924,12 +924,12 @@ fn _mm512_alvext_epi8_test() {
             0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x3A, 0x3B, 0x3C, 0x3D, 0x3E, 0x3F, 0x40
         ]
     };
-    let arr_a: int8x64 = int8x64 {
+    let arr_a: uint8x64 = uint8x64 {
         0: [
             0x41, 0x42, 0x43, 0x44, 0x45, 0x46, 0x47, 0x48, 0x49, 0x4A, 0x4B, 0x4C, 0x4D, 0x4E, 0x4F, 0x50,
             0x51, 0x52, 0x53, 0x54, 0x55, 0x56, 0x57, 0x58, 0x59, 0x5A, 0x5B, 0x5C, 0x5D, 0x5E, 0x5F, 0x60,
             0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68, 0x69, 0x6A, 0x6B, 0x6C, 0x6D, 0x6E, 0x6F, 0x70,
-            0x71, 0x72, 0x73, 0x74, 0x75, 0x76, 0x77, 0x78, 0x79, 0x7A, 0x7B, 0x7C, 0x7D, 0x7E, 0x7F, -0x80
+            0x71, 0x72, 0x73, 0x74, 0x75, 0x76, 0x77, 0x78, 0x79, 0x7A, 0x7B, 0x7C, 0x7D, 0x7E, 0x7F, 0x80
         ]
     };
 
@@ -1069,7 +1069,7 @@ fn _mm512_alvext_epi8_test() {
 #[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx512f", target_feature = "avx512bw"))]
 fn _mm512_arvext_epi8_test() {
-    let arr_v: int8x64 = int8x64 {
+    let arr_v: uint8x64 = uint8x64 {
         0: [
             0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F, 0x10,
             0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F, 0x20,
@@ -1077,12 +1077,12 @@ fn _mm512_arvext_epi8_test() {
             0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x3A, 0x3B, 0x3C, 0x3D, 0x3E, 0x3F, 0x40
         ]
     };
-    let arr_a: int8x64 = int8x64 {
+    let arr_a: uint8x64 = uint8x64 {
         0: [
             0x41, 0x42, 0x43, 0x44, 0x45, 0x46, 0x47, 0x48, 0x49, 0x4A, 0x4B, 0x4C, 0x4D, 0x4E, 0x4F, 0x50,
             0x51, 0x52, 0x53, 0x54, 0x55, 0x56, 0x57, 0x58, 0x59, 0x5A, 0x5B, 0x5C, 0x5D, 0x5E, 0x5F, 0x60,
             0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68, 0x69, 0x6A, 0x6B, 0x6C, 0x6D, 0x6E, 0x6F, 0x70,
-            0x71, 0x72, 0x73, 0x74, 0x75, 0x76, 0x77, 0x78, 0x79, 0x7A, 0x7B, 0x7C, 0x7D, 0x7E, 0x7F, -0x80
+            0x71, 0x72, 0x73, 0x74, 0x75, 0x76, 0x77, 0x78, 0x79, 0x7A, 0x7B, 0x7C, 0x7D, 0x7E, 0x7F, 0x80
         ]
     };
 
@@ -1222,13 +1222,13 @@ fn _mm512_arvext_epi8_test() {
 #[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx512f", target_feature = "avx512bw"))]
 fn _mm512_alvext_epi16_test() {
-    let arr_v: int16x32 = int16x32 {
+    let arr_v: uint16x32 = uint16x32 {
         0: [
             0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F, 0x10,
             0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F, 0x20,
         ]
     };
-    let arr_a: int16x32 = int16x32 {
+    let arr_a: uint16x32 = uint16x32 {
         0: [
             0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x27, 0x28, 0x29, 0x2A, 0x2B, 0x2C, 0x2D, 0x2E, 0x2F, 0x30,
             0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x3A, 0x3B, 0x3C, 0x3D, 0x3E, 0x3F, 0x40
@@ -1307,13 +1307,13 @@ fn _mm512_alvext_epi16_test() {
 #[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx512f", target_feature = "avx512bw"))]
 fn _mm512_arvext_epi16_test() {
-    let arr_v: int16x32 = int16x32 {
+    let arr_v: uint16x32 = uint16x32 {
         0: [
             0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F, 0x10,
             0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F, 0x20,
         ]
     };
-    let arr_a: int16x32 = int16x32 {
+    let arr_a: uint16x32 = uint16x32 {
         0: [
             0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x27, 0x28, 0x29, 0x2A, 0x2B, 0x2C, 0x2D, 0x2E, 0x2F, 0x30,
             0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x3A, 0x3B, 0x3C, 0x3D, 0x3E, 0x3F, 0x40
@@ -1392,12 +1392,12 @@ fn _mm512_arvext_epi16_test() {
 #[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx512f", target_feature = "avx512bw"))]
 fn _mm512_alvext_epi32_test() {
-    let arr_v: int32x16 = int32x16 {
+    let arr_v: uint32x16 = uint32x16 {
         0: [
             0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F, 0x10
         ]
     };
-    let arr_a: int32x16 = int32x16 {
+    let arr_a: uint32x16 = uint32x16 {
         0: [
             0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F, 0x20
         ]
@@ -1443,12 +1443,12 @@ fn _mm512_alvext_epi32_test() {
 #[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx512f", target_feature = "avx512bw"))]
 fn _mm512_arvext_epi32_test() {
-    let arr_v: int32x16 = int32x16 {
+    let arr_v: uint32x16 = uint32x16 {
         0: [
             0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F, 0x10
         ]
     };
-    let arr_a: int32x16 = int32x16 {
+    let arr_a: uint32x16 = uint32x16 {
         0: [
             0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F, 0x20
         ]
@@ -1494,12 +1494,12 @@ fn _mm512_arvext_epi32_test() {
 #[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx512f", target_feature = "avx512bw"))]
 fn _mm512_alvext_epi64_test() {
-    let arr_v: int64x8 = int64x8 {
+    let arr_v: uint64x8 = uint64x8 {
         0: [
             0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08
         ]
     };
-    let arr_a: int64x8 = int64x8 {
+    let arr_a: uint64x8 = uint64x8 {
         0: [
             0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F, 0x10
         ]
@@ -1529,12 +1529,12 @@ fn _mm512_alvext_epi64_test() {
 #[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx512f", target_feature = "avx512bw"))]
 fn _mm512_arvext_epi64_test() {
-    let arr_v: int64x8 = int64x8 {
+    let arr_v: uint64x8 = uint64x8 {
         0: [
             0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08
         ]
     };
-    let arr_a: int64x8 = int64x8 {
+    let arr_a: uint64x8 = uint64x8 {
         0: [
             0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F, 0x10
         ]
@@ -1564,12 +1564,12 @@ fn _mm512_arvext_epi64_test() {
 #[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx512f", target_feature = "avx512bw"))]
 fn _mm512_alvext_epi128_test() {
-    let arr_v: int128x4 = int128x4 {
+    let arr_v: uint128x4 = uint128x4 {
         0: [
             0x01, 0x02, 0x03, 0x04
         ]
     };
-    let arr_a: int128x4 = int128x4 {
+    let arr_a: uint128x4 = uint128x4 {
         0: [
             0x05, 0x06, 0x07, 0x08
         ]
@@ -1591,12 +1591,12 @@ fn _mm512_alvext_epi128_test() {
 #[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx512f", target_feature = "avx512bw"))]
 fn _mm512_arvext_epi128_test() {
-    let arr_v: int128x4 = int128x4 {
+    let arr_v: uint128x4 = uint128x4 {
         0: [
             0x01, 0x02, 0x03, 0x04
         ]
     };
-    let arr_a: int128x4 = int128x4 {
+    let arr_a: uint128x4 = uint128x4 {
         0: [
             0x05, 0x06, 0x07, 0x08
         ]
@@ -1618,12 +1618,12 @@ fn _mm512_arvext_epi128_test() {
 #[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx512f", target_feature = "avx512bw"))]
 fn _mm512_alvext_epi256_test() {
-    let arr_v: int256x2 = int256x2 {
+    let arr_v: uint256x2 = uint256x2 {
         0: [
             0x00, 0x01, 0x00, 0x02 // [[0, 1], [2, 3]] (1, 2) -> [[3, 2], [1, 0]] (2, 1) -> [[0x02, 0x00], [0x01, 0x00]]
         ]
     };
-    let arr_a: int256x2 = int256x2 {
+    let arr_a: uint256x2 = uint256x2 {
         0: [
             0x00, 0x03, 0x00, 0x04 // [[0, 1], [2, 3]] (3, 4) -> [[3, 2], [1, 0]] (4, 3) -> [[0x04, 0x00], [0x03, 0x00]]
         ]
@@ -1641,12 +1641,12 @@ fn _mm512_alvext_epi256_test() {
 #[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx512f", target_feature = "avx512bw"))]
 fn _mm512_arvext_epi256_test() {
-    let arr_v: int256x2 = int256x2 {
+    let arr_v: uint256x2 = uint256x2 {
         0: [
             0x00, 0x01, 0x00, 0x02 // [[0, 1], [2, 3]] (1, 2) -> [[3, 2], [1, 0]] (2, 1) -> [[0x02, 0x00], [0x01, 0x00]]
         ]
     };
-    let arr_a: int256x2 = int256x2 {
+    let arr_a: uint256x2 = uint256x2 {
         0: [
             0x00, 0x03, 0x00, 0x04 // [[0, 1], [2, 3]] (3, 4) -> [[3, 2], [1, 0]] (4, 3) -> [[0x04, 0x00], [0x03, 0x00]]
         ]

@@ -27,18 +27,24 @@
  * ╚═════════════════════════════════════════════════════════════════════════════════════╝
  */
 
-#![allow(dead_code)]
-#![allow(non_snake_case)]
-#![allow(unused_imports)]
-#![allow(non_camel_case_types)]
+#[cfg(all(any(all(target_arch = "arm", target_feature = "v7"), target_arch = "aarch64"), target_feature = "neon"))]
+mod ARM;
 
-#![deny(arithmetic_overflow)]
-#![deny(overflowing_literals)]
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), any(target_feature = "sse2", target_feature = "avx2", all(target_feature = "avx512f", target_feature = "avx512bw"))))]
+mod x86;
 
-#![cfg_attr(any(target_arch = "x86", target_arch = "x86_64"), feature(stdarch_x86_avx512))]
+#[cfg(any(
+    all(any(all(target_arch = "arm", target_feature = "v7"), target_arch = "aarch64"), target_feature = "neon"),
+    all(any(target_arch = "x86", target_arch = "x86_64"), any(target_feature = "sse2", target_feature = "avx2", all(target_feature = "avx512f", target_feature = "avx512bw")))
+))]
+macro_rules! import {
+    ($platform:ident) => {
+        pub use self::$platform::{*};
+    };
+}
 
-#[cfg(feature = "eSIMD")]
-pub mod eSIMD;
+#[cfg(all(any(all(target_arch = "arm", target_feature = "v7"), target_arch = "aarch64"), target_feature = "neon"))]
+import!(ARM);
 
-#[cfg(feature = "eFunc")]
-pub mod eFunc;
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), any(target_feature = "sse2", target_feature = "avx2", all(target_feature = "avx512f", target_feature = "avx512bw"))))]
+import!(x86);
