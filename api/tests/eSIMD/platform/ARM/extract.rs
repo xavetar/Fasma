@@ -45,6 +45,7 @@ use Fasma::{
     }
 };
 
+#[cfg(all(any(all(target_arch = "arm", target_feature = "v7"), target_arch = "aarch64"), target_feature = "neon"))]
 use core::{
     mem::{
         transmute

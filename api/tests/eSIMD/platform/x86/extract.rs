@@ -72,6 +72,7 @@ use Fasma::{
     }
 };
 
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), any(target_feature = "sse2", all(target_feature = "avx", target_feature = "avx2"), all(target_feature = "avx512f", target_feature = "avx512bw"))))]
 use core::{
     mem::{
         transmute

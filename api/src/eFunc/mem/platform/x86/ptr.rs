@@ -72,12 +72,6 @@ use crate::{
     }
 };
 
-use core::{
-    mem::{
-        transmute
-    },
-};
-
 #[cfg(all(target_arch = "x86", target_feature = "sse2"))]
 use core::{
     arch::{

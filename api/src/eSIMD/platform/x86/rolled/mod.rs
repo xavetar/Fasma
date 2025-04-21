@@ -29,3 +29,4 @@
 
 pub mod shift;
 pub mod extract;
+pub mod reverse;
