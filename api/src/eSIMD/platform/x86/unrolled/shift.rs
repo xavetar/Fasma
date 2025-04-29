@@ -40,7 +40,7 @@ use core::{
     }
 };
 
-#[cfg(all(target_arch = "x86", target_feature = "avx2"))]
+#[cfg(all(target_arch = "x86", target_feature = "avx", target_feature = "avx2"))]
 use core::{
     arch::{
         x86::{
@@ -85,7 +85,7 @@ use core::{
     }
 };
 
-#[cfg(all(target_arch = "x86_64", target_feature = "avx2"))]
+#[cfg(all(target_arch = "x86_64", target_feature = "avx", target_feature = "avx2"))]
 use core::{
     arch::{
         x86_64::{
@@ -127,8 +127,8 @@ use core::{
 /// - Shifted left by 5 bits: ```[00, 20, 40, 60, 80, a0, c0, e0, 00, 20, 40, 60, 80, a0, c0, e0]```
 /// - Shifted left by 6 bits: ```[00, 40, 80, c0, 00, 40, 80, c0, 00, 40, 80, c0, 00, 40, 80, c0]```
 /// - Shifted left by 7 bits: ```[00, 80, 00, 80, 00, 80, 00, 80, 00, 80, 00, 80, 00, 80, 00, 80]```
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
 #[inline]
-#[cfg(target_feature = "sse2")]
 pub unsafe fn _mm_slli_epi8<const IMM8: i32>(vector: __m128i) -> __m128i {
     return match IMM8 {
         0x00 => vector,
@@ -153,8 +153,8 @@ pub unsafe fn _mm_slli_epi8<const IMM8: i32>(vector: __m128i) -> __m128i {
 /// - Shifted right by 5 bits: ```[00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00]```
 /// - Shifted right by 6 bits: ```[00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00]```
 /// - Shifted right by 7 bits: ```[00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00]```
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
 #[inline]
-#[cfg(target_feature = "sse2")]
 pub unsafe fn _mm_srli_epi8<const IMM8: i32>(vector: __m128i) -> __m128i {
     return match IMM8 {
         0x00 => vector,
@@ -179,8 +179,8 @@ pub unsafe fn _mm_srli_epi8<const IMM8: i32>(vector: __m128i) -> __m128i {
 /// - Shifted left by 5 bits: ```[00, 20, 40, 60, 80, a0, c0, e0, 00, 20, 40, 60, 80, a0, c0, e0, 00, 20, 40, 60, 80, a0, c0, e0, 00, 20, 40, 60, 80, a0, c0, e0]```
 /// - Shifted left by 6 bits: ```[00, 40, 80, c0, 00, 40, 80, c0, 00, 40, 80, c0, 00, 40, 80, c0, 00, 40, 80, c0, 00, 40, 80, c0, 00, 40, 80, c0, 00, 40, 80, c0]```
 /// - Shifted left by 7 bits: ```[00, 80, 00, 80, 00, 80, 00, 80, 00, 80, 00, 80, 00, 80, 00, 80, 00, 80, 00, 80, 00, 80, 00, 80, 00, 80, 00, 80, 00, 80, 00, 80]```
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
 #[inline]
-#[cfg(target_feature = "avx2")]
 pub unsafe fn _mm256_slli_epi8<const IMM8: i32>(vector: __m256i) -> __m256i {
     return match IMM8 {
         0x00 => vector,
@@ -205,8 +205,8 @@ pub unsafe fn _mm256_slli_epi8<const IMM8: i32>(vector: __m256i) -> __m256i {
 /// - Shifted right by 5 bits: ```[00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00]```
 /// - Shifted right by 6 bits: ```[00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00]```
 /// - Shifted right by 7 bits: ```[00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00]```
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
 #[inline]
-#[cfg(target_feature = "avx2")]
 pub unsafe fn _mm256_srli_epi8<const IMM8: i32>(vector: __m256i) -> __m256i {
     return match IMM8 {
         0x00 => vector,
@@ -230,8 +230,8 @@ pub unsafe fn _mm256_srli_epi8<const IMM8: i32>(vector: __m256i) -> __m256i {
 /// - Shifted left by 16 bytes: ```[00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 01, 02, 03, 04, 05, 06, 07, 08, 09, 0a, 0b, 0c, 0d, 0e, 0f]```
 /// - Shifted left by 20 bytes: ```[00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 01, 02, 03, 04, 05, 06, 07, 08, 09, 0a, 0b]```
 /// - Shifted left by 31 bytes: ```[00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00]```
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
 #[inline]
-#[cfg(target_feature = "avx2")]
 pub unsafe fn _mm256_slli_si256<const IMM8: i32>(vector: __m256i) -> __m256i {
     return match IMM8 {
         0x00 => vector,
@@ -279,8 +279,8 @@ pub unsafe fn _mm256_slli_si256<const IMM8: i32>(vector: __m256i) -> __m256i {
 /// - Shifted right by 16 bytes: ```[10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 1a, 1b, 1c, 1d, 1e, 1f, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00]```
 /// - Shifted right by 20 bytes: ```[14, 15, 16, 17, 18, 19, 1a, 1b, 1c, 1d, 1e, 1f, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00]```
 /// - Shifted right by 31 bytes: ```[1f, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00]```
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
 #[inline]
-#[cfg(target_feature = "avx2")]
 pub unsafe fn _mm256_srli_si256<const IMM8: i32>(vector: __m256i) -> __m256i {
     return match IMM8 {
         0x00 => vector,
@@ -329,8 +329,8 @@ pub unsafe fn _mm256_srli_si256<const IMM8: i32>(vector: __m256i) -> __m256i {
 /// - Shifted left by 5 bits: ```[00, 20, 40, 60, 80, a0, c0, e0, 00, 20, 40, 60, 80, a0, c0, e0, 00, 20, 40, 60, 80, a0, c0, e0, 00, 20, 40, 60, 80, a0, c0, e0, 00, 20, 40, 60, 80, a0, c0, e0, 00, 20, 40, 60, 80, a0, c0, e0, 00, 20, 40, 60, 80, a0, c0, e0, 00, 20, 40, 60, 80, a0, c0, e0]```
 /// - Shifted left by 6 bits: ```[00, 40, 80, c0, 00, 40, 80, c0, 00, 40, 80, c0, 00, 40, 80, c0, 00, 40, 80, c0, 00, 40, 80, c0, 00, 40, 80, c0, 00, 40, 80, c0, 00, 40, 80, c0, 00, 40, 80, c0, 00, 40, 80, c0, 00, 40, 80, c0, 00, 40, 80, c0, 00, 40, 80, c0, 00, 40, 80, c0, 00, 40, 80, c0]```
 /// - Shifted left by 7 bits: ```[00, 80, 00, 80, 00, 80, 00, 80, 00, 80, 00, 80, 00, 80, 00, 80, 00, 80, 00, 80, 00, 80, 00, 80, 00, 80, 00, 80, 00, 80, 00, 80, 00, 80, 00, 80, 00, 80, 00, 80, 00, 80, 00, 80, 00, 80, 00, 80, 00, 80, 00, 80, 00, 80, 00, 80, 00, 80, 00, 80, 00, 80, 00, 80]```
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx512f", target_feature = "avx512bw"))]
 #[inline]
-#[cfg(all(target_feature = "avx512f", target_feature = "avx512bw"))]
 pub unsafe fn _mm512_slli_epi8<const IMM8: i32>(vector: __m512i) -> __m512i {
     return match IMM8 {
         0x00 => vector,
@@ -355,8 +355,8 @@ pub unsafe fn _mm512_slli_epi8<const IMM8: i32>(vector: __m512i) -> __m512i {
 /// - Shifted right by 5 bits: ```[00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01]```
 /// - Shifted right by 6 bits: ```[00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00]```
 /// - Shifted right by 7 bits: ```[00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00]```
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx512f", target_feature = "avx512bw"))]
 #[inline]
-#[cfg(all(target_feature = "avx512f", target_feature = "avx512bw"))]
 pub unsafe fn _mm512_srli_epi8<const IMM8: i32>(vector: __m512i) -> __m512i {
     return match IMM8 {
         0x00 => vector,
@@ -383,8 +383,8 @@ pub unsafe fn _mm512_srli_epi8<const IMM8: i32>(vector: __m512i) -> __m512i {
 /// - Shifted left by 35 bytes: ```[00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 01, 02, 03, 04, 05, 06, 07, 08, 09, 0a, 0b, 0c, 0d, 0e, 0f, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 1a, 1b, 1c]```
 /// - Shifted left by 42 bytes: ```[00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 01, 02, 03, 04, 05, 06, 07, 08, 09, 0a, 0b, 0c, 0d, 0e, 0f, 10, 11, 12, 13, 14, 15]```
 /// - Shifted left by 63 bytes: ```[00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00]```
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx512f", target_feature = "avx512bw"))]
 #[inline]
-#[cfg(all(target_feature = "avx512f", target_feature = "avx512bw"))]
 pub unsafe fn _mm512_slli_si512<const IMM8: i32>(vector: __m512i) -> __m512i {
     return match IMM8 {
         0x00 => vector,
@@ -467,8 +467,8 @@ pub unsafe fn _mm512_slli_si512<const IMM8: i32>(vector: __m512i) -> __m512i {
 /// - Shifted right by 35 bytes: ```[23, 24, 25, 26, 27, 28, 29, 2a, 2b, 2c, 2d, 2e, 2f, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 3a, 3b, 3c, 3d, 3e, 3f, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00]```
 /// - Shifted right by 42 bytes: ```[2a, 2b, 2c, 2d, 2e, 2f, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 3a, 3b, 3c, 3d, 3e, 3f, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00]```
 /// - Shifted right by 63 bytes: ```[3f, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00]```
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx512f", target_feature = "avx512bw"))]
 #[inline]
-#[cfg(all(target_feature = "avx512f", target_feature = "avx512bw"))]
 pub unsafe fn _mm512_srli_si512<const IMM8: i32>(vector: __m512i) -> __m512i {
     return match IMM8 {
         0x00 => vector,

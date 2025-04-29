@@ -200,8 +200,8 @@ struct uint128x4([u128; 4_usize]);
 struct uint256x2([u128; 4_usize]);
 
 
-#[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[test]
 fn _mm_alvext_epi8_test() {
     let arr_v: uint8x16 = uint8x16 {
         0: [
@@ -251,8 +251,8 @@ fn _mm_alvext_epi8_test() {
     assert_eq!(unsafe { transmute::<__m128i, [u8; 16_usize]>(_mm_alvext_epi8(v, a, 32)) }, [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]);
 }
 
-#[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[test]
 fn _mm_arvext_epi8_test() {
     let arr_v: uint8x16 = uint8x16 {
         0: [
@@ -302,8 +302,8 @@ fn _mm_arvext_epi8_test() {
     assert_eq!(unsafe { transmute::<__m128i, [u8; 16_usize]>(_mm_arvext_epi8(v, a, 32)) }, [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]);
 }
 
-#[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[test]
 fn _mm_alvext_epi16_test() {
     let arr_v: uint16x8 = uint16x8 {
         0: [
@@ -337,8 +337,8 @@ fn _mm_alvext_epi16_test() {
     assert_eq!(unsafe { transmute::<__m128i, [u16; 8_usize]>(_mm_alvext_epi16(v, a, 16)) }, [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]);
 }
 
-#[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[test]
 fn _mm_arvext_epi16_test() {
     let arr_v: uint16x8 = uint16x8 {
         0: [
@@ -372,8 +372,8 @@ fn _mm_arvext_epi16_test() {
     assert_eq!(unsafe { transmute::<__m128i, [u16; 8_usize]>(_mm_arvext_epi16(v, a, 16)) }, [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]);
 }
 
-#[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[test]
 fn _mm_alvext_epi32_test() {
     let arr_v: uint32x4 = uint32x4 {
         0: [
@@ -399,8 +399,8 @@ fn _mm_alvext_epi32_test() {
     assert_eq!(unsafe { transmute::<__m128i, [u32; 4_usize]>(_mm_alvext_epi32(v, a, 8)) }, [0x00, 0x00, 0x00, 0x00]);
 }
 
-#[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[test]
 fn _mm_arvext_epi32_test() {
     let arr_v: uint32x4 = uint32x4 {
         0: [
@@ -426,8 +426,8 @@ fn _mm_arvext_epi32_test() {
     assert_eq!(unsafe { transmute::<__m128i, [u32; 4_usize]>(_mm_arvext_epi32(v, a, 8)) }, [0x00, 0x00, 0x00, 0x00]);
 }
 
-#[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[test]
 fn _mm_alvext_epi64_test() {
     let arr_v: uint64x2 = uint64x2 {
         0: [
@@ -449,8 +449,8 @@ fn _mm_alvext_epi64_test() {
     assert_eq!(unsafe { transmute::<__m128i, [u64; 2_usize]>(_mm_alvext_epi64(v, a, 4)) }, [0x00, 0x00]);
 }
 
-#[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[test]
 fn _mm_arvext_epi64_test() {
     let arr_v: uint64x2 = uint64x2 {
         0: [
@@ -472,8 +472,8 @@ fn _mm_arvext_epi64_test() {
     assert_eq!(unsafe { transmute::<__m128i, [u64; 2_usize]>(_mm_arvext_epi64(v, a, 4)) }, [0x00, 0x00]);
 }
 
-#[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[test]
 fn _mm256_alvext_epi8_test() {
     let arr_v: uint8x32 = uint8x32 {
         0: [
@@ -557,8 +557,8 @@ fn _mm256_alvext_epi8_test() {
     assert_eq!(unsafe { transmute::<__m256i, [u8; 32_usize]>(_mm256_alvext_epi8(v, a, 64)) }, [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]);
 }
 
-#[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[test]
 fn _mm256_arvext_epi8_test() {
     let arr_v: uint8x32 = uint8x32 {
         0: [
@@ -642,8 +642,8 @@ fn _mm256_arvext_epi8_test() {
     assert_eq!(unsafe { transmute::<__m256i, [u8; 32_usize]>(_mm256_arvext_epi8(v, a, 64)) }, [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]);
 }
 
-#[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[test]
 fn _mm256_alvext_epi16_test() {
     let arr_v: uint16x16 = uint16x16 {
         0: [
@@ -693,8 +693,8 @@ fn _mm256_alvext_epi16_test() {
     assert_eq!(unsafe { transmute::<__m256i, [u16; 16_usize]>(_mm256_alvext_epi16(v, a, 32)) }, [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]);
 }
 
-#[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[test]
 fn _mm256_arvext_epi16_test() {
     let arr_v: uint16x16 = uint16x16 {
         0: [
@@ -744,8 +744,8 @@ fn _mm256_arvext_epi16_test() {
     assert_eq!(unsafe { transmute::<__m256i, [u16; 16_usize]>(_mm256_arvext_epi16(v, a, 32)) }, [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]);
 }
 
-#[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[test]
 fn _mm256_alvext_epi32_test() {
     let arr_v: uint32x8 = uint32x8 {
         0: [
@@ -779,8 +779,8 @@ fn _mm256_alvext_epi32_test() {
     assert_eq!(unsafe { transmute::<__m256i, [u32; 8_usize]>(_mm256_alvext_epi32(v, a, 16)) }, [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]);
 }
 
-#[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[test]
 fn _mm256_arvext_epi32_test() {
     let arr_v: uint32x8 = uint32x8 {
         0: [
@@ -814,8 +814,8 @@ fn _mm256_arvext_epi32_test() {
     assert_eq!(unsafe { transmute::<__m256i, [u32; 8_usize]>(_mm256_arvext_epi32(v, a, 16)) }, [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]);
 }
 
-#[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[test]
 fn _mm256_alvext_epi64_test() {
     let arr_v: uint64x4 = uint64x4 {
         0: [
@@ -841,8 +841,8 @@ fn _mm256_alvext_epi64_test() {
     assert_eq!(unsafe { transmute::<__m256i, [u64; 4_usize]>(_mm256_alvext_epi64(v, a, 8)) }, [0x00, 0x00, 0x00, 0x00]);
 }
 
-#[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[test]
 fn _mm256_arvext_epi64_test() {
     let arr_v: uint64x4 = uint64x4 {
         0: [
@@ -868,8 +868,8 @@ fn _mm256_arvext_epi64_test() {
     assert_eq!(unsafe { transmute::<__m256i, [u64; 4_usize]>(_mm256_arvext_epi64(v, a, 8)) }, [0x00, 0x00, 0x00, 0x00]);
 }
 
-#[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[test]
 fn _mm256_alvext_epi128_test() {
     let arr_v: uint128x2 = uint128x2 {
         0: [
@@ -891,8 +891,8 @@ fn _mm256_alvext_epi128_test() {
     assert_eq!(unsafe { transmute::<__m256i, [u128; 2_usize]>(_mm256_alvext_epi128(v, a, 4)) }, [0x00, 0x00]);
 }
 
-#[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[test]
 fn _mm256_arvext_epi128_test() {
     let arr_v: uint128x2 = uint128x2 {
         0: [
@@ -914,8 +914,8 @@ fn _mm256_arvext_epi128_test() {
     assert_eq!(unsafe { transmute::<__m256i, [u128; 2_usize]>(_mm256_arvext_epi128(v, a, 4)) }, [0x00, 0x00]);
 }
 
-#[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx512f", target_feature = "avx512bw"))]
+#[test]
 fn _mm512_alvext_epi8_test() {
     let arr_v: uint8x64 = uint8x64 {
         0: [
@@ -1067,8 +1067,8 @@ fn _mm512_alvext_epi8_test() {
     assert_eq!(unsafe { transmute::<__m512i, [u8; 64_usize]>(_mm512_alvext_epi8(v, a, 128)) }, [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]);
 }
 
-#[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx512f", target_feature = "avx512bw"))]
+#[test]
 fn _mm512_arvext_epi8_test() {
     let arr_v: uint8x64 = uint8x64 {
         0: [
@@ -1220,8 +1220,8 @@ fn _mm512_arvext_epi8_test() {
     assert_eq!(unsafe { transmute::<__m512i, [u8; 64_usize]>(_mm512_arvext_epi8(v, a, 128)) }, [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]);
 }
 
-#[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx512f", target_feature = "avx512bw"))]
+#[test]
 fn _mm512_alvext_epi16_test() {
     let arr_v: uint16x32 = uint16x32 {
         0: [
@@ -1305,8 +1305,8 @@ fn _mm512_alvext_epi16_test() {
     assert_eq!(unsafe { transmute::<__m512i, [u16; 32_usize]>(_mm512_alvext_epi16(v, a, 64)) }, [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]);
 }
 
-#[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx512f", target_feature = "avx512bw"))]
+#[test]
 fn _mm512_arvext_epi16_test() {
     let arr_v: uint16x32 = uint16x32 {
         0: [
@@ -1390,8 +1390,8 @@ fn _mm512_arvext_epi16_test() {
     assert_eq!(unsafe { transmute::<__m512i, [u16; 32_usize]>(_mm512_arvext_epi16(v, a, 64)) }, [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]);
 }
 
-#[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx512f", target_feature = "avx512bw"))]
+#[test]
 fn _mm512_alvext_epi32_test() {
     let arr_v: uint32x16 = uint32x16 {
         0: [
@@ -1441,8 +1441,8 @@ fn _mm512_alvext_epi32_test() {
     assert_eq!(unsafe { transmute::<__m512i, [u32; 16_usize]>(_mm512_alvext_epi32(v, a, 32)) }, [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]);
 }
 
-#[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx512f", target_feature = "avx512bw"))]
+#[test]
 fn _mm512_arvext_epi32_test() {
     let arr_v: uint32x16 = uint32x16 {
         0: [
@@ -1492,8 +1492,8 @@ fn _mm512_arvext_epi32_test() {
     assert_eq!(unsafe { transmute::<__m512i, [u32; 16_usize]>(_mm512_arvext_epi32(v, a, 32)) }, [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]);
 }
 
-#[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx512f", target_feature = "avx512bw"))]
+#[test]
 fn _mm512_alvext_epi64_test() {
     let arr_v: uint64x8 = uint64x8 {
         0: [
@@ -1527,8 +1527,8 @@ fn _mm512_alvext_epi64_test() {
     assert_eq!(unsafe { transmute::<__m512i, [u64; 8_usize]>(_mm512_alvext_epi64(v, a, 16)) }, [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]);
 }
 
-#[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx512f", target_feature = "avx512bw"))]
+#[test]
 fn _mm512_arvext_epi64_test() {
     let arr_v: uint64x8 = uint64x8 {
         0: [
@@ -1562,8 +1562,8 @@ fn _mm512_arvext_epi64_test() {
     assert_eq!(unsafe { transmute::<__m512i, [u64; 8_usize]>(_mm512_arvext_epi64(v, a, 16)) }, [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]);
 }
 
-#[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx512f", target_feature = "avx512bw"))]
+#[test]
 fn _mm512_alvext_epi128_test() {
     let arr_v: uint128x4 = uint128x4 {
         0: [
@@ -1589,8 +1589,8 @@ fn _mm512_alvext_epi128_test() {
     assert_eq!(unsafe { transmute::<__m512i, [u128; 4_usize]>(_mm512_alvext_epi128(v, a, 8)) }, [0x00, 0x00, 0x00, 0x00]);
 }
 
-#[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx512f", target_feature = "avx512bw"))]
+#[test]
 fn _mm512_arvext_epi128_test() {
     let arr_v: uint128x4 = uint128x4 {
         0: [
@@ -1616,8 +1616,8 @@ fn _mm512_arvext_epi128_test() {
     assert_eq!(unsafe { transmute::<__m512i, [u128; 4_usize]>(_mm512_arvext_epi128(v, a, 8)) }, [0x00, 0x00, 0x00, 0x00]);
 }
 
-#[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx512f", target_feature = "avx512bw"))]
+#[test]
 fn _mm512_alvext_epi256_test() {
     let arr_v: uint256x2 = uint256x2 {
         0: [
@@ -1639,8 +1639,8 @@ fn _mm512_alvext_epi256_test() {
     assert_eq!(unsafe { transmute::<__m512i, [u128; 4_usize]>(_mm512_alvext_epi256(v, a, 4)) }, [0x00, 0x00, 0x00, 0x00]);
 }
 
-#[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx512f", target_feature = "avx512bw"))]
+#[test]
 fn _mm512_arvext_epi256_test() {
     let arr_v: uint256x2 = uint256x2 {
         0: [

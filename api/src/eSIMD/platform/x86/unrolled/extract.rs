@@ -123,8 +123,8 @@ use super::{
 /// - Vext'ed left by 21 bytes: ```[00, 00, 00, 00, 00, 11, 12, 13, 14, 15, 16, 17, 18, 19, 1a, 1b]```
 /// - Vext'ed left by 22 bytes: ```[00, 00, 00, 00, 00, 00, 11, 12, 13, 14, 15, 16, 17, 18, 19, 1a]```
 /// - Vext'ed left by 31 bytes: ```[00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 11]```
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
 #[inline]
-#[cfg(target_feature = "sse2")]
 pub unsafe fn _mm_alvext_epi8<const IMM8: i32>(vector: __m128i, addition: __m128i) -> __m128i {
     return match IMM8 {
         0x00 => vector,
@@ -177,8 +177,8 @@ pub unsafe fn _mm_alvext_epi8<const IMM8: i32>(vector: __m128i, addition: __m128
 /// - Vext'ed right by 21 bytes: ```[16, 17, 18, 19, 1a, 1b, 1c, 1d, 1e, 1f, 20, 00, 00, 00, 00, 00]```
 /// - Vext'ed right by 22 bytes: ```[17, 18, 19, 1a, 1b, 1c, 1d, 1e, 1f, 20, 00, 00, 00, 00, 00, 00]```
 /// - Vext'ed right by 31 bytes: ```[20, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00]```
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
 #[inline]
-#[cfg(target_feature = "sse2")]
 pub unsafe fn _mm_arvext_epi8<const IMM8: i32>(vector: __m128i, addition: __m128i) -> __m128i {
     return match IMM8 {
         0x00 => vector,
@@ -237,8 +237,8 @@ pub unsafe fn _mm_arvext_epi8<const IMM8: i32>(vector: __m128i, addition: __m128
 /// - Vext'ed left by 13 pairs: ```[00, 00, 00, 00, 00, 09, 0a, 0b]```
 /// - Vext'ed left by 14 pairs: ```[00, 00, 00, 00, 00, 00, 09, 0a]```
 /// - Vext'ed left by 15 pairs: ```[00, 00, 00, 00, 00, 00, 00, 09]```
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
 #[inline]
-#[cfg(target_feature = "sse2")]
 pub unsafe fn _mm_alvext_epi16<const IMM8: i32>(vector: __m128i, addition: __m128i) -> __m128i {
     return match IMM8 {
         0x00 => vector,
@@ -281,8 +281,8 @@ pub unsafe fn _mm_alvext_epi16<const IMM8: i32>(vector: __m128i, addition: __m12
 /// - Vext'ed right by 13 pairs: ```[0e, 0f, 10, 00, 00, 00, 00, 00]```
 /// - Vext'ed right by 14 pairs: ```[0f, 10, 00, 00, 00, 00, 00, 00]```
 /// - Vext'ed right by 15 pairs: ```[10, 00, 00, 00, 00, 00, 00, 00]```
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
 #[inline]
-#[cfg(target_feature = "sse2")]
 pub unsafe fn _mm_arvext_epi16<const IMM8: i32>(vector: __m128i, addition: __m128i) -> __m128i {
     return match IMM8 {
         0x00 => vector,
@@ -317,8 +317,8 @@ pub unsafe fn _mm_arvext_epi16<const IMM8: i32>(vector: __m128i, addition: __m12
 /// - Vext'ed left by 5 pairs: ```[00, 05, 06, 07]```
 /// - Vext'ed left by 6 pairs: ```[00, 00, 05, 06]```
 /// - Vext'ed left by 7 pairs: ```[00, 00, 00, 05]```
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
 #[inline]
-#[cfg(target_feature = "sse2")]
 pub unsafe fn _mm_alvext_epi32<const IMM8: i32>(vector: __m128i, addition: __m128i) -> __m128i {
     return match IMM8 {
         0x00 => vector,
@@ -345,8 +345,8 @@ pub unsafe fn _mm_alvext_epi32<const IMM8: i32>(vector: __m128i, addition: __m12
 /// - Vext'ed right by 5 pairs: ```[06, 07, 08, 00]```
 /// - Vext'ed right by 6 pairs: ```[07, 08, 00, 00]```
 /// - Vext'ed right by 7 pairs: ```[08, 00, 00, 00]```
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
 #[inline]
-#[cfg(target_feature = "sse2")]
 pub unsafe fn _mm_arvext_epi32<const IMM8: i32>(vector: __m128i, addition: __m128i) -> __m128i {
     return match IMM8 {
         0x00 => vector,
@@ -369,8 +369,8 @@ pub unsafe fn _mm_arvext_epi32<const IMM8: i32>(vector: __m128i, addition: __m12
 /// - Vext'ed left by 1 pair: ```[04, 01]```
 /// - Vext'ed left by 2 pairs: ```[03, 04]```
 /// - Vext'ed left by 3 pairs: ```[00, 03]```
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
 #[inline]
-#[cfg(target_feature = "sse2")]
 pub unsafe fn _mm_alvext_epi64<const IMM8: i32>(vector: __m128i, addition: __m128i) -> __m128i {
     return match IMM8 {
         0x00 => vector,
@@ -389,8 +389,8 @@ pub unsafe fn _mm_alvext_epi64<const IMM8: i32>(vector: __m128i, addition: __m12
 /// - Vext'ed right by 1 pair: ```[02, 03]```
 /// - Vext'ed right by 2 pairs: ```[03, 04]```
 /// - Vext'ed right by 3 pairs: ```[04, 00]```
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
 #[inline]
-#[cfg(target_feature = "sse2")]
 pub unsafe fn _mm_arvext_epi64<const IMM8: i32>(vector: __m128i, addition: __m128i) -> __m128i {
     return match IMM8 {
         0x00 => vector,
@@ -427,8 +427,8 @@ pub unsafe fn _mm_arvext_epi64<const IMM8: i32>(vector: __m128i, addition: __m12
 /// - Vext'ed left by 61 bytes: ```[00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 21, 22, 23]```
 /// - Vext'ed left by 62 bytes: ```[00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 21, 22]```
 /// - Vext'ed left by 63 bytes: ```[00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 21]```
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
 #[inline]
-#[cfg(target_feature = "avx2")]
 pub unsafe fn _mm256_alvext_epi8<const IMM8: i32>(vector: __m256i, addition: __m256i) -> __m256i {
     return match IMM8 {
         0x00 => vector,
@@ -525,8 +525,8 @@ pub unsafe fn _mm256_alvext_epi8<const IMM8: i32>(vector: __m256i, addition: __m
 /// - Vext'ed right by 61 bytes: ```[3e, 3f, 40, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00]```
 /// - Vext'ed right by 62 bytes: ```[3f, 40, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00]```
 /// - Vext'ed right by 63 bytes: ```[40, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00]```
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
 #[inline]
-#[cfg(target_feature = "avx2")]
 pub unsafe fn _mm256_arvext_epi8<const IMM8: i32>(vector: __m256i, addition: __m256i) -> __m256i {
     return match IMM8 {
         0x00 => vector,
@@ -609,8 +609,8 @@ pub unsafe fn _mm256_arvext_epi8<const IMM8: i32>(vector: __m256i, addition: __m
 /// - Vext'ed left by 16 pairs: ```[11, 12, 13, 14, 15, 16, 17, 18, 19, 1a, 1b, 1c, 1d, 1e, 1f, 20]```
 /// - Vext'ed left by 20 pairs: ```[00, 00, 00, 00, 11, 12, 13, 14, 15, 16, 17, 18, 19, 1a, 1b, 1c]```
 /// - Vext'ed left by 31 pairs: ```[00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 11]```
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
 #[inline]
-#[cfg(target_feature = "avx2")]
 pub unsafe fn _mm256_alvext_epi16<const IMM8: i32>(vector: __m256i, addition: __m256i) -> __m256i {
     return match IMM8 {
         0x00 => vector,
@@ -661,8 +661,8 @@ pub unsafe fn _mm256_alvext_epi16<const IMM8: i32>(vector: __m256i, addition: __
 /// - Vext'ed right by 16 pairs: ```[11, 12, 13, 14, 15, 16, 17, 18, 19, 1a, 1b, 1c, 1d, 1e, 1f, 20]```
 /// - Vext'ed right by 20 pairs: ```[15, 16, 17, 18, 19, 1a, 1b, 1c, 1d, 1e, 1f, 20, 00, 00, 00, 00]```
 /// - Vext'ed right by 31 pairs: ```[20, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00]```
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
 #[inline]
-#[cfg(target_feature = "avx2")]
 pub unsafe fn _mm256_arvext_epi16<const IMM8: i32>(vector: __m256i, addition: __m256i) -> __m256i {
     return match IMM8 {
         0x00 => vector,
@@ -721,8 +721,8 @@ pub unsafe fn _mm256_arvext_epi16<const IMM8: i32>(vector: __m256i, addition: __
 /// - Vext'ed left by 13 pairs: ```[00, 00, 00, 00, 00, 11, 12, 13]```
 /// - Vext'ed left by 14 pairs: ```[00, 00, 00, 00, 00, 00, 11, 12]```
 /// - Vext'ed left by 15 pairs: ```[00, 00, 00, 00, 00, 00, 00, 11]```
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
 #[inline]
-#[cfg(target_feature = "avx2")]
 pub unsafe fn _mm256_alvext_epi32<const IMM8: i32>(vector: __m256i, addition: __m256i) -> __m256i {
     return match IMM8 {
         0x00 => vector,
@@ -765,8 +765,8 @@ pub unsafe fn _mm256_alvext_epi32<const IMM8: i32>(vector: __m256i, addition: __
 /// - Vext'ed right by 13 bytes:  [16, 17, 18, 00, 00, 00, 00, 00]```
 /// - Vext'ed right by 14 bytes:  [17, 18, 00, 00, 00, 00, 00, 00]```
 /// - Vext'ed right by 15 bytes:  [18, 00, 00, 00, 00, 00, 00, 00]```
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
 #[inline]
-#[cfg(target_feature = "avx2")]
 pub unsafe fn _mm256_arvext_epi32<const IMM8: i32>(vector: __m256i, addition: __m256i) -> __m256i {
     return match IMM8 {
         0x00 => vector,
@@ -802,8 +802,8 @@ pub unsafe fn _mm256_arvext_epi32<const IMM8: i32>(vector: __m256i, addition: __
 /// - Vext'ed left by 6 pairs: ```[00, 00, 05, 06]```
 /// - Vext'ed left by 7 pairs: ```[00, 00, 00, 05]```
 /// - Vext'ed left by 8 pairs: ```[00, 00, 00, 00]```
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
 #[inline]
-#[cfg(target_feature = "avx2")]
 pub unsafe fn _mm256_alvext_epi64<const IMM8: i32>(vector: __m256i, addition: __m256i) -> __m256i {
     return match IMM8 {
         0x00 => vector,
@@ -831,8 +831,8 @@ pub unsafe fn _mm256_alvext_epi64<const IMM8: i32>(vector: __m256i, addition: __
 /// - Vext'ed right by 6 pairs: ```[07, 08, 00, 00]```
 /// - Vext'ed right by 7 pairs: ```[08, 00, 00, 00]```
 /// - Vext'ed right by 8 pairs: ```[00, 00, 00, 00]```
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
 #[inline]
-#[cfg(target_feature = "avx2")]
 pub unsafe fn _mm256_arvext_epi64<const IMM8: i32>(vector: __m256i, addition: __m256i) -> __m256i {
     return match IMM8 {
         0x00 => vector,
@@ -856,8 +856,8 @@ pub unsafe fn _mm256_arvext_epi64<const IMM8: i32>(vector: __m256i, addition: __
 /// - Vext'ed left by 2 pairs: ```[03, 04]```
 /// - Vext'ed left by 3 pairs: ```[00, 03]```
 /// - Vext'ed left by 4 pairs: ```[00, 00]```
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
 #[inline]
-#[cfg(target_feature = "avx2")]
 pub unsafe fn _mm256_alvext_epi128<const IMM8: i32>(vector: __m256i, addition: __m256i) -> __m256i {
     return match IMM8 {
         0x00 => vector,
@@ -877,8 +877,8 @@ pub unsafe fn _mm256_alvext_epi128<const IMM8: i32>(vector: __m256i, addition: _
 /// - Vext'ed right by 2 pairs: ```[03, 04]```
 /// - Vext'ed right by 3 pairs: ```[04, 00]```
 /// - Vext'ed right by 4 pairs: ```[00, 00]```
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
 #[inline]
-#[cfg(target_feature = "avx2")]
 pub unsafe fn _mm256_arvext_epi128<const IMM8: i32>(vector: __m256i, addition: __m256i) -> __m256i {
     return match IMM8 {
         0x00 => vector,
@@ -1022,8 +1022,8 @@ pub unsafe fn _mm256_arvext_epi128<const IMM8: i32>(vector: __m256i, addition: _
 /// - Vext'ed left by 126 bytes: ```[00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 41, 42]```
 /// - Vext'ed left by 127 bytes: ```[00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 41]```
 /// - Vext'ed left by 128 bytes: ```[00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00]```
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx512f", target_feature = "avx512bw"))]
 #[inline]
-#[cfg(all(target_feature = "avx512f", target_feature = "avx512bw"))]
 pub unsafe fn _mm512_alvext_epi8<const IMM8: i32>(vector: __m512i, addition: __m512i) -> __m512i {
     return match IMM8 {
         0x00 => vector,
@@ -1291,8 +1291,8 @@ pub unsafe fn _mm512_alvext_epi8<const IMM8: i32>(vector: __m512i, addition: __m
 /// - Vext'ed right by 126 bytes: ```[7f, 80, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00]```
 /// - Vext'ed right by 127 bytes: ```[80, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00]```
 /// - Vext'ed right by 128 bytes: ```[00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00]```
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx512f", target_feature = "avx512bw"))]
 #[inline]
-#[cfg(all(target_feature = "avx512f", target_feature = "avx512bw"))]
 pub unsafe fn _mm512_arvext_epi8<const IMM8: i32>(vector: __m512i, addition: __m512i) -> __m512i {
     return match IMM8 {
         0x00 => vector,
@@ -1496,8 +1496,8 @@ pub unsafe fn _mm512_arvext_epi8<const IMM8: i32>(vector: __m512i, addition: __m
 /// - Vext'ed left by 62 pairs: ```[00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 21, 22]```
 /// - Vext'ed left by 63 pairs: ```[00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 21]```
 /// - Vext'ed left by 64 pairs: ```[00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00]```
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx512f", target_feature = "avx512bw"))]
 #[inline]
-#[cfg(all(target_feature = "avx512f", target_feature = "avx512bw"))]
 pub unsafe fn _mm512_alvext_epi16<const IMM8: i32>(vector: __m512i, addition: __m512i) -> __m512i {
     return match IMM8 {
         0x00 => vector,
@@ -1637,8 +1637,8 @@ pub unsafe fn _mm512_alvext_epi16<const IMM8: i32>(vector: __m512i, addition: __
 /// - Vext'ed right by 62 pairs: ```[3f, 40, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00]```
 /// - Vext'ed right by 63 pairs: ```[40, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00]```
 /// - Vext'ed right by 64 pairs: ```[00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00]```
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx512f", target_feature = "avx512bw"))]
 #[inline]
-#[cfg(all(target_feature = "avx512f", target_feature = "avx512bw"))]
 pub unsafe fn _mm512_arvext_epi16<const IMM8: i32>(vector: __m512i, addition: __m512i) -> __m512i {
     return match IMM8 {
         0x00 => vector,
@@ -1746,8 +1746,8 @@ pub unsafe fn _mm512_arvext_epi16<const IMM8: i32>(vector: __m512i, addition: __
 /// - Vext'ed left by 30 pairs: ```[00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 11, 12]```
 /// - Vext'ed left by 31 pairs: ```[00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 11]```
 /// - Vext'ed left by 32 pairs: ```[00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00]```
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx512f", target_feature = "avx512bw"))]
 #[inline]
-#[cfg(all(target_feature = "avx512f", target_feature = "avx512bw"))]
 pub unsafe fn _mm512_alvext_epi32<const IMM8: i32>(vector: __m512i, addition: __m512i) -> __m512i {
     return match IMM8 {
         0x00 => vector,
@@ -1823,8 +1823,8 @@ pub unsafe fn _mm512_alvext_epi32<const IMM8: i32>(vector: __m512i, addition: __
 /// - Vext'ed right by 30 pairs: ```[25, 26, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00]```
 /// - Vext'ed right by 31 pairs: ```[26, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00]```
 /// - Vext'ed right by 32 pairs: ```[00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00]```
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx512f", target_feature = "avx512bw"))]
 #[inline]
-#[cfg(all(target_feature = "avx512f", target_feature = "avx512bw"))]
 pub unsafe fn _mm512_arvext_epi32<const IMM8: i32>(vector: __m512i, addition: __m512i) -> __m512i {
     return match IMM8 {
         0x00 => vector,
@@ -1884,8 +1884,8 @@ pub unsafe fn _mm512_arvext_epi32<const IMM8: i32>(vector: __m512i, addition: __
 /// - Vext'ed left by 14 pairs: ```[00, 00, 00, 00, 00, 00, 09, 10]```
 /// - Vext'ed left by 15 pairs: ```[00, 00, 00, 00, 00, 00, 00, 09]```
 /// - Vext'ed left by 16 pairs: ```[00, 00, 00, 00, 00, 00, 00, 00]```
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx512f", target_feature = "avx512bw"))]
 #[inline]
-#[cfg(all(target_feature = "avx512f", target_feature = "avx512bw"))]
 pub unsafe fn _mm512_alvext_epi64<const IMM8: i32>(vector: __m512i, addition: __m512i) -> __m512i {
     return match IMM8 {
         0x00 => vector,
@@ -1929,8 +1929,8 @@ pub unsafe fn _mm512_alvext_epi64<const IMM8: i32>(vector: __m512i, addition: __
 /// - Vext'ed right by 14 pairs: ```[14, 15, 16, 00, 00, 00, 00, 00]```
 /// - Vext'ed right by 15 pairs: ```[16, 00, 00, 00, 00, 00, 00, 00]```
 /// - Vext'ed right by 16 pairs: ```[00, 00, 00, 00, 00, 00, 00, 00]```
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx512f", target_feature = "avx512bw"))]
 #[inline]
-#[cfg(all(target_feature = "avx512f", target_feature = "avx512bw"))]
 pub unsafe fn _mm512_arvext_epi64<const IMM8: i32>(vector: __m512i, addition: __m512i) -> __m512i {
     return match IMM8 {
         0x00 => vector,
@@ -1966,8 +1966,8 @@ pub unsafe fn _mm512_arvext_epi64<const IMM8: i32>(vector: __m512i, addition: __
 /// - Vext'ed left by 6 pairs: ```[00, 00, 05, 06]```
 /// - Vext'ed left by 7 pairs: ```[00, 00, 00, 05]```
 /// - Vext'ed left by 8 pairs: ```[00, 00, 00, 00]```
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx512f", target_feature = "avx512bw"))]
 #[inline]
-#[cfg(all(target_feature = "avx512f", target_feature = "avx512bw"))]
 pub unsafe fn _mm512_alvext_epi128<const IMM8: i32>(vector: __m512i, addition: __m512i) -> __m512i {
     return match IMM8 {
         0x00 => vector,
@@ -1995,8 +1995,8 @@ pub unsafe fn _mm512_alvext_epi128<const IMM8: i32>(vector: __m512i, addition: _
 /// - Vext'ed right by 6 pairs: ```[07, 08, 00, 00]```
 /// - Vext'ed right by 7 pairs: ```[08, 00, 00, 00]```
 /// - Vext'ed right by 8 pairs: ```[00, 00, 00, 00]```
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx512f", target_feature = "avx512bw"))]
 #[inline]
-#[cfg(all(target_feature = "avx512f", target_feature = "avx512bw"))]
 pub unsafe fn _mm512_arvext_epi128<const IMM8: i32>(vector: __m512i, addition: __m512i) -> __m512i {
     return match IMM8 {
         0x00 => vector,
@@ -2020,8 +2020,8 @@ pub unsafe fn _mm512_arvext_epi128<const IMM8: i32>(vector: __m512i, addition: _
 /// - Vext'ed left by 2 pairs: ```[03, 04]```
 /// - Vext'ed left by 3 pairs: ```[00, 03]```
 /// - Vext'ed left by 4 pairs: ```[00, 00]```
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx512f", target_feature = "avx512bw"))]
 #[inline]
-#[cfg(all(target_feature = "avx512f", target_feature = "avx512bw"))]
 pub unsafe fn _mm512_alvext_epi256<const IMM8: i32>(vector: __m512i, addition: __m512i) -> __m512i {
     return match IMM8 {
         0x00 => vector,
@@ -2041,8 +2041,8 @@ pub unsafe fn _mm512_alvext_epi256<const IMM8: i32>(vector: __m512i, addition: _
 /// - Vext'ed right by 2 pairs: ```[03, 04]```
 /// - Vext'ed right by 3 pairs: ```[04, 00]```
 /// - Vext'ed right by 4 pairs: ```[00, 00]```
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx512f", target_feature = "avx512bw"))]
 #[inline]
-#[cfg(all(target_feature = "avx512f", target_feature = "avx512bw"))]
 pub unsafe fn _mm512_arvext_epi256<const IMM8: i32>(vector: __m512i, addition: __m512i) -> __m512i {
     return match IMM8 {
         0x00 => vector,

@@ -30,3 +30,5 @@
 mod shift;
 mod extract;
 mod reverse;
+mod compare;
+mod bitwise;

@@ -52,7 +52,7 @@ use core::{
     }
 };
 
-#[cfg(all(target_arch = "x86", target_feature = "avx2"))]
+#[cfg(all(target_arch = "x86", target_feature = "avx", target_feature = "avx2"))]
 use core::{
     arch::{
         x86::{
@@ -100,7 +100,7 @@ use core::{
     }
 };
 
-#[cfg(all(target_arch = "x86_64", target_feature = "avx2"))]
+#[cfg(all(target_arch = "x86_64", target_feature = "avx", target_feature = "avx2"))]
 use core::{
     arch::{
         x86_64::{
@@ -124,36 +124,43 @@ use core::{
 };
 
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2", not(target_feature = "ssse3")))]
+#[inline]
 pub unsafe fn _mm_vrev16_epi8(a: __m128i) -> __m128i {
     return _mm_or_si128(_mm_srli_epi16::<0x00000008>(a), _mm_slli_epi16::<0x00000008>(a));
 }
 
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2", not(target_feature = "ssse3")))]
+#[inline]
 pub unsafe fn _mm_vrev32_epi8(a: __m128i) -> __m128i {
     return _mm_or_si128(_mm_srli_epi32::<0x00000010>(_mm_vrev16_epi8(a)), _mm_slli_epi32::<0x00000010>(_mm_vrev16_epi8(a)));
 }
 
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2", not(target_feature = "ssse3")))]
+#[inline]
 pub unsafe fn _mm_vrev32_epi16(a: __m128i) -> __m128i {
     return _mm_or_si128(_mm_srli_epi32::<0x00000010>(a), _mm_slli_epi32::<0x00000010>(a));
 }
 
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2", not(target_feature = "ssse3")))]
+#[inline]
 pub unsafe fn _mm_vrev64_epi8(a: __m128i) -> __m128i {
     return _mm_shuffle_epi32::<0x000000B1>(_mm_vrev32_epi8(a));
 }
 
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2", not(target_feature = "ssse3")))]
+#[inline]
 pub unsafe fn _mm_vrev64_epi16(a: __m128i) -> __m128i {
     return _mm_or_si128(_mm_srli_epi32::<0x00000010>(_mm_shuffle_epi32::<0x000000B1>(a)), _mm_slli_epi32::<0x00000010>(_mm_shuffle_epi32::<0x000000B1>(a)));
 }
 
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2", not(target_feature = "ssse3")))]
+#[inline]
 pub unsafe fn _mm_vrev64_epi32(a: __m128i) -> __m128i {
     return _mm_shuffle_epi32::<0x000000B1>(a);
 }
 
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2", target_feature = "ssse3"))]
+#[inline]
 pub unsafe fn _mm_vrev16_epi8(a: __m128i) -> __m128i {
     return _mm_shuffle_epi8(a, _mm_set_epi8(
         0x0E, 0x0F, 0x0C, 0x0D, 0x0A, 0x0B, 0x08, 0x09,
@@ -162,6 +169,7 @@ pub unsafe fn _mm_vrev16_epi8(a: __m128i) -> __m128i {
 }
 
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2", target_feature = "ssse3"))]
+#[inline]
 pub unsafe fn _mm_vrev32_epi8(a: __m128i) -> __m128i {
     return _mm_shuffle_epi8(a, _mm_set_epi8(
         0x0C, 0x0D, 0x0E, 0x0F, 0x08, 0x09, 0x0A, 0x0B,
@@ -170,6 +178,7 @@ pub unsafe fn _mm_vrev32_epi8(a: __m128i) -> __m128i {
 }
 
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2", target_feature = "ssse3"))]
+#[inline]
 pub unsafe fn _mm_vrev32_epi16(a: __m128i) -> __m128i {
     return _mm_shuffle_epi8(a, _mm_set_epi8(
         0x0D, 0x0C, 0x0F, 0x0E, 0x09, 0x08, 0x0B, 0x0A,
@@ -178,6 +187,7 @@ pub unsafe fn _mm_vrev32_epi16(a: __m128i) -> __m128i {
 }
 
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2", target_feature = "ssse3"))]
+#[inline]
 pub unsafe fn _mm_vrev64_epi8(a: __m128i) -> __m128i {
     return _mm_shuffle_epi8(a, _mm_set_epi8(
         0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F,
@@ -186,6 +196,7 @@ pub unsafe fn _mm_vrev64_epi8(a: __m128i) -> __m128i {
 }
 
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2", target_feature = "ssse3"))]
+#[inline]
 pub unsafe fn _mm_vrev64_epi16(a: __m128i) -> __m128i {
     return _mm_shuffle_epi8(a, _mm_set_epi8(
         0x09, 0x08, 0x0B, 0x0A, 0x0D, 0x0C, 0x0F, 0x0E,
@@ -194,6 +205,7 @@ pub unsafe fn _mm_vrev64_epi16(a: __m128i) -> __m128i {
 }
 
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2", target_feature = "ssse3"))]
+#[inline]
 pub unsafe fn _mm_vrev64_epi32(a: __m128i) -> __m128i {
     return _mm_shuffle_epi8(a, _mm_set_epi8(
         0x0B, 0x0A, 0x09, 0x08, 0x0F, 0x0E, 0x0D, 0x0C,
@@ -202,6 +214,7 @@ pub unsafe fn _mm_vrev64_epi32(a: __m128i) -> __m128i {
 }
 
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[inline]
 pub unsafe fn _mm256_vrev16_epi8(a: __m256i) -> __m256i {
     return _mm256_shuffle_epi8(a, _mm256_set_epi8(
         0x1E, 0x1F, 0x1C, 0x1D, 0x1A, 0x1B, 0x18, 0x19,
@@ -212,6 +225,7 @@ pub unsafe fn _mm256_vrev16_epi8(a: __m256i) -> __m256i {
 }
 
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[inline]
 pub unsafe fn _mm256_vrev32_epi8(a: __m256i) -> __m256i {
     return _mm256_shuffle_epi8(a, _mm256_set_epi8(
         0x1C, 0x1D, 0x1E, 0x1F, 0x18, 0x19, 0x1A, 0x1B,
@@ -222,6 +236,7 @@ pub unsafe fn _mm256_vrev32_epi8(a: __m256i) -> __m256i {
 }
 
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[inline]
 pub unsafe fn _mm256_vrev32_epi16(a: __m256i) -> __m256i {
     return _mm256_shuffle_epi8(a, _mm256_set_epi8(
         0x1D, 0x1C, 0x1F, 0x1E, 0x19, 0x18, 0x1B, 0x1A,
@@ -232,6 +247,7 @@ pub unsafe fn _mm256_vrev32_epi16(a: __m256i) -> __m256i {
 }
 
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[inline]
 pub unsafe fn _mm256_vrev64_epi8(a: __m256i) -> __m256i {
     return _mm256_shuffle_epi8(a, _mm256_set_epi8(
         0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F,
@@ -242,6 +258,7 @@ pub unsafe fn _mm256_vrev64_epi8(a: __m256i) -> __m256i {
 }
 
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[inline]
 pub unsafe fn _mm256_vrev64_epi16(a: __m256i) -> __m256i {
     return _mm256_shuffle_epi8(a, _mm256_set_epi8(
         0x19, 0x18, 0x1B, 0x1A, 0x1D, 0x1C, 0x1F, 0x1E,
@@ -252,6 +269,7 @@ pub unsafe fn _mm256_vrev64_epi16(a: __m256i) -> __m256i {
 }
 
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[inline]
 pub unsafe fn _mm256_vrev64_epi32(a: __m256i) -> __m256i {
     return _mm256_shuffle_epi8(a, _mm256_set_epi8(
         0x1B, 0x1A, 0x19, 0x18, 0x1F, 0x1E, 0x1D, 0x1C,
@@ -262,6 +280,7 @@ pub unsafe fn _mm256_vrev64_epi32(a: __m256i) -> __m256i {
 }
 
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[inline]
 pub unsafe fn _mm256_vrev128_epi8(a: __m256i) -> __m256i {
     return _mm256_shuffle_epi8(a, _mm256_set_epi8(
         0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17,
@@ -272,6 +291,7 @@ pub unsafe fn _mm256_vrev128_epi8(a: __m256i) -> __m256i {
 }
 
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[inline]
 pub unsafe fn _mm256_vrev128_epi16(a: __m256i) -> __m256i {
     return _mm256_shuffle_epi8(a, _mm256_set_epi8(
         0x11, 0x10, 0x13, 0x12, 0x15, 0x14, 0x17, 0x16,
@@ -282,6 +302,7 @@ pub unsafe fn _mm256_vrev128_epi16(a: __m256i) -> __m256i {
 }
 
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[inline]
 pub unsafe fn _mm256_vrev128_epi32(a: __m256i) -> __m256i {
     return _mm256_shuffle_epi8(a, _mm256_set_epi8(
         0x13, 0x12, 0x11, 0x10, 0x17, 0x16, 0x15, 0x14,
@@ -292,6 +313,7 @@ pub unsafe fn _mm256_vrev128_epi32(a: __m256i) -> __m256i {
 }
 
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[inline]
 pub unsafe fn _mm256_vrev128_epi64(a: __m256i) -> __m256i {
     return _mm256_shuffle_epi8(a, _mm256_set_epi8(
         0x17, 0x16, 0x15, 0x14, 0x13, 0x12, 0x11, 0x10,
@@ -302,6 +324,7 @@ pub unsafe fn _mm256_vrev128_epi64(a: __m256i) -> __m256i {
 }
 
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx512f", target_feature = "avx512bw"))]
+#[inline]
 pub unsafe fn _mm512_vrev16_epi8(a: __m512i) -> __m512i {
     return _mm512_shuffle_epi8(a, _mm512_set_epi8(
         0x3E, 0x3F, 0x3C, 0x3D, 0x3A, 0x3B, 0x38, 0x39,
@@ -316,6 +339,7 @@ pub unsafe fn _mm512_vrev16_epi8(a: __m512i) -> __m512i {
 }
 
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx512f", target_feature = "avx512bw"))]
+#[inline]
 pub unsafe fn _mm512_vrev32_epi8(a: __m512i) -> __m512i {
     return _mm512_shuffle_epi8(a, _mm512_set_epi8(
         0x3C, 0x3D, 0x3E, 0x3F, 0x38, 0x39, 0x3A, 0x3B,
@@ -330,6 +354,7 @@ pub unsafe fn _mm512_vrev32_epi8(a: __m512i) -> __m512i {
 }
 
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx512f", target_feature = "avx512bw"))]
+#[inline]
 pub unsafe fn _mm512_vrev32_epi16(a: __m512i) -> __m512i {
     return _mm512_shuffle_epi8(a, _mm512_set_epi8(
         0x3D, 0x3C, 0x3F, 0x3E, 0x39, 0x38, 0x3B, 0x3A,
@@ -344,6 +369,7 @@ pub unsafe fn _mm512_vrev32_epi16(a: __m512i) -> __m512i {
 }
 
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx512f", target_feature = "avx512bw"))]
+#[inline]
 pub unsafe fn _mm512_vrev64_epi8(a: __m512i) -> __m512i {
     return _mm512_shuffle_epi8(a, _mm512_set_epi8(
         0x38, 0x39, 0x3A, 0x3B, 0x3C, 0x3D, 0x3E, 0x3F,
@@ -358,6 +384,7 @@ pub unsafe fn _mm512_vrev64_epi8(a: __m512i) -> __m512i {
 }
 
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx512f", target_feature = "avx512bw"))]
+#[inline]
 pub unsafe fn _mm512_vrev64_epi16(a: __m512i) -> __m512i {
     return _mm512_shuffle_epi8(a, _mm512_set_epi8(
         0x39, 0x38, 0x3B, 0x3A, 0x3D, 0x3C, 0x3F, 0x3E,
@@ -372,6 +399,7 @@ pub unsafe fn _mm512_vrev64_epi16(a: __m512i) -> __m512i {
 }
 
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx512f", target_feature = "avx512bw"))]
+#[inline]
 pub unsafe fn _mm512_vrev64_epi32(a: __m512i) -> __m512i {
     return _mm512_shuffle_epi8(a, _mm512_set_epi8(
         0x3B, 0x3A, 0x39, 0x38, 0x3F, 0x3E, 0x3D, 0x3C,
@@ -386,6 +414,7 @@ pub unsafe fn _mm512_vrev64_epi32(a: __m512i) -> __m512i {
 }
 
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx512f", target_feature = "avx512bw"))]
+#[inline]
 pub unsafe fn _mm512_vrev128_epi8(a: __m512i) -> __m512i {
     return _mm512_shuffle_epi8(a, _mm512_set_epi8(
         0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37,
@@ -400,6 +429,7 @@ pub unsafe fn _mm512_vrev128_epi8(a: __m512i) -> __m512i {
 }
 
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx512f", target_feature = "avx512bw"))]
+#[inline]
 pub unsafe fn _mm512_vrev128_epi16(a: __m512i) -> __m512i {
     return _mm512_shuffle_epi8(a, _mm512_set_epi8(
         0x31, 0x30, 0x33, 0x32, 0x35, 0x34, 0x37, 0x36,
@@ -414,6 +444,7 @@ pub unsafe fn _mm512_vrev128_epi16(a: __m512i) -> __m512i {
 }
 
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx512f", target_feature = "avx512bw"))]
+#[inline]
 pub unsafe fn _mm512_vrev128_epi32(a: __m512i) -> __m512i {
     return _mm512_shuffle_epi8(a, _mm512_set_epi8(
         0x33, 0x32, 0x31, 0x30, 0x37, 0x36, 0x35, 0x34,
@@ -428,6 +459,7 @@ pub unsafe fn _mm512_vrev128_epi32(a: __m512i) -> __m512i {
 }
 
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx512f", target_feature = "avx512bw"))]
+#[inline]
 pub unsafe fn _mm512_vrev128_epi64(a: __m512i) -> __m512i {
     return _mm512_shuffle_epi8(a, _mm512_set_epi8(
         0x37, 0x36, 0x35, 0x34, 0x33, 0x32, 0x31, 0x30,
@@ -442,6 +474,7 @@ pub unsafe fn _mm512_vrev128_epi64(a: __m512i) -> __m512i {
 }
 
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx512f", target_feature = "avx512bw"))]
+#[inline]
 pub unsafe fn _mm512_vrev256_epi8(a: __m512i) -> __m512i {
     return _mm512_permutexvar_epi64(
         _mm512_set_epi64(5, 4, 7, 6, 1, 0, 3, 2),
@@ -459,6 +492,7 @@ pub unsafe fn _mm512_vrev256_epi8(a: __m512i) -> __m512i {
 }
 
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx512f", target_feature = "avx512bw"))]
+#[inline]
 pub unsafe fn _mm512_vrev256_epi16(a: __m512i) -> __m512i {
     return _mm512_permutexvar_epi64(
         _mm512_set_epi64(5, 4, 7, 6, 1, 0, 3, 2),
@@ -476,6 +510,7 @@ pub unsafe fn _mm512_vrev256_epi16(a: __m512i) -> __m512i {
 }
 
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx512f", target_feature = "avx512bw"))]
+#[inline]
 pub unsafe fn _mm512_vrev256_epi32(a: __m512i) -> __m512i {
     return _mm512_permutexvar_epi64(
         _mm512_set_epi64(5, 4, 7, 6, 1, 0, 3, 2),
@@ -493,6 +528,7 @@ pub unsafe fn _mm512_vrev256_epi32(a: __m512i) -> __m512i {
 }
 
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx512f", target_feature = "avx512bw"))]
+#[inline]
 pub unsafe fn _mm512_vrev256_epi64(a: __m512i) -> __m512i {
     return _mm512_permutexvar_epi64(
         _mm512_set_epi64(5, 4, 7, 6, 1, 0, 3, 2),
@@ -510,6 +546,7 @@ pub unsafe fn _mm512_vrev256_epi64(a: __m512i) -> __m512i {
 }
 
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx512f", target_feature = "avx512bw"))]
+#[inline]
 pub unsafe fn _mm512_vrev256_epi128(a: __m512i) -> __m512i {
     return _mm512_permutexvar_epi64(
         _mm512_set_epi64(5, 4, 7, 6, 1, 0, 3, 2),

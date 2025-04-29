@@ -30,7 +30,7 @@
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
 use Fasma::{
     eSIMD::{
-        rolled::{
+        unrolled::{
             reverse::{
                 _mm_vrev16_epi8, _mm_vrev32_epi8,
                 _mm_vrev32_epi16, _mm_vrev64_epi8,
@@ -43,7 +43,7 @@ use Fasma::{
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
 use Fasma::{
     eSIMD::{
-        rolled::{
+        unrolled::{
             reverse::{
                 _mm256_vrev16_epi8, _mm256_vrev32_epi8,
                 _mm256_vrev32_epi16, _mm256_vrev64_epi8,
@@ -58,7 +58,7 @@ use Fasma::{
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx512f", target_feature = "avx512bw"))]
 use Fasma::{
     eSIMD::{
-        rolled::{
+        unrolled::{
             reverse::{
                 _mm512_vrev16_epi8, _mm512_vrev32_epi8,
                 _mm512_vrev32_epi16, _mm512_vrev64_epi8,
@@ -153,8 +153,8 @@ struct uint8x32([u8; 32_usize]);
 struct uint8x64([u8; 64_usize]);
 
 
-#[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[test]
 fn _mm_vrev16_epi8_test() {
     let arr_v: uint8x16 = uint8x16 {
         0: [
@@ -169,8 +169,8 @@ fn _mm_vrev16_epi8_test() {
     ]);
 }
 
-#[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[test]
 fn _mm_vrev32_epi8_test() {
     let arr_v: uint8x16 = uint8x16 {
         0: [
@@ -185,8 +185,8 @@ fn _mm_vrev32_epi8_test() {
     ]);
 }
 
-#[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[test]
 fn _mm_vrev32_epi16_test() {
     let arr_v: uint8x16 = uint8x16 {
         0: [
@@ -201,8 +201,8 @@ fn _mm_vrev32_epi16_test() {
     ]);
 }
 
-#[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[test]
 fn _mm_vrev64_epi8_test() {
     let arr_v: uint8x16 = uint8x16 {
         0: [
@@ -217,8 +217,8 @@ fn _mm_vrev64_epi8_test() {
     ]);
 }
 
-#[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[test]
 fn _mm_vrev64_epi16_test() {
     let arr_v: uint8x16 = uint8x16 {
         0: [
@@ -233,8 +233,8 @@ fn _mm_vrev64_epi16_test() {
     ]);
 }
 
-#[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[test]
 fn _mm_vrev64_epi32_test() {
     let arr_v: uint8x16 = uint8x16 {
         0: [
@@ -249,8 +249,8 @@ fn _mm_vrev64_epi32_test() {
     ]);
 }
 
-#[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[test]
 fn _mm256_vrev16_epi8_test() {
     let arr_v: uint8x32 = uint8x32 {
         0: [
@@ -267,8 +267,8 @@ fn _mm256_vrev16_epi8_test() {
     ]);
 }
 
-#[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[test]
 fn _mm256_vrev32_epi8_test() {
     let arr_v: uint8x32 = uint8x32 {
         0: [
@@ -285,8 +285,8 @@ fn _mm256_vrev32_epi8_test() {
     ]);
 }
 
-#[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[test]
 fn _mm256_vrev32_epi16_test() {
     let arr_v: uint8x32 = uint8x32 {
         0: [
@@ -303,8 +303,8 @@ fn _mm256_vrev32_epi16_test() {
     ]);
 }
 
-#[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[test]
 fn _mm256_vrev64_epi8_test() {
     let arr_v: uint8x32 = uint8x32 {
         0: [
@@ -321,8 +321,8 @@ fn _mm256_vrev64_epi8_test() {
     ]);
 }
 
-#[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[test]
 fn _mm256_vrev64_epi16_test() {
     let arr_v: uint8x32 = uint8x32 {
         0: [
@@ -339,8 +339,8 @@ fn _mm256_vrev64_epi16_test() {
     ]);
 }
 
-#[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[test]
 fn _mm256_vrev64_epi32_test() {
     let arr_v: uint8x32 = uint8x32 {
         0: [
@@ -357,8 +357,8 @@ fn _mm256_vrev64_epi32_test() {
     ]);
 }
 
-#[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[test]
 fn _mm256_vrev128_epi8_test() {
     let arr_v: uint8x32 = uint8x32 {
         0: [
@@ -375,8 +375,8 @@ fn _mm256_vrev128_epi8_test() {
     ]);
 }
 
-#[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[test]
 fn _mm256_vrev128_epi16_test() {
     let arr_v: uint8x32 = uint8x32 {
         0: [
@@ -393,8 +393,8 @@ fn _mm256_vrev128_epi16_test() {
     ]);
 }
 
-#[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[test]
 fn _mm256_vrev128_epi32_test() {
     let arr_v: uint8x32 = uint8x32 {
         0: [
@@ -411,8 +411,8 @@ fn _mm256_vrev128_epi32_test() {
     ]);
 }
 
-#[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[test]
 fn _mm256_vrev128_epi64_test() {
     let arr_v: uint8x32 = uint8x32 {
         0: [
@@ -429,8 +429,8 @@ fn _mm256_vrev128_epi64_test() {
     ]);
 }
 
-#[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx512f", target_feature = "avx512bw"))]
+#[test]
 fn _mm512_vrev16_epi8_test() {
     let arr_v: uint8x64 = uint8x64 {
         0: [
@@ -451,8 +451,8 @@ fn _mm512_vrev16_epi8_test() {
     ]);
 }
 
-#[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx512f", target_feature = "avx512bw"))]
+#[test]
 fn _mm512_vrev32_epi8_test() {
     let arr_v: uint8x64 = uint8x64 {
         0: [
@@ -473,8 +473,8 @@ fn _mm512_vrev32_epi8_test() {
     ]);
 }
 
-#[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx512f", target_feature = "avx512bw"))]
+#[test]
 fn _mm512_vrev32_epi16_test() {
     let arr_v: uint8x64 = uint8x64 {
         0: [
@@ -495,8 +495,8 @@ fn _mm512_vrev32_epi16_test() {
     ]);
 }
 
-#[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx512f", target_feature = "avx512bw"))]
+#[test]
 fn _mm512_vrev64_epi8_test() {
     let arr_v: uint8x64 = uint8x64 {
         0: [
@@ -517,8 +517,8 @@ fn _mm512_vrev64_epi8_test() {
     ]);
 }
 
-#[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx512f", target_feature = "avx512bw"))]
+#[test]
 fn _mm512_vrev64_epi16_test() {
     let arr_v: uint8x64 = uint8x64 {
         0: [
@@ -539,8 +539,8 @@ fn _mm512_vrev64_epi16_test() {
     ]);
 }
 
-#[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx512f", target_feature = "avx512bw"))]
+#[test]
 fn _mm512_vrev64_epi32_test() {
     let arr_v: uint8x64 = uint8x64 {
         0: [
@@ -561,8 +561,8 @@ fn _mm512_vrev64_epi32_test() {
     ]);
 }
 
-#[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx512f", target_feature = "avx512bw"))]
+#[test]
 fn _mm512_vrev128_epi8_test() {
     let arr_v: uint8x64 = uint8x64 {
         0: [
@@ -583,8 +583,8 @@ fn _mm512_vrev128_epi8_test() {
     ]);
 }
 
-#[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx512f", target_feature = "avx512bw"))]
+#[test]
 fn _mm512_vrev128_epi16_test() {
     let arr_v: uint8x64 = uint8x64 {
         0: [
@@ -605,8 +605,8 @@ fn _mm512_vrev128_epi16_test() {
     ]);
 }
 
-#[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx512f", target_feature = "avx512bw"))]
+#[test]
 fn _mm512_vrev128_epi32_test() {
     let arr_v: uint8x64 = uint8x64 {
         0: [
@@ -627,8 +627,8 @@ fn _mm512_vrev128_epi32_test() {
     ]);
 }
 
-#[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx512f", target_feature = "avx512bw"))]
+#[test]
 fn _mm512_vrev128_epi64_test() {
     let arr_v: uint8x64 = uint8x64 {
         0: [
@@ -649,8 +649,8 @@ fn _mm512_vrev128_epi64_test() {
     ]);
 }
 
-#[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx512f", target_feature = "avx512bw"))]
+#[test]
 fn _mm512_vrev256_epi8_test() {
     let arr_v: uint8x64 = uint8x64 {
         0: [
@@ -671,8 +671,8 @@ fn _mm512_vrev256_epi8_test() {
     ]);
 }
 
-#[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx512f", target_feature = "avx512bw"))]
+#[test]
 fn _mm512_vrev256_epi16_test() {
     let arr_v: uint8x64 = uint8x64 {
         0: [
@@ -693,8 +693,8 @@ fn _mm512_vrev256_epi16_test() {
     ]);
 }
 
-#[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx512f", target_feature = "avx512bw"))]
+#[test]
 fn _mm512_vrev256_epi32_test() {
     let arr_v: uint8x64 = uint8x64 {
         0: [
@@ -715,8 +715,8 @@ fn _mm512_vrev256_epi32_test() {
     ]);
 }
 
-#[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx512f", target_feature = "avx512bw"))]
+#[test]
 fn _mm512_vrev256_epi64_test() {
     let arr_v: uint8x64 = uint8x64 {
         0: [
@@ -737,8 +737,8 @@ fn _mm512_vrev256_epi64_test() {
     ]);
 }
 
-#[test]
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx512f", target_feature = "avx512bw"))]
+#[test]
 fn _mm512_vrev256_epi128_test() {
     let arr_v: uint8x64 = uint8x64 {
         0: [

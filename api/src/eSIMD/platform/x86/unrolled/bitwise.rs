@@ -27,8 +27,86 @@
  * ╚═════════════════════════════════════════════════════════════════════════════════════╝
  */
 
-pub mod shift;
-pub mod extract;
-pub mod reverse;
-pub mod compare;
-pub mod bitwise;
+#[cfg(all(target_arch = "x86", target_feature = "sse2"))]
+use core::{
+    arch::{
+        x86::{
+            __m128i,
+            _mm_set1_epi8,
+            _mm_xor_si128
+        }
+    }
+};
+
+#[cfg(all(target_arch = "x86", target_feature = "avx", target_feature = "avx2"))]
+use core::{
+    arch::{
+        x86::{
+            __m256i,
+            _mm256_set1_epi8,
+            _mm256_xor_si256
+        }
+    }
+};
+
+#[cfg(all(target_arch = "x86", target_feature = "avx512f"))]
+use core::{
+    arch::{
+        x86::{
+            __m512i,
+            _mm512_set1_epi8,
+            _mm512_xor_si512
+        }
+    }
+};
+
+#[cfg(all(target_arch = "x86_64", target_feature = "sse2"))]
+use core::{
+    arch::{
+        x86_64::{
+            __m128i,
+            _mm_set1_epi8,
+            _mm_xor_si128
+        }
+    }
+};
+
+#[cfg(all(target_arch = "x86_64", target_feature = "avx", target_feature = "avx2"))]
+use core::{
+    arch::{
+        x86_64::{
+            __m256i,
+            _mm256_set1_epi8,
+            _mm256_xor_si256
+        }
+    }
+};
+
+#[cfg(all(target_arch = "x86_64", target_feature = "avx512f"))]
+use core::{
+    arch::{
+        x86_64::{
+            __m512i,
+            _mm512_set1_epi8,
+            _mm512_xor_si512
+        }
+    }
+};
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[inline]
+pub unsafe fn _mm_not_si128(vector: __m128i) -> __m128i {
+    return _mm_xor_si128(vector, _mm_set1_epi8(-0x01));
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[inline]
+pub unsafe fn _mm256_not_si256(vector: __m256i) -> __m256i {
+    return _mm256_xor_si256(vector, _mm256_set1_epi8(-0x01));
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx512f"))]
+#[inline]
+pub unsafe fn _mm512_not_si512(vector: __m512i) -> __m512i {
+    return _mm512_xor_si512(vector, _mm512_set1_epi8(-0x01));
+}

@@ -41,8 +41,8 @@ use Fasma::{
     }
 };
 
-#[test]
 #[cfg(all(any(all(target_arch = "arm", target_feature = "v7"), target_arch = "aarch64"), target_feature = "neon"))]
+#[test]
 fn align_remainder_8x8_test() {
     let array: [u8; 10_usize] = [
         0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08,
@@ -57,8 +57,8 @@ fn align_remainder_8x8_test() {
     ]);
 }
 
-#[test]
 #[cfg(all(any(all(target_arch = "arm", target_feature = "v7"), target_arch = "aarch64"), target_feature = "neon"))]
+#[test]
 fn align_remainder_8x16_test() {
     let array: [u8; 20_usize] = [
         0x0001, 0x0002, 0x0003, 0x0004, 0x0005, 0x0006, 0x0007, 0x0008,
@@ -78,8 +78,8 @@ fn align_remainder_8x16_test() {
     ]);
 }
 
-#[test]
 #[cfg(all(any(all(target_arch = "arm", target_feature = "v7"), target_arch = "aarch64"), target_feature = "neon"))]
+#[test]
 fn align_remainder_16x4_test() {
     let array: [u16; 6_usize] = [
         0x0001, 0x0002, 0x0003, 0x0004, 0x0005, 0x0006
@@ -95,8 +95,8 @@ fn align_remainder_16x4_test() {
     ]);
 }
 
-#[test]
 #[cfg(all(any(all(target_arch = "arm", target_feature = "v7"), target_arch = "aarch64"), target_feature = "neon"))]
+#[test]
 fn align_remainder_16x8_test() {
     let array: [u16; 10_usize] = [
         0x0001, 0x0002, 0x0003, 0x0004, 0x0005, 0x0006, 0x0007, 0x0008,
@@ -113,8 +113,8 @@ fn align_remainder_16x8_test() {
     ]);
 }
 
-#[test]
 #[cfg(all(any(all(target_arch = "arm", target_feature = "v7"), target_arch = "aarch64"), target_feature = "neon"))]
+#[test]
 fn align_remainder_32x2_test() {
     let array: [u32; 4_usize] = [
         0x00000001, 0x00000002, 0x00000003, 0x00000004
@@ -130,8 +130,8 @@ fn align_remainder_32x2_test() {
     ]);
 }
 
-#[test]
 #[cfg(all(any(all(target_arch = "arm", target_feature = "v7"), target_arch = "aarch64"), target_feature = "neon"))]
+#[test]
 fn align_remainder_32x4_test() {
     let array: [u32; 6_usize] = [
         0x00000001, 0x00000002, 0x00000003, 0x00000004,
@@ -148,8 +148,8 @@ fn align_remainder_32x4_test() {
     ]);
 }
 
-#[test]
 #[cfg(all(any(all(target_arch = "arm", target_feature = "v7"), target_arch = "aarch64"), target_feature = "neon"))]
+#[test]
 fn align_remainder_64x1_test() {
     let array: [u64; 2_usize] = [
         0x0000000000000001, 0x0000000000000002
@@ -163,8 +163,8 @@ fn align_remainder_64x1_test() {
     assert_eq!(unsafe { align_remainder_64x1(array.as_ptr(), substitution_data, length) }, [0xFFFFFFFFFFFFFFFF]);
 }
 
-#[test]
 #[cfg(all(any(all(target_arch = "arm", target_feature = "v7"), target_arch = "aarch64"), target_feature = "neon"))]
+#[test]
 fn align_remainder_64x2_test() {
     let array: [u64; 5_usize] = [
         0x0000000000000001, 0x0000000000000002, 0x0000000000000003, 0x0000000000000004,
