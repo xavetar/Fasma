@@ -279,7 +279,6 @@ macro_rules! align_remainder_avx512 {
     (
         $functor_name:ident,
         $pointer_type:ty,
-        $load_pointer_type:ty,
         $register_pointer_type:ty,
         $substitution_type:ty,
         $aligned_buffer_type:ident,
@@ -298,7 +297,7 @@ macro_rules! align_remainder_avx512 {
                 let (mut index, mut buffer): (usize, $aligned_buffer_type) = (0_usize, $aligned_buffer_type { 0: substitution_data });
 
                 if length >= $total_register_items {
-                    $store_function(buffer.0.as_mut_ptr().cast::<$register_pointer_type>(), $align_function($loadu_function(data_ptr.add(length - $total_register_items).cast::<$load_pointer_type>()), $load_function(buffer.0.as_ptr().cast::<$load_pointer_type>()), $total_register_items - remainder));
+                    $store_function(buffer.0.as_mut_ptr().cast::<$register_pointer_type>(), $align_function($loadu_function(data_ptr.add(length - $total_register_items).cast::<$register_pointer_type>()), $load_function(buffer.0.as_ptr().cast::<$register_pointer_type>()), $total_register_items - remainder));
                 } else {
                     #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
                     if remainder >= $avx2_register_items {
@@ -349,12 +348,12 @@ align_remainder_avx2!(align_remainder_64x4, u64, __m256i, [u64; 4_usize], uint64
 align_remainder_avx2!(align_remainder_128x2, u128, __m256i, [u128; 2_usize], uint128x2, _mm256_load_si256, _mm256_loadu_si256, _mm256_store_si256, _mm256_arvext_epi128, 2_usize, 1_usize);
 
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx512f", target_feature = "avx512bw"))]
-align_remainder_avx512!(align_remainder_8x64, u8, i32, __m512i, [u8; 64_usize], uint8x64, _mm512_load_si512, _mm512_loadu_si512, _mm512_store_si512, _mm512_arvext_epi8, 64_usize, 32_usize, 16_usize);
+align_remainder_avx512!(align_remainder_8x64, u8, __m512i, [u8; 64_usize], uint8x64, _mm512_load_si512, _mm512_loadu_si512, _mm512_store_si512, _mm512_arvext_epi8, 64_usize, 32_usize, 16_usize);
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx512f", target_feature = "avx512bw"))]
-align_remainder_avx512!(align_remainder_16x32, u16, i32, __m512i, [u16; 32_usize], uint16x32, _mm512_load_si512, _mm512_loadu_si512, _mm512_store_si512, _mm512_arvext_epi16, 32_usize, 16_usize, 8_usize);
+align_remainder_avx512!(align_remainder_16x32, u16, __m512i, [u16; 32_usize], uint16x32, _mm512_load_si512, _mm512_loadu_si512, _mm512_store_si512, _mm512_arvext_epi16, 32_usize, 16_usize, 8_usize);
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx512f", target_feature = "avx512bw"))]
-align_remainder_avx512!(align_remainder_32x16, u32, i32, __m512i, [u32; 16_usize], uint32x16, _mm512_load_si512, _mm512_loadu_si512, _mm512_store_si512, _mm512_arvext_epi32, 16_usize, 8_usize, 4_usize);
+align_remainder_avx512!(align_remainder_32x16, u32, __m512i, [u32; 16_usize], uint32x16, _mm512_load_si512, _mm512_loadu_si512, _mm512_store_si512, _mm512_arvext_epi32, 16_usize, 8_usize, 4_usize);
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx512f", target_feature = "avx512bw"))]
-align_remainder_avx512!(align_remainder_64x8, u64, i32, __m512i, [u64; 8_usize], uint64x8, _mm512_load_si512, _mm512_loadu_si512, _mm512_store_si512, _mm512_arvext_epi64, 8_usize, 4_usize, 2_usize);
+align_remainder_avx512!(align_remainder_64x8, u64, __m512i, [u64; 8_usize], uint64x8, _mm512_load_si512, _mm512_loadu_si512, _mm512_store_si512, _mm512_arvext_epi64, 8_usize, 4_usize, 2_usize);
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx512f", target_feature = "avx512bw"))]
-align_remainder_avx512!(align_remainder_128x4, u128, i32, __m512i, [u128; 4_usize], uint128x4, _mm512_load_si512, _mm512_loadu_si512, _mm512_store_si512, _mm512_arvext_epi128, 4_usize, 2_usize, 1_usize);
+align_remainder_avx512!(align_remainder_128x4, u128, __m512i, [u128; 4_usize], uint128x4, _mm512_load_si512, _mm512_loadu_si512, _mm512_store_si512, _mm512_arvext_epi128, 4_usize, 2_usize, 1_usize);

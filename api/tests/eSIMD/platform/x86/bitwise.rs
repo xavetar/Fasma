@@ -54,7 +54,7 @@ use Fasma::{
     eSIMD::{
         unrolled::{
             bitwise::{
-                _mm256_not_si256
+                _mm512_not_si512
             }
         }
     }
@@ -186,7 +186,7 @@ fn _mm512_not_si512_test() {
         ]
     };
 
-    let v: __m512i = unsafe { _mm512_load_si512(arr_v.0.as_ptr().cast::<i32>()) };
+    let v: __m512i = unsafe { _mm512_load_si512(arr_v.0.as_ptr().cast::<__m512i>()) };
 
     assert_eq!(unsafe { transmute::<__m512i, [u8; 64_usize]>(_mm512_not_si512(v)) }, [
         0xFF, 0xFE, 0xFD, 0xFC, 0xFB, 0xFA, 0xF9, 0xF8, 0xF7, 0xF6, 0xF5, 0xF4, 0xF3, 0xF2, 0xF1, 0xF0,

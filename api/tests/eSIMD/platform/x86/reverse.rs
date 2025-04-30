@@ -441,7 +441,7 @@ fn _mm512_vrev16_epi8_test() {
         ]
     };
 
-    let v: __m512i = unsafe { _mm512_load_si512(arr_v.0.as_ptr().cast::<i32>()) };
+    let v: __m512i = unsafe { _mm512_load_si512(arr_v.0.as_ptr().cast::<__m512i>()) };
 
     assert_eq!(unsafe { transmute::<__m512i, [u8; 64_usize]>(_mm512_vrev16_epi8(v)) }, [
         0x01, 0x00, 0x03, 0x02, 0x05, 0x04, 0x07, 0x06, 0x09, 0x08, 0x0B, 0x0A, 0x0D, 0x0C, 0x0F, 0x0E,
@@ -463,7 +463,7 @@ fn _mm512_vrev32_epi8_test() {
         ]
     };
 
-    let v: __m512i = unsafe { _mm512_load_si512(arr_v.0.as_ptr().cast::<i32>()) };
+    let v: __m512i = unsafe { _mm512_load_si512(arr_v.0.as_ptr().cast::<__m512i>()) };
 
     assert_eq!(unsafe { transmute::<__m512i, [u8; 64_usize]>(_mm512_vrev32_epi8(v)) }, [
         0x03, 0x02, 0x01, 0x00, 0x07, 0x06, 0x05, 0x04, 0x0B, 0x0A, 0x09, 0x08, 0x0F, 0x0E, 0x0D, 0x0C,
@@ -485,7 +485,7 @@ fn _mm512_vrev32_epi16_test() {
         ]
     };
 
-    let v: __m512i = unsafe { _mm512_load_si512(arr_v.0.as_ptr().cast::<i32>()) };
+    let v: __m512i = unsafe { _mm512_load_si512(arr_v.0.as_ptr().cast::<__m512i>()) };
 
     assert_eq!(unsafe { transmute::<__m512i, [u8; 64_usize]>(_mm512_vrev32_epi16(v)) }, [
         0x02, 0x03, 0x00, 0x01, 0x06, 0x07, 0x04, 0x05, 0x0A, 0x0B, 0x08, 0x09, 0x0E, 0x0F, 0x0C, 0x0D,
@@ -507,7 +507,7 @@ fn _mm512_vrev64_epi8_test() {
         ]
     };
 
-    let v: __m512i = unsafe { _mm512_load_si512(arr_v.0.as_ptr().cast::<i32>()) };
+    let v: __m512i = unsafe { _mm512_load_si512(arr_v.0.as_ptr().cast::<__m512i>()) };
 
     assert_eq!(unsafe { transmute::<__m512i, [u8; 64_usize]>(_mm512_vrev64_epi8(v)) }, [
         0x07, 0x06, 0x05, 0x04, 0x03, 0x02, 0x01, 0x00, 0x0F, 0x0E, 0x0D, 0x0C, 0x0B, 0x0A, 0x09, 0x08,
@@ -529,7 +529,7 @@ fn _mm512_vrev64_epi16_test() {
         ]
     };
 
-    let v: __m512i = unsafe { _mm512_load_si512(arr_v.0.as_ptr().cast::<i32>()) };
+    let v: __m512i = unsafe { _mm512_load_si512(arr_v.0.as_ptr().cast::<__m512i>()) };
 
     assert_eq!(unsafe { transmute::<__m512i, [u8; 64_usize]>(_mm512_vrev64_epi16(v)) }, [
         0x06, 0x07, 0x04, 0x05, 0x02, 0x03, 0x00, 0x01, 0x0E, 0x0F, 0x0C, 0x0D, 0x0A, 0x0B, 0x08, 0x09,
@@ -551,7 +551,7 @@ fn _mm512_vrev64_epi32_test() {
         ]
     };
 
-    let v: __m512i = unsafe { _mm512_load_si512(arr_v.0.as_ptr().cast::<i32>()) };
+    let v: __m512i = unsafe { _mm512_load_si512(arr_v.0.as_ptr().cast::<__m512i>()) };
 
     assert_eq!(unsafe { transmute::<__m512i, [u8; 64_usize]>(_mm512_vrev64_epi32(v)) }, [
         0x04, 0x05, 0x06, 0x07, 0x00, 0x01, 0x02, 0x03, 0x0C, 0x0D, 0x0E, 0x0F, 0x08, 0x09, 0x0A, 0x0B,
@@ -573,7 +573,7 @@ fn _mm512_vrev128_epi8_test() {
         ]
     };
 
-    let v: __m512i = unsafe { _mm512_load_si512(arr_v.0.as_ptr().cast::<i32>()) };
+    let v: __m512i = unsafe { _mm512_load_si512(arr_v.0.as_ptr().cast::<__m512i>()) };
 
     assert_eq!(unsafe { transmute::<__m512i, [u8; 64_usize]>(_mm512_vrev128_epi8(v)) }, [
         0x0F, 0x0E, 0x0D, 0x0C, 0x0B, 0x0A, 0x09, 0x08, 0x07, 0x06, 0x05, 0x04, 0x03, 0x02, 0x01, 0x00,
@@ -595,7 +595,7 @@ fn _mm512_vrev128_epi16_test() {
         ]
     };
 
-    let v: __m512i = unsafe { _mm512_load_si512(arr_v.0.as_ptr().cast::<i32>()) };
+    let v: __m512i = unsafe { _mm512_load_si512(arr_v.0.as_ptr().cast::<__m512i>()) };
 
     assert_eq!(unsafe { transmute::<__m512i, [u8; 64_usize]>(_mm512_vrev128_epi16(v)) }, [
         0x0E, 0x0F, 0x0C, 0x0D, 0x0A, 0x0B, 0x08, 0x09, 0x06, 0x07, 0x04, 0x05, 0x02, 0x03, 0x00, 0x01,
@@ -617,7 +617,7 @@ fn _mm512_vrev128_epi32_test() {
         ]
     };
 
-    let v: __m512i = unsafe { _mm512_load_si512(arr_v.0.as_ptr().cast::<i32>()) };
+    let v: __m512i = unsafe { _mm512_load_si512(arr_v.0.as_ptr().cast::<__m512i>()) };
 
     assert_eq!(unsafe { transmute::<__m512i, [u8; 64_usize]>(_mm512_vrev128_epi32(v)) }, [
         0x0C, 0x0D, 0x0E, 0x0F, 0x08, 0x09, 0x0A, 0x0B, 0x04, 0x05, 0x06, 0x07, 0x00, 0x01, 0x02, 0x03,
@@ -639,7 +639,7 @@ fn _mm512_vrev128_epi64_test() {
         ]
     };
 
-    let v: __m512i = unsafe { _mm512_load_si512(arr_v.0.as_ptr().cast::<i32>()) };
+    let v: __m512i = unsafe { _mm512_load_si512(arr_v.0.as_ptr().cast::<__m512i>()) };
 
     assert_eq!(unsafe { transmute::<__m512i, [u8; 64_usize]>(_mm512_vrev128_epi64(v)) }, [
         0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F, 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
@@ -661,7 +661,7 @@ fn _mm512_vrev256_epi8_test() {
         ]
     };
 
-    let v: __m512i = unsafe { _mm512_load_si512(arr_v.0.as_ptr().cast::<i32>()) };
+    let v: __m512i = unsafe { _mm512_load_si512(arr_v.0.as_ptr().cast::<__m512i>()) };
 
     assert_eq!(unsafe { transmute::<__m512i, [u8; 64_usize]>(_mm512_vrev256_epi8(v)) }, [
         0x1F, 0x1E, 0x1D, 0x1C, 0x1B, 0x1A, 0x19, 0x18, 0x17, 0x16, 0x15, 0x14, 0x13, 0x12, 0x11, 0x10,
@@ -683,7 +683,7 @@ fn _mm512_vrev256_epi16_test() {
         ]
     };
 
-    let v: __m512i = unsafe { _mm512_load_si512(arr_v.0.as_ptr().cast::<i32>()) };
+    let v: __m512i = unsafe { _mm512_load_si512(arr_v.0.as_ptr().cast::<__m512i>()) };
 
     assert_eq!(unsafe { transmute::<__m512i, [u8; 64_usize]>(_mm512_vrev256_epi16(v)) }, [
         0x1E, 0x1F, 0x1C, 0x1D, 0x1A, 0x1B, 0x18, 0x19, 0x16, 0x17, 0x14, 0x15, 0x12, 0x13, 0x10, 0x11,
@@ -705,7 +705,7 @@ fn _mm512_vrev256_epi32_test() {
         ]
     };
 
-    let v: __m512i = unsafe { _mm512_load_si512(arr_v.0.as_ptr().cast::<i32>()) };
+    let v: __m512i = unsafe { _mm512_load_si512(arr_v.0.as_ptr().cast::<__m512i>()) };
 
     assert_eq!(unsafe { transmute::<__m512i, [u8; 64_usize]>(_mm512_vrev256_epi32(v)) }, [
         0x1C, 0x1D, 0x1E, 0x1F, 0x18, 0x19, 0x1A, 0x1B, 0x14, 0x15, 0x16, 0x17, 0x10, 0x11, 0x12, 0x13,
@@ -727,7 +727,7 @@ fn _mm512_vrev256_epi64_test() {
         ]
     };
 
-    let v: __m512i = unsafe { _mm512_load_si512(arr_v.0.as_ptr().cast::<i32>()) };
+    let v: __m512i = unsafe { _mm512_load_si512(arr_v.0.as_ptr().cast::<__m512i>()) };
 
     assert_eq!(unsafe { transmute::<__m512i, [u8; 64_usize]>(_mm512_vrev256_epi64(v)) }, [
         0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F, 0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17,
@@ -749,7 +749,7 @@ fn _mm512_vrev256_epi128_test() {
         ]
     };
 
-    let v: __m512i = unsafe { _mm512_load_si512(arr_v.0.as_ptr().cast::<i32>()) };
+    let v: __m512i = unsafe { _mm512_load_si512(arr_v.0.as_ptr().cast::<__m512i>()) };
 
     assert_eq!(unsafe { transmute::<__m512i, [u8; 64_usize]>(_mm512_vrev256_epi128(v)) }, [
         0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F,
