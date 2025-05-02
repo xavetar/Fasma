@@ -39,7 +39,15 @@ use Fasma::{
                 _mm_cmpgt_epu8, _mm_cmpge_epu8, _mm_cmplt_epu8, _mm_cmple_epu8,
                 _mm_cmpgt_epu16, _mm_cmpge_epu16, _mm_cmplt_epu16, _mm_cmple_epu16,
                 _mm_cmpgt_epu32, _mm_cmpge_epu32, _mm_cmplt_epu32, _mm_cmple_epu32,
-                _mm_cmpgt_epu64, _mm_cmpge_epu64, _mm_cmplt_epu64, _mm_cmple_epu64
+                _mm_cmpgt_epu64, _mm_cmpge_epu64, _mm_cmplt_epu64, _mm_cmple_epu64,
+                _mm_cmpgt_epi8_mask, _mm_cmpge_epi8_mask, _mm_cmpeq_epi8_mask, _mm_cmplt_epi8_mask, _mm_cmple_epi8_mask,
+                _mm_cmpgt_epi16_mask, _mm_cmpge_epi16_mask, _mm_cmpeq_epi16_mask, _mm_cmplt_epi16_mask, _mm_cmple_epi16_mask,
+                _mm_cmpgt_epi32_mask, _mm_cmpge_epi32_mask, _mm_cmpeq_epi32_mask, _mm_cmplt_epi32_mask, _mm_cmple_epi32_mask,
+                _mm_cmpgt_epi64_mask, _mm_cmpge_epi64_mask, _mm_cmpeq_epi64_mask, _mm_cmplt_epi64_mask, _mm_cmple_epi64_mask,
+                _mm_cmpgt_epu8_mask, _mm_cmpge_epu8_mask, _mm_cmpeq_epu8_mask, _mm_cmplt_epu8_mask, _mm_cmple_epu8_mask,
+                _mm_cmpgt_epu16_mask, _mm_cmpge_epu16_mask, _mm_cmpeq_epu16_mask, _mm_cmplt_epu16_mask, _mm_cmple_epu16_mask,
+                _mm_cmpgt_epu32_mask, _mm_cmpge_epu32_mask, _mm_cmpeq_epu32_mask, _mm_cmplt_epu32_mask, _mm_cmple_epu32_mask,
+                _mm_cmpgt_epu64_mask, _mm_cmpge_epu64_mask, _mm_cmpeq_epu64_mask, _mm_cmplt_epu64_mask, _mm_cmple_epu64_mask
             }
         }
     }
@@ -79,7 +87,15 @@ use Fasma::{
                 _mm256_cmpgt_epu8, _mm256_cmpge_epu8, _mm256_cmplt_epu8, _mm256_cmple_epu8,
                 _mm256_cmpgt_epu16, _mm256_cmpge_epu16, _mm256_cmplt_epu16, _mm256_cmple_epu16,
                 _mm256_cmpgt_epu32, _mm256_cmpge_epu32, _mm256_cmplt_epu32, _mm256_cmple_epu32,
-                _mm256_cmpgt_epu64, _mm256_cmpge_epu64, _mm256_cmplt_epu64, _mm256_cmple_epu64
+                _mm256_cmpgt_epu64, _mm256_cmpge_epu64, _mm256_cmplt_epu64, _mm256_cmple_epu64,
+                _mm256_cmpgt_epi8_mask, _mm256_cmpge_epi8_mask, _mm256_cmpeq_epi8_mask, _mm256_cmplt_epi8_mask, _mm256_cmple_epi8_mask,
+                _mm256_cmpgt_epi16_mask, _mm256_cmpge_epi16_mask, _mm256_cmpeq_epi16_mask, _mm256_cmplt_epi16_mask, _mm256_cmple_epi16_mask,
+                _mm256_cmpgt_epi32_mask, _mm256_cmpge_epi32_mask, _mm256_cmpeq_epi32_mask, _mm256_cmplt_epi32_mask, _mm256_cmple_epi32_mask,
+                _mm256_cmpgt_epi64_mask, _mm256_cmpge_epi64_mask, _mm256_cmpeq_epi64_mask, _mm256_cmplt_epi64_mask, _mm256_cmple_epi64_mask,
+                _mm256_cmpgt_epu8_mask, _mm256_cmpge_epu8_mask, _mm256_cmpeq_epu8_mask, _mm256_cmplt_epu8_mask, _mm256_cmple_epu8_mask,
+                _mm256_cmpgt_epu16_mask, _mm256_cmpge_epu16_mask, _mm256_cmpeq_epu16_mask, _mm256_cmplt_epu16_mask, _mm256_cmple_epu16_mask,
+                _mm256_cmpgt_epu32_mask, _mm256_cmpge_epu32_mask, _mm256_cmpeq_epu32_mask, _mm256_cmplt_epu32_mask, _mm256_cmple_epu32_mask,
+                _mm256_cmpgt_epu64_mask, _mm256_cmpge_epu64_mask, _mm256_cmpeq_epu64_mask, _mm256_cmplt_epu64_mask, _mm256_cmple_epu64_mask
             }
         }
     }
@@ -180,6 +196,7 @@ use core::{
     }
 };
 
+
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
 #[repr(align(16))]
 struct int8x16([i8; 16_usize]);
@@ -275,6 +292,7 @@ struct uint32x16([u32; 16_usize]);
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), any(target_feature = "avx512f", target_feature = "avx512bw")))]
 #[repr(align(64))]
 struct uint64x8([u64; 8_usize]);
+
 
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
 #[test]
@@ -502,6 +520,62 @@ fn _mm_cmple_epi32_test() {
     ]);
 }
 
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2", not(target_feature = "sse4.2")))]
+#[test]
+fn _mm_cmpgt_epi64_test() {
+    let arr_v: [int64x2; 4] = [
+        int64x2 {
+            0: [
+                -0x8000000000000000, 0x7FFFFFFFFFFFFFFF
+            ]
+        },
+        int64x2 {
+            0: [
+                -0x8000000000000000, -0x8000000000000000
+            ]
+        },
+        int64x2 {
+            0: [
+                0x7FFFFFFFFFFFFFFF, 0x7FFFFFFFFFFFFFFF
+            ]
+        },
+        int64x2 {
+            0: [
+                0x0000000000000000, -0x0000000000000001
+            ]
+        }
+    ];
+
+    let left: [__m128i; 4] = unsafe { [
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>())
+    ] };
+    let right: [__m128i; 4] = unsafe { [
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[2].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[3].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[2].0.as_ptr().cast::<__m128i>())
+    ] };
+
+    assert_eq!(unsafe { transmute::<__m128i, [u64; 2]>(_mm_cmpgt_epi64(left[0], right[0])) }, [
+        0x0000000000000000, 0xFFFFFFFFFFFFFFFF
+    ]);
+
+    assert_eq!(unsafe { transmute::<__m128i, [u64; 2]>(_mm_cmpgt_epi64(left[1], right[1])) }, [
+        0x0000000000000000, 0x0000000000000000
+    ]);
+
+    assert_eq!(unsafe { transmute::<__m128i, [u64; 2]>(_mm_cmpgt_epi64(left[2], right[2])) }, [
+        0x0000000000000000, 0xFFFFFFFFFFFFFFFF
+    ]);
+
+    assert_eq!(unsafe { transmute::<__m128i, [u64; 2]>(_mm_cmpgt_epi64(left[3], right[3])) }, [
+        0x0000000000000000, 0x0000000000000000
+    ]);
+}
+
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
 #[test]
 fn _mm_cmpge_epi64_test() {
@@ -554,6 +628,62 @@ fn _mm_cmpge_epi64_test() {
     ]);
 
     assert_eq!(unsafe { transmute::<__m128i, [u64; 2]>(_mm_cmpge_epi64(left[3], right[3])) }, [
+        0x0000000000000000, 0x0000000000000000
+    ]);
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2", not(target_feature = "sse4.1")))]
+#[test]
+fn _mm_cmpeq_epi64_test() {
+    let arr_v: [int64x2; 4] = [
+        int64x2 {
+            0: [
+                -0x8000000000000000, 0x7FFFFFFFFFFFFFFF
+            ]
+        },
+        int64x2 {
+            0: [
+                -0x8000000000000000, -0x8000000000000000
+            ]
+        },
+        int64x2 {
+            0: [
+                0x7FFFFFFFFFFFFFFF, 0x7FFFFFFFFFFFFFFF
+            ]
+        },
+        int64x2 {
+            0: [
+                0x0000000000000000, -0x0000000000000001
+            ]
+        }
+    ];
+
+    let left: [__m128i; 4] = unsafe { [
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>())
+    ] };
+    let right: [__m128i; 4] = unsafe { [
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[2].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[3].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[2].0.as_ptr().cast::<__m128i>())
+    ] };
+
+    assert_eq!(unsafe { transmute::<__m128i, [u64; 2]>(_mm_cmpeq_epi64(left[0], right[0])) }, [
+        0xFFFFFFFFFFFFFFFF, 0x0000000000000000
+    ]);
+
+    assert_eq!(unsafe { transmute::<__m128i, [u64; 2]>(_mm_cmpeq_epi64(left[1], right[1])) }, [
+        0x0000000000000000, 0xFFFFFFFFFFFFFFFF
+    ]);
+
+    assert_eq!(unsafe { transmute::<__m128i, [u64; 2]>(_mm_cmpeq_epi64(left[2], right[2])) }, [
+        0x0000000000000000, 0x0000000000000000
+    ]);
+
+    assert_eq!(unsafe { transmute::<__m128i, [u64; 2]>(_mm_cmpeq_epi64(left[3], right[3])) }, [
         0x0000000000000000, 0x0000000000000000
     ]);
 }
@@ -667,118 +797,6 @@ fn _mm_cmple_epi64_test() {
 
     assert_eq!(unsafe { transmute::<__m128i, [u64; 2]>(_mm_cmple_epi64(left[3], right[3])) }, [
         0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF
-    ]);
-}
-
-#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2", not(target_feature = "sse4.1")))]
-#[test]
-fn _mm_cmpeq_epi64_test() {
-    let arr_v: [int64x2; 4] = [
-        int64x2 {
-            0: [
-                -0x8000000000000000, 0x7FFFFFFFFFFFFFFF
-            ]
-        },
-        int64x2 {
-            0: [
-                -0x8000000000000000, -0x8000000000000000
-            ]
-        },
-        int64x2 {
-            0: [
-                0x7FFFFFFFFFFFFFFF, 0x7FFFFFFFFFFFFFFF
-            ]
-        },
-        int64x2 {
-            0: [
-                0x0000000000000000, -0x0000000000000001
-            ]
-        }
-    ];
-
-    let left: [__m128i; 4] = unsafe { [
-        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>()),
-        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>()),
-        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>()),
-        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>())
-    ] };
-    let right: [__m128i; 4] = unsafe { [
-        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>()),
-        _mm_load_si128(arr_v[2].0.as_ptr().cast::<__m128i>()),
-        _mm_load_si128(arr_v[3].0.as_ptr().cast::<__m128i>()),
-        _mm_load_si128(arr_v[2].0.as_ptr().cast::<__m128i>())
-    ] };
-
-    assert_eq!(unsafe { transmute::<__m128i, [u64; 2]>(_mm_cmpeq_epi64(left[0], right[0])) }, [
-        0xFFFFFFFFFFFFFFFF, 0x0000000000000000
-    ]);
-
-    assert_eq!(unsafe { transmute::<__m128i, [u64; 2]>(_mm_cmpeq_epi64(left[1], right[1])) }, [
-        0x0000000000000000, 0xFFFFFFFFFFFFFFFF
-    ]);
-
-    assert_eq!(unsafe { transmute::<__m128i, [u64; 2]>(_mm_cmpeq_epi64(left[2], right[2])) }, [
-        0x0000000000000000, 0x0000000000000000
-    ]);
-
-    assert_eq!(unsafe { transmute::<__m128i, [u64; 2]>(_mm_cmpeq_epi64(left[3], right[3])) }, [
-        0x0000000000000000, 0x0000000000000000
-    ]);
-}
-
-#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2", not(target_feature = "sse4.2")))]
-#[test]
-fn _mm_cmpgt_epi64_test() {
-    let arr_v: [int64x2; 4] = [
-        int64x2 {
-            0: [
-                -0x8000000000000000, 0x7FFFFFFFFFFFFFFF
-            ]
-        },
-        int64x2 {
-            0: [
-                -0x8000000000000000, -0x8000000000000000
-            ]
-        },
-        int64x2 {
-            0: [
-                0x7FFFFFFFFFFFFFFF, 0x7FFFFFFFFFFFFFFF
-            ]
-        },
-        int64x2 {
-            0: [
-                0x0000000000000000, -0x0000000000000001
-            ]
-        }
-    ];
-
-    let left: [__m128i; 4] = unsafe { [
-        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>()),
-        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>()),
-        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>()),
-        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>())
-    ] };
-    let right: [__m128i; 4] = unsafe { [
-        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>()),
-        _mm_load_si128(arr_v[2].0.as_ptr().cast::<__m128i>()),
-        _mm_load_si128(arr_v[3].0.as_ptr().cast::<__m128i>()),
-        _mm_load_si128(arr_v[2].0.as_ptr().cast::<__m128i>())
-    ] };
-
-    assert_eq!(unsafe { transmute::<__m128i, [u64; 2]>(_mm_cmpgt_epi64(left[0], right[0])) }, [
-        0x0000000000000000, 0xFFFFFFFFFFFFFFFF
-    ]);
-
-    assert_eq!(unsafe { transmute::<__m128i, [u64; 2]>(_mm_cmpgt_epi64(left[1], right[1])) }, [
-        0x0000000000000000, 0x0000000000000000
-    ]);
-
-    assert_eq!(unsafe { transmute::<__m128i, [u64; 2]>(_mm_cmpgt_epi64(left[2], right[2])) }, [
-        0x0000000000000000, 0xFFFFFFFFFFFFFFFF
-    ]);
-
-    assert_eq!(unsafe { transmute::<__m128i, [u64; 2]>(_mm_cmpgt_epi64(left[3], right[3])) }, [
-        0x0000000000000000, 0x0000000000000000
     ]);
 }
 
@@ -1456,6 +1474,1476 @@ fn _mm_cmple_epu64_test() {
     assert_eq!(unsafe { transmute::<__m128i, [u64; 2]>(_mm_cmple_epu64(left[3], right[3])) }, [
         0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF
     ]);
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[test]
+fn _mm_cmpgt_epi8_mask_test() {
+    let arr_v: [int8x16; 2] = [
+        int8x16 {
+            0: [
+                -0x80, 0x7F, 0x00, -0x01, 0x01, -0x80, 0x7F, 0x00, -0x01, 0x01, -0x80, 0x7F, 0x00, -0x01, 0x01, -0x80
+            ]
+        },
+        int8x16 {
+            0: [
+                -0x80, -0x80, -0x80, -0x80, -0x80, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x00, 0x00, 0x00, 0x00, 0x00, -0x01
+            ]
+        }
+    ];
+
+    let left: [__m128i; 2] = unsafe { [
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>())
+    ] };
+    let right: [__m128i; 2] = unsafe { [
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>())
+    ] };
+
+    assert_eq!(unsafe { _mm_cmpgt_epi8_mask(left[0], right[0]) }, 0x0000481E);
+
+    assert_eq!(unsafe { _mm_cmpgt_epi8_mask(left[1], right[1]) }, 0x0000A7A0);
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[test]
+fn _mm_cmpge_epi8_mask_test() {
+    let arr_v: [int8x16; 2] = [
+        int8x16 {
+            0: [
+                -0x80, 0x7F, 0x00, -0x01, 0x01, -0x80, 0x7F, 0x00, -0x01, 0x01, -0x80, 0x7F, 0x00, -0x01, 0x01, -0x80
+            ]
+        },
+        int8x16 {
+            0: [
+                -0x80, -0x80, -0x80, -0x80, -0x80, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x00, 0x00, 0x00, 0x00, 0x00, -0x01
+            ]
+        }
+    ];
+
+    let left: [__m128i; 2] = unsafe { [
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>())
+    ] };
+    let right: [__m128i; 2] = unsafe { [
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>())
+    ] };
+
+    assert_eq!(unsafe { _mm_cmpge_epi8_mask(left[0], right[0]) }, 0x0000585F);
+
+    assert_eq!(unsafe { _mm_cmpge_epi8_mask(left[1], right[1]) }, 0x0000B7E1);
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[test]
+fn _mm_cmpeq_epi8_mask_test() {
+    let arr_v: [int8x16; 2] = [
+        int8x16 {
+            0: [
+                -0x80, 0x7F, 0x00, -0x01, 0x01, -0x80, 0x7F, 0x00, -0x01, 0x01, -0x80, 0x7F, 0x00, -0x01, 0x01, -0x80
+            ]
+        },
+        int8x16 {
+            0: [
+                -0x80, -0x80, -0x80, -0x80, -0x80, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x00, 0x00, 0x00, 0x00, 0x00, -0x01
+            ]
+        }
+    ];
+
+    let left: [__m128i; 2] = unsafe { [
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>())
+    ] };
+    let right: [__m128i; 2] = unsafe { [
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>())
+    ] };
+
+    assert_eq!(unsafe { _mm_cmpeq_epi8_mask(left[0], right[0]) }, 0x00001041);
+
+    assert_eq!(unsafe { _mm_cmpeq_epi8_mask(left[1], right[1]) }, 0x00001041);
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[test]
+fn _mm_cmplt_epi8_mask_test() {
+    let arr_v: [int8x16; 2] = [
+        int8x16 {
+            0: [
+                -0x80, 0x7F, 0x00, -0x01, 0x01, -0x80, 0x7F, 0x00, -0x01, 0x01, -0x80, 0x7F, 0x00, -0x01, 0x01, -0x80
+            ]
+        },
+        int8x16 {
+            0: [
+                -0x80, -0x80, -0x80, -0x80, -0x80, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x00, 0x00, 0x00, 0x00, 0x00, -0x01
+            ]
+        }
+    ];
+
+    let left: [__m128i; 2] = unsafe { [
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>())
+    ] };
+    let right: [__m128i; 2] = unsafe { [
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>())
+    ] };
+
+    assert_eq!(unsafe { _mm_cmplt_epi8_mask(left[0], right[0]) }, 0x0000A7A0);
+
+    assert_eq!(unsafe { _mm_cmplt_epi8_mask(left[1], right[1]) }, 0x0000481E);
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[test]
+fn _mm_cmple_epi8_mask_test() {
+    let arr_v: [int8x16; 2] = [
+        int8x16 {
+            0: [
+                -0x80, 0x7F, 0x00, -0x01, 0x01, -0x80, 0x7F, 0x00, -0x01, 0x01, -0x80, 0x7F, 0x00, -0x01, 0x01, -0x80
+            ]
+        },
+        int8x16 {
+            0: [
+                -0x80, -0x80, -0x80, -0x80, -0x80, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x00, 0x00, 0x00, 0x00, 0x00, -0x01
+            ]
+        }
+    ];
+
+    let left: [__m128i; 2] = unsafe { [
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>())
+    ] };
+    let right: [__m128i; 2] = unsafe { [
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>())
+    ] };
+
+    assert_eq!(unsafe { _mm_cmple_epi8_mask(left[0], right[0]) }, 0x0000B7E1);
+
+    assert_eq!(unsafe { _mm_cmple_epi8_mask(left[1], right[1]) }, 0x0000585F);
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[test]
+fn _mm_cmpgt_epi16_mask_test() {
+    let arr_v: [int16x8; 2] = [
+        int16x8 {
+            0: [
+                -0x8000, 0x7FFF, 0x0000, -0x0001, 0x0001, -0x8000, 0x7FFF, 0x0000
+            ]
+        },
+        int16x8 {
+            0: [
+                -0x8000, -0x8000, -0x8000, -0x8000, -0x8000, 0x7FFF, 0x7FFF, 0x7FFF
+            ]
+        }
+    ];
+
+    let left: [__m128i; 2] = unsafe { [
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>())
+    ] };
+    let right: [__m128i; 2] = unsafe { [
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>())
+    ] };
+
+    assert_eq!(unsafe { _mm_cmpgt_epi16_mask(left[0], right[0]) }, 0x0000001E);
+
+    assert_eq!(unsafe { _mm_cmpgt_epi16_mask(left[1], right[1]) }, 0x000000A0);
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[test]
+fn _mm_cmpge_epi16_mask_test() {
+    let arr_v: [int16x8; 2] = [
+        int16x8 {
+            0: [
+                -0x8000, 0x7FFF, 0x0000, -0x0001, 0x0001, -0x8000, 0x7FFF, 0x0000
+            ]
+        },
+        int16x8 {
+            0: [
+                -0x8000, -0x8000, -0x8000, -0x8000, -0x8000, 0x7FFF, 0x7FFF, 0x7FFF
+            ]
+        }
+    ];
+
+    let left: [__m128i; 2] = unsafe { [
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>())
+    ] };
+    let right: [__m128i; 2] = unsafe { [
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>())
+    ] };
+
+    assert_eq!(unsafe { _mm_cmpge_epi16_mask(left[0], right[0]) }, 0x0000005F);
+
+    assert_eq!(unsafe { _mm_cmpge_epi16_mask(left[1], right[1]) }, 0x000000E1);
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[test]
+fn _mm_cmpeq_epi16_mask_test() {
+    let arr_v: [int16x8; 2] = [
+        int16x8 {
+            0: [
+                -0x8000, 0x7FFF, 0x0000, -0x0001, 0x0001, -0x8000, 0x7FFF, 0x0000
+            ]
+        },
+        int16x8 {
+            0: [
+                -0x8000, -0x8000, -0x8000, -0x8000, -0x8000, 0x7FFF, 0x7FFF, 0x7FFF
+            ]
+        }
+    ];
+
+    let left: [__m128i; 2] = unsafe { [
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>())
+    ] };
+    let right: [__m128i; 2] = unsafe { [
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>())
+    ] };
+
+    assert_eq!(unsafe { _mm_cmpeq_epi16_mask(left[0], right[0]) }, 0x00000041);
+
+    assert_eq!(unsafe { _mm_cmpeq_epi16_mask(left[1], right[1]) }, 0x00000041);
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[test]
+fn _mm_cmplt_epi16_mask_test() {
+    let arr_v: [int16x8; 2] = [
+        int16x8 {
+            0: [
+                -0x8000, 0x7FFF, 0x0000, -0x0001, 0x0001, -0x8000, 0x7FFF, 0x0000
+            ]
+        },
+        int16x8 {
+            0: [
+                -0x8000, -0x8000, -0x8000, -0x8000, -0x8000, 0x7FFF, 0x7FFF, 0x7FFF
+            ]
+        }
+    ];
+
+    let left: [__m128i; 2] = unsafe { [
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>())
+    ] };
+    let right: [__m128i; 2] = unsafe { [
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>())
+    ] };
+
+    assert_eq!(unsafe { _mm_cmplt_epi16_mask(left[0], right[0]) }, 0x000000A0);
+
+    assert_eq!(unsafe { _mm_cmplt_epi16_mask(left[1], right[1]) }, 0x0000001E);
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[test]
+fn _mm_cmple_epi16_mask_test() {
+    let arr_v: [int16x8; 2] = [
+        int16x8 {
+            0: [
+                -0x8000, 0x7FFF, 0x0000, -0x0001, 0x0001, -0x8000, 0x7FFF, 0x0000
+            ]
+        },
+        int16x8 {
+            0: [
+                -0x8000, -0x8000, -0x8000, -0x8000, -0x8000, 0x7FFF, 0x7FFF, 0x7FFF
+            ]
+        }
+    ];
+
+    let left: [__m128i; 2] = unsafe { [
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>())
+    ] };
+    let right: [__m128i; 2] = unsafe { [
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>())
+    ] };
+
+    assert_eq!(unsafe { _mm_cmple_epi16_mask(left[0], right[0]) }, 0x000000E1);
+
+    assert_eq!(unsafe { _mm_cmple_epi16_mask(left[1], right[1]) }, 0x0000005F);
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[test]
+fn _mm_cmpgt_epi32_mask_test() {
+    let arr_v: [int32x4; 3] = [
+        int32x4 {
+            0: [
+                -0x80000000, 0x7FFFFFFF, 0x00000000, -0x00000001
+            ]
+        },
+        int32x4 {
+            0: [
+                -0x80000000, -0x80000000, -0x80000000, -0x80000000
+            ]
+        },
+        int32x4 {
+            0: [
+                0x7FFFFFFF, 0x7FFFFFFF, 0x7FFFFFFF, 0x7FFFFFFF
+            ]
+        }
+    ];
+
+    let left: [__m128i; 3] = unsafe { [
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>())
+    ] };
+    let right: [__m128i; 3] = unsafe { [
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[2].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[2].0.as_ptr().cast::<__m128i>())
+    ] };
+
+    assert_eq!(unsafe { _mm_cmpgt_epi32_mask(left[0], right[0]) }, 0x0000000E);
+
+    assert_eq!(unsafe { _mm_cmpgt_epi32_mask(left[1], right[1]) }, 0x00000000);
+
+    assert_eq!(unsafe { _mm_cmpgt_epi32_mask(left[2], right[2]) }, 0x00000000);
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[test]
+fn _mm_cmpge_epi32_mask_test() {
+    let arr_v: [int32x4; 3] = [
+        int32x4 {
+            0: [
+                -0x80000000, 0x7FFFFFFF, 0x00000000, -0x00000001
+            ]
+        },
+        int32x4 {
+            0: [
+                -0x80000000, -0x80000000, -0x80000000, -0x80000000
+            ]
+        },
+        int32x4 {
+            0: [
+                0x7FFFFFFF, 0x7FFFFFFF, 0x7FFFFFFF, 0x7FFFFFFF
+            ]
+        }
+    ];
+
+    let left: [__m128i; 3] = unsafe { [
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>())
+    ] };
+    let right: [__m128i; 3] = unsafe { [
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[2].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[2].0.as_ptr().cast::<__m128i>())
+    ] };
+
+    assert_eq!(unsafe { _mm_cmpge_epi32_mask(left[0], right[0]) }, 0x0000000F);
+
+    assert_eq!(unsafe { _mm_cmpge_epi32_mask(left[1], right[1]) }, 0x00000002);
+
+    assert_eq!(unsafe { _mm_cmpge_epi32_mask(left[2], right[2]) }, 0x00000000);
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[test]
+fn _mm_cmpeq_epi32_mask_test() {
+    let arr_v: [int32x4; 3] = [
+        int32x4 {
+            0: [
+                -0x80000000, 0x7FFFFFFF, 0x00000000, -0x00000001
+            ]
+        },
+        int32x4 {
+            0: [
+                -0x80000000, -0x80000000, -0x80000000, -0x80000000
+            ]
+        },
+        int32x4 {
+            0: [
+                0x7FFFFFFF, 0x7FFFFFFF, 0x7FFFFFFF, 0x7FFFFFFF
+            ]
+        }
+    ];
+
+    let left: [__m128i; 3] = unsafe { [
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>())
+    ] };
+    let right: [__m128i; 3] = unsafe { [
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[2].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[2].0.as_ptr().cast::<__m128i>())
+    ] };
+
+    assert_eq!(unsafe { _mm_cmpeq_epi32_mask(left[0], right[0]) }, 0x00000001);
+
+    assert_eq!(unsafe { _mm_cmpeq_epi32_mask(left[1], right[1]) }, 0x00000002);
+
+    assert_eq!(unsafe { _mm_cmpeq_epi32_mask(left[2], right[2]) }, 0x00000000);
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[test]
+fn _mm_cmplt_epi32_mask_test() {
+    let arr_v: [int32x4; 3] = [
+        int32x4 {
+            0: [
+                -0x80000000, 0x7FFFFFFF, 0x00000000, -0x00000001
+            ]
+        },
+        int32x4 {
+            0: [
+                -0x80000000, -0x80000000, -0x80000000, -0x80000000
+            ]
+        },
+        int32x4 {
+            0: [
+                0x7FFFFFFF, 0x7FFFFFFF, 0x7FFFFFFF, 0x7FFFFFFF
+            ]
+        }
+    ];
+
+    let left: [__m128i; 3] = unsafe { [
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>())
+    ] };
+    let right: [__m128i; 3] = unsafe { [
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[2].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[2].0.as_ptr().cast::<__m128i>())
+    ] };
+
+    assert_eq!(unsafe { _mm_cmplt_epi32_mask(left[0], right[0]) }, 0x00000000);
+
+    assert_eq!(unsafe { _mm_cmplt_epi32_mask(left[1], right[1]) }, 0x0000000D);
+
+    assert_eq!(unsafe { _mm_cmplt_epi32_mask(left[2], right[2]) }, 0x0000000F);
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[test]
+fn _mm_cmple_epi32_mask_test() {
+    let arr_v: [int32x4; 3] = [
+        int32x4 {
+            0: [
+                -0x80000000, 0x7FFFFFFF, 0x00000000, -0x00000001
+            ]
+        },
+        int32x4 {
+            0: [
+                -0x80000000, -0x80000000, -0x80000000, -0x80000000
+            ]
+        },
+        int32x4 {
+            0: [
+                0x7FFFFFFF, 0x7FFFFFFF, 0x7FFFFFFF, 0x7FFFFFFF
+            ]
+        }
+    ];
+
+    let left: [__m128i; 3] = unsafe { [
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>())
+    ] };
+    let right: [__m128i; 3] = unsafe { [
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[2].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[2].0.as_ptr().cast::<__m128i>())
+    ] };
+
+    assert_eq!(unsafe { _mm_cmple_epi32_mask(left[0], right[0]) }, 0x00000001);
+
+    assert_eq!(unsafe { _mm_cmple_epi32_mask(left[1], right[1]) }, 0x0000000F);
+
+    assert_eq!(unsafe { _mm_cmple_epi32_mask(left[2], right[2]) }, 0x0000000F);
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[test]
+fn _mm_cmpgt_epi64_mask_test() {
+    let arr_v: [int64x2; 4] = [
+        int64x2 {
+            0: [
+                -0x8000000000000000, 0x7FFFFFFFFFFFFFFF
+            ]
+        },
+        int64x2 {
+            0: [
+                -0x8000000000000000, -0x8000000000000000
+            ]
+        },
+        int64x2 {
+            0: [
+                0x7FFFFFFFFFFFFFFF, 0x7FFFFFFFFFFFFFFF
+            ]
+        },
+        int64x2 {
+            0: [
+                0x0000000000000000, -0x0000000000000001
+            ]
+        }
+    ];
+
+    let left: [__m128i; 4] = unsafe { [
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>())
+    ] };
+    let right: [__m128i; 4] = unsafe { [
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[2].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[3].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[2].0.as_ptr().cast::<__m128i>())
+    ] };
+
+    assert_eq!(unsafe { _mm_cmpgt_epi64_mask(left[0], right[0]) }, 0x00000002);
+
+    assert_eq!(unsafe { _mm_cmpgt_epi64_mask(left[1], right[1]) }, 0x00000000);
+
+    assert_eq!(unsafe { _mm_cmpgt_epi64_mask(left[2], right[2]) }, 0x00000002);
+
+    assert_eq!(unsafe { _mm_cmpgt_epi64_mask(left[3], right[3]) }, 0x00000000);
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[test]
+fn _mm_cmpge_epi64_mask_test() {
+    let arr_v: [int64x2; 4] = [
+        int64x2 {
+            0: [
+                -0x8000000000000000, 0x7FFFFFFFFFFFFFFF
+            ]
+        },
+        int64x2 {
+            0: [
+                -0x8000000000000000, -0x8000000000000000
+            ]
+        },
+        int64x2 {
+            0: [
+                0x7FFFFFFFFFFFFFFF, 0x7FFFFFFFFFFFFFFF
+            ]
+        },
+        int64x2 {
+            0: [
+                0x0000000000000000, -0x0000000000000001
+            ]
+        }
+    ];
+
+    let left: [__m128i; 4] = unsafe { [
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>())
+    ] };
+    let right: [__m128i; 4] = unsafe { [
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[2].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[3].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[2].0.as_ptr().cast::<__m128i>())
+    ] };
+
+    assert_eq!(unsafe { _mm_cmpge_epi64_mask(left[0], right[0]) }, 0x00000003);
+
+    assert_eq!(unsafe { _mm_cmpge_epi64_mask(left[1], right[1]) }, 0x00000002);
+
+    assert_eq!(unsafe { _mm_cmpge_epi64_mask(left[2], right[2]) }, 0x00000002);
+
+    assert_eq!(unsafe { _mm_cmpge_epi64_mask(left[3], right[3]) }, 0x00000000);
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[test]
+fn _mm_cmpeq_epi64_mask_test() {
+    let arr_v: [int64x2; 4] = [
+        int64x2 {
+            0: [
+                -0x8000000000000000, 0x7FFFFFFFFFFFFFFF
+            ]
+        },
+        int64x2 {
+            0: [
+                -0x8000000000000000, -0x8000000000000000
+            ]
+        },
+        int64x2 {
+            0: [
+                0x7FFFFFFFFFFFFFFF, 0x7FFFFFFFFFFFFFFF
+            ]
+        },
+        int64x2 {
+            0: [
+                0x0000000000000000, -0x0000000000000001
+            ]
+        }
+    ];
+
+    let left: [__m128i; 4] = unsafe { [
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>())
+    ] };
+    let right: [__m128i; 4] = unsafe { [
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[2].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[3].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[2].0.as_ptr().cast::<__m128i>())
+    ] };
+
+    assert_eq!(unsafe { _mm_cmpeq_epi64_mask(left[0], right[0]) }, 0x00000001);
+
+    assert_eq!(unsafe { _mm_cmpeq_epi64_mask(left[1], right[1]) }, 0x00000002);
+
+    assert_eq!(unsafe { _mm_cmpeq_epi64_mask(left[2], right[2]) }, 0x00000000);
+
+    assert_eq!(unsafe { _mm_cmpeq_epi64_mask(left[3], right[3]) }, 0x00000000);
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[test]
+fn _mm_cmplt_epi64_mask_test() {
+    let arr_v: [int64x2; 4] = [
+        int64x2 {
+            0: [
+                -0x8000000000000000, 0x7FFFFFFFFFFFFFFF
+            ]
+        },
+        int64x2 {
+            0: [
+                -0x8000000000000000, -0x8000000000000000
+            ]
+        },
+        int64x2 {
+            0: [
+                0x7FFFFFFFFFFFFFFF, 0x7FFFFFFFFFFFFFFF
+            ]
+        },
+        int64x2 {
+            0: [
+                0x0000000000000000, -0x0000000000000001
+            ]
+        }
+    ];
+
+    let left: [__m128i; 4] = unsafe { [
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>())
+    ] };
+    let right: [__m128i; 4] = unsafe { [
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[2].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[3].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[2].0.as_ptr().cast::<__m128i>())
+    ] };
+
+    assert_eq!(unsafe { _mm_cmplt_epi64_mask(left[0], right[0]) }, 0x00000000);
+
+    assert_eq!(unsafe { _mm_cmplt_epi64_mask(left[1], right[1]) }, 0x00000001);
+
+    assert_eq!(unsafe { _mm_cmplt_epi64_mask(left[2], right[2]) }, 0x00000001);
+
+    assert_eq!(unsafe { _mm_cmplt_epi64_mask(left[3], right[3]) }, 0x00000003);
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[test]
+fn _mm_cmple_epi64_mask_test() {
+    let arr_v: [int64x2; 4] = [
+        int64x2 {
+            0: [
+                -0x8000000000000000, 0x7FFFFFFFFFFFFFFF
+            ]
+        },
+        int64x2 {
+            0: [
+                -0x8000000000000000, -0x8000000000000000
+            ]
+        },
+        int64x2 {
+            0: [
+                0x7FFFFFFFFFFFFFFF, 0x7FFFFFFFFFFFFFFF
+            ]
+        },
+        int64x2 {
+            0: [
+                0x0000000000000000, -0x0000000000000001
+            ]
+        }
+    ];
+
+    let left: [__m128i; 4] = unsafe { [
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>())
+    ] };
+    let right: [__m128i; 4] = unsafe { [
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[2].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[3].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[2].0.as_ptr().cast::<__m128i>())
+    ] };
+
+    assert_eq!(unsafe { _mm_cmple_epi64_mask(left[0], right[0]) }, 0x00000001);
+
+    assert_eq!(unsafe { _mm_cmple_epi64_mask(left[1], right[1]) }, 0x00000003);
+
+    assert_eq!(unsafe { _mm_cmple_epi64_mask(left[2], right[2]) }, 0x00000001);
+
+    assert_eq!(unsafe { _mm_cmple_epi64_mask(left[3], right[3]) }, 0x00000003);
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[test]
+fn _mm_cmpgt_epu8_mask_test() {
+    let arr_v: [uint8x16; 2] = [
+        uint8x16 {
+            0: [
+                0x00, 0xFF, 0x80, 0x01, 0x00, 0xFF, 0x80, 0x01, 0x00, 0xFF, 0x80, 0x01, 0x00, 0xFF, 0x80, 0x01
+            ]
+        },
+        uint8x16 {
+            0: [
+                0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0x80, 0x80, 0x80, 0x80, 0x01, 0x01, 0x01, 0x01
+            ]
+        }
+    ];
+
+    let left: [__m128i; 2] = unsafe { [
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>())
+    ] };
+    let right: [__m128i; 2] = unsafe { [
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>())
+    ] };
+
+    assert_eq!(unsafe { _mm_cmpgt_epu8_mask(left[0], right[0]) }, 0x0000620E);
+
+    assert_eq!(unsafe { _mm_cmpgt_epu8_mask(left[1], right[1]) }, 0x000019D0);
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[test]
+fn _mm_cmpge_epu8_mask_test() {
+    let arr_v: [uint8x16; 2] = [
+        uint8x16 {
+            0: [
+                0x00, 0xFF, 0x80, 0x01, 0x00, 0xFF, 0x80, 0x01, 0x00, 0xFF, 0x80, 0x01, 0x00, 0xFF, 0x80, 0x01
+            ]
+        },
+        uint8x16 {
+            0: [
+                0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0x80, 0x80, 0x80, 0x80, 0x01, 0x01, 0x01, 0x01
+            ]
+        }
+    ];
+
+    let left: [__m128i; 2] = unsafe { [
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>())
+    ] };
+    let right: [__m128i; 2] = unsafe { [
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>())
+    ] };
+
+    assert_eq!(unsafe { _mm_cmpge_epu8_mask(left[0], right[0]) }, 0x0000E62F);
+
+    assert_eq!(unsafe { _mm_cmpge_epu8_mask(left[1], right[1]) }, 0x00009DF1);
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[test]
+fn _mm_cmpeq_epu8_mask_test() {
+    let arr_v: [uint8x16; 2] = [
+        uint8x16 {
+            0: [
+                0x00, 0xFF, 0x80, 0x01, 0x00, 0xFF, 0x80, 0x01, 0x00, 0xFF, 0x80, 0x01, 0x00, 0xFF, 0x80, 0x01
+            ]
+        },
+        uint8x16 {
+            0: [
+                0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0x80, 0x80, 0x80, 0x80, 0x01, 0x01, 0x01, 0x01
+            ]
+        }
+    ];
+
+    let left: [__m128i; 2] = unsafe { [
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>())
+    ] };
+    let right: [__m128i; 2] = unsafe { [
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>())
+    ] };
+
+    assert_eq!(unsafe { _mm_cmpeq_epu8_mask(left[0], right[0]) }, 0x00008421);
+
+    assert_eq!(unsafe { _mm_cmpeq_epu8_mask(left[1], right[1]) }, 0x00008421);
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[test]
+fn _mm_cmplt_epu8_mask_test() {
+    let arr_v: [uint8x16; 2] = [
+        uint8x16 {
+            0: [
+                0x00, 0xFF, 0x80, 0x01, 0x00, 0xFF, 0x80, 0x01, 0x00, 0xFF, 0x80, 0x01, 0x00, 0xFF, 0x80, 0x01
+            ]
+        },
+        uint8x16 {
+            0: [
+                0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0x80, 0x80, 0x80, 0x80, 0x01, 0x01, 0x01, 0x01
+            ]
+        }
+    ];
+
+    let left: [__m128i; 2] = unsafe { [
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>())
+    ] };
+    let right: [__m128i; 2] = unsafe { [
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>())
+    ] };
+
+    assert_eq!(unsafe { _mm_cmplt_epu8_mask(left[0], right[0]) }, 0x000019D0);
+
+    assert_eq!(unsafe { _mm_cmplt_epu8_mask(left[1], right[1]) }, 0x0000620E);
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[test]
+fn _mm_cmple_epu8_mask_test() {
+    let arr_v: [uint8x16; 2] = [
+        uint8x16 {
+            0: [
+                0x00, 0xFF, 0x80, 0x01, 0x00, 0xFF, 0x80, 0x01, 0x00, 0xFF, 0x80, 0x01, 0x00, 0xFF, 0x80, 0x01
+            ]
+        },
+        uint8x16 {
+            0: [
+                0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0x80, 0x80, 0x80, 0x80, 0x01, 0x01, 0x01, 0x01
+            ]
+        }
+    ];
+
+    let left: [__m128i; 2] = unsafe { [
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>())
+    ] };
+    let right: [__m128i; 2] = unsafe { [
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>())
+    ] };
+
+    assert_eq!(unsafe { _mm_cmple_epu8_mask(left[0], right[0]) }, 0x00009DF1);
+
+    assert_eq!(unsafe { _mm_cmple_epu8_mask(left[1], right[1]) }, 0x0000E62F);
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[test]
+fn _mm_cmpgt_epu16_mask_test() {
+    let arr_v: [uint16x8; 2] = [
+        uint16x8 {
+            0: [
+                0x0000, 0xFFFF, 0x8000, 0x0001, 0x0000, 0xFFFF, 0x8000, 0x0001
+            ]
+        },
+        uint16x8 {
+            0: [
+                0x0000, 0x0000, 0x0000, 0x0000, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF
+            ]
+        }
+    ];
+
+    let left: [__m128i; 2] = unsafe { [
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>())
+    ] };
+    let right: [__m128i; 2] = unsafe { [
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>())
+    ] };
+
+    assert_eq!(unsafe { _mm_cmpgt_epu16_mask(left[0], right[0]) }, 0x0000000E);
+
+    assert_eq!(unsafe { _mm_cmpgt_epu16_mask(left[1], right[1]) }, 0x000000D0);
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[test]
+fn _mm_cmpge_epu16_mask_test() {
+    let arr_v: [uint16x8; 2] = [
+        uint16x8 {
+            0: [
+                0x0000, 0xFFFF, 0x8000, 0x0001, 0x0000, 0xFFFF, 0x8000, 0x0001
+            ]
+        },
+        uint16x8 {
+            0: [
+                0x0000, 0x0000, 0x0000, 0x0000, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF
+            ]
+        }
+    ];
+
+    let left: [__m128i; 2] = unsafe { [
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>())
+    ] };
+    let right: [__m128i; 2] = unsafe { [
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>())
+    ] };
+
+    assert_eq!(unsafe { _mm_cmpge_epu16_mask(left[0], right[0]) }, 0x0000002F);
+
+    assert_eq!(unsafe { _mm_cmpge_epu16_mask(left[1], right[1]) }, 0x000000F1);
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[test]
+fn _mm_cmpeq_epu16_mask_test() {
+    let arr_v: [uint16x8; 2] = [
+        uint16x8 {
+            0: [
+                0x0000, 0xFFFF, 0x8000, 0x0001, 0x0000, 0xFFFF, 0x8000, 0x0001
+            ]
+        },
+        uint16x8 {
+            0: [
+                0x0000, 0x0000, 0x0000, 0x0000, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF
+            ]
+        }
+    ];
+
+    let left: [__m128i; 2] = unsafe { [
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>())
+    ] };
+    let right: [__m128i; 2] = unsafe { [
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>())
+    ] };
+
+    assert_eq!(unsafe { _mm_cmpeq_epu16_mask(left[0], right[0]) }, 0x00000021);
+
+    assert_eq!(unsafe { _mm_cmpeq_epu16_mask(left[1], right[1]) }, 0x00000021);
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[test]
+fn _mm_cmplt_epu16_mask_test() {
+    let arr_v: [uint16x8; 2] = [
+        uint16x8 {
+            0: [
+                0x0000, 0xFFFF, 0x8000, 0x0001, 0x0000, 0xFFFF, 0x8000, 0x0001
+            ]
+        },
+        uint16x8 {
+            0: [
+                0x0000, 0x0000, 0x0000, 0x0000, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF
+            ]
+        }
+    ];
+
+    let left: [__m128i; 2] = unsafe { [
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>())
+    ] };
+    let right: [__m128i; 2] = unsafe { [
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>())
+    ] };
+
+    assert_eq!(unsafe { _mm_cmplt_epu16_mask(left[0], right[0]) }, 0x000000D0);
+
+    assert_eq!(unsafe { _mm_cmplt_epu16_mask(left[1], right[1]) }, 0x0000000E);
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[test]
+fn _mm_cmple_epu16_mask_test() {
+    let arr_v: [uint16x8; 2] = [
+        uint16x8 {
+            0: [
+                0x0000, 0xFFFF, 0x8000, 0x0001, 0x0000, 0xFFFF, 0x8000, 0x0001
+            ]
+        },
+        uint16x8 {
+            0: [
+                0x0000, 0x0000, 0x0000, 0x0000, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF
+            ]
+        }
+    ];
+
+    let left: [__m128i; 2] = unsafe { [
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>())
+    ] };
+    let right: [__m128i; 2] = unsafe { [
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>())
+    ] };
+
+    assert_eq!(unsafe { _mm_cmple_epu16_mask(left[0], right[0]) }, 0x000000F1);
+
+    assert_eq!(unsafe { _mm_cmple_epu16_mask(left[1], right[1]) }, 0x0000002F);
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[test]
+fn _mm_cmpgt_epu32_mask_test() {
+    let arr_v: [uint32x4; 3] = [
+        uint32x4 {
+            0: [
+                0x00000000, 0xFFFFFFFF, 0x80000000, 0x00000001
+            ]
+        },
+        uint32x4 {
+            0: [
+                0x00000000, 0x00000000, 0x00000000, 0x00000000
+            ]
+        },
+        uint32x4 {
+            0: [
+                0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF
+            ]
+        }
+    ];
+
+    let left: [__m128i; 3] = unsafe { [
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>())
+    ] };
+    let right: [__m128i; 3] = unsafe { [
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[2].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[2].0.as_ptr().cast::<__m128i>())
+    ] };
+
+    assert_eq!(unsafe { _mm_cmpgt_epu32_mask(left[0], right[0]) }, 0x0000000E);
+
+    assert_eq!(unsafe { _mm_cmpgt_epu32_mask(left[1], right[1]) }, 0x00000000);
+
+    assert_eq!(unsafe { _mm_cmpgt_epu32_mask(left[2], right[2]) }, 0x00000000);
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[test]
+fn _mm_cmpge_epu32_mask_test() {
+    let arr_v: [uint32x4; 3] = [
+        uint32x4 {
+            0: [
+                0x00000000, 0xFFFFFFFF, 0x80000000, 0x00000001
+            ]
+        },
+        uint32x4 {
+            0: [
+                0x00000000, 0x00000000, 0x00000000, 0x00000000
+            ]
+        },
+        uint32x4 {
+            0: [
+                0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF
+            ]
+        }
+    ];
+
+    let left: [__m128i; 3] = unsafe { [
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>())
+    ] };
+    let right: [__m128i; 3] = unsafe { [
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[2].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[2].0.as_ptr().cast::<__m128i>())
+    ] };
+
+    assert_eq!(unsafe { _mm_cmpge_epu32_mask(left[0], right[0]) }, 0x0000000F);
+
+    assert_eq!(unsafe { _mm_cmpge_epu32_mask(left[1], right[1]) }, 0x00000002);
+
+    assert_eq!(unsafe { _mm_cmpge_epu32_mask(left[2], right[2]) }, 0x00000000);
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[test]
+fn _mm_cmpeq_epu32_mask_test() {
+    let arr_v: [uint32x4; 3] = [
+        uint32x4 {
+            0: [
+                0x00000000, 0xFFFFFFFF, 0x80000000, 0x00000001
+            ]
+        },
+        uint32x4 {
+            0: [
+                0x00000000, 0x00000000, 0x00000000, 0x00000000
+            ]
+        },
+        uint32x4 {
+            0: [
+                0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF
+            ]
+        }
+    ];
+
+    let left: [__m128i; 3] = unsafe { [
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>())
+    ] };
+    let right: [__m128i; 3] = unsafe { [
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[2].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[2].0.as_ptr().cast::<__m128i>())
+    ] };
+
+    assert_eq!(unsafe { _mm_cmpeq_epu32_mask(left[0], right[0]) }, 0x00000001);
+
+    assert_eq!(unsafe { _mm_cmpeq_epu32_mask(left[1], right[1]) }, 0x00000002);
+
+    assert_eq!(unsafe { _mm_cmpeq_epu32_mask(left[2], right[2]) }, 0x00000000);
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[test]
+fn _mm_cmplt_epu32_mask_test() {
+    let arr_v: [uint32x4; 3] = [
+        uint32x4 {
+            0: [
+                0x00000000, 0xFFFFFFFF, 0x80000000, 0x00000001
+            ]
+        },
+        uint32x4 {
+            0: [
+                0x00000000, 0x00000000, 0x00000000, 0x00000000
+            ]
+        },
+        uint32x4 {
+            0: [
+                0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF
+            ]
+        }
+    ];
+
+    let left: [__m128i; 3] = unsafe { [
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>())
+    ] };
+    let right: [__m128i; 3] = unsafe { [
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[2].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[2].0.as_ptr().cast::<__m128i>())
+    ] };
+
+    assert_eq!(unsafe { _mm_cmplt_epu32_mask(left[0], right[0]) }, 0x00000000);
+
+    assert_eq!(unsafe { _mm_cmplt_epu32_mask(left[1], right[1]) }, 0x0000000D);
+
+    assert_eq!(unsafe { _mm_cmplt_epu32_mask(left[2], right[2]) }, 0x0000000F);
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[test]
+fn _mm_cmple_epu32_mask_test() {
+    let arr_v: [uint32x4; 3] = [
+        uint32x4 {
+            0: [
+                0x00000000, 0xFFFFFFFF, 0x80000000, 0x00000001
+            ]
+        },
+        uint32x4 {
+            0: [
+                0x00000000, 0x00000000, 0x00000000, 0x00000000
+            ]
+        },
+        uint32x4 {
+            0: [
+                0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF
+            ]
+        }
+    ];
+
+    let left: [__m128i; 3] = unsafe { [
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>())
+    ] };
+    let right: [__m128i; 3] = unsafe { [
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[2].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[2].0.as_ptr().cast::<__m128i>())
+    ] };
+
+    assert_eq!(unsafe { _mm_cmple_epu32_mask(left[0], right[0]) }, 0x00000001);
+
+    assert_eq!(unsafe { _mm_cmple_epu32_mask(left[1], right[1]) }, 0x0000000F);
+
+    assert_eq!(unsafe { _mm_cmple_epu32_mask(left[2], right[2]) }, 0x0000000F);
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[test]
+fn _mm_cmpgt_epu64_mask_test() {
+    let arr_v: [uint64x2; 4] = [
+        uint64x2 {
+            0: [
+                0x0000000000000000, 0xFFFFFFFFFFFFFFFF
+            ]
+        },
+        uint64x2 {
+            0: [
+                0x0000000000000000, 0x0000000000000000
+            ]
+        },
+        uint64x2 {
+            0: [
+                0x8000000000000000, 0x0000000000000001
+            ]
+        },
+        uint64x2 {
+            0: [
+                0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF
+            ]
+        }
+    ];
+
+    let left: [__m128i; 4] = unsafe { [
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[2].0.as_ptr().cast::<__m128i>())
+    ] };
+    let right: [__m128i; 4] = unsafe { [
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[2].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[3].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[3].0.as_ptr().cast::<__m128i>())
+    ] };
+
+    assert_eq!(unsafe { _mm_cmpgt_epu64_mask(left[0], right[0]) }, 0x00000002);
+
+    assert_eq!(unsafe { _mm_cmpgt_epu64_mask(left[1], right[1]) }, 0x00000002);
+
+    assert_eq!(unsafe { _mm_cmpgt_epu64_mask(left[2], right[2]) }, 0x00000000);
+
+    assert_eq!(unsafe { _mm_cmpgt_epu64_mask(left[3], right[3]) }, 0x00000000);
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[test]
+fn _mm_cmpge_epu64_mask_test() {
+    let arr_v: [uint64x2; 4] = [
+        uint64x2 {
+            0: [
+                0x0000000000000000, 0xFFFFFFFFFFFFFFFF
+            ]
+        },
+        uint64x2 {
+            0: [
+                0x0000000000000000, 0x0000000000000000
+            ]
+        },
+        uint64x2 {
+            0: [
+                0x8000000000000000, 0x0000000000000001
+            ]
+        },
+        uint64x2 {
+            0: [
+                0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF
+            ]
+        }
+    ];
+
+    let left: [__m128i; 4] = unsafe { [
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[2].0.as_ptr().cast::<__m128i>())
+    ] };
+    let right: [__m128i; 4] = unsafe { [
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[2].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[3].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[3].0.as_ptr().cast::<__m128i>())
+    ] };
+
+    assert_eq!(unsafe { _mm_cmpge_epu64_mask(left[0], right[0]) }, 0x00000003);
+
+    assert_eq!(unsafe { _mm_cmpge_epu64_mask(left[1], right[1]) }, 0x00000002);
+
+    assert_eq!(unsafe { _mm_cmpge_epu64_mask(left[2], right[2]) }, 0x00000000);
+
+    assert_eq!(unsafe { _mm_cmpge_epu64_mask(left[3], right[3]) }, 0x00000000);
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[test]
+fn _mm_cmpeq_epu64_mask_test() {
+    let arr_v: [uint64x2; 4] = [
+        uint64x2 {
+            0: [
+                0x0000000000000000, 0xFFFFFFFFFFFFFFFF
+            ]
+        },
+        uint64x2 {
+            0: [
+                0x0000000000000000, 0x0000000000000000
+            ]
+        },
+        uint64x2 {
+            0: [
+                0x8000000000000000, 0x0000000000000001
+            ]
+        },
+        uint64x2 {
+            0: [
+                0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF
+            ]
+        }
+    ];
+
+    let left: [__m128i; 4] = unsafe { [
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>())
+    ] };
+    let right: [__m128i; 4] = unsafe { [
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[2].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[3].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[2].0.as_ptr().cast::<__m128i>())
+    ] };
+
+    assert_eq!(unsafe { _mm_cmpeq_epu64_mask(left[0], right[0]) }, 0x00000001);
+
+    assert_eq!(unsafe { _mm_cmpeq_epu64_mask(left[1], right[1]) }, 0x00000000);
+
+    assert_eq!(unsafe { _mm_cmpeq_epu64_mask(left[2], right[2]) }, 0x00000002);
+
+    assert_eq!(unsafe { _mm_cmpeq_epu64_mask(left[3], right[3]) }, 0x00000000);
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[test]
+fn _mm_cmplt_epu64_mask_test() {
+    let arr_v: [uint64x2; 4] = [
+        uint64x2 {
+            0: [
+                0x0000000000000000, 0xFFFFFFFFFFFFFFFF
+            ]
+        },
+        uint64x2 {
+            0: [
+                0x0000000000000000, 0x0000000000000000
+            ]
+        },
+        uint64x2 {
+            0: [
+                0x8000000000000000, 0x0000000000000001
+            ]
+        },
+        uint64x2 {
+            0: [
+                0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF
+            ]
+        }
+    ];
+
+    let left: [__m128i; 4] = unsafe { [
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[2].0.as_ptr().cast::<__m128i>())
+    ] };
+    let right: [__m128i; 4] = unsafe { [
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[2].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[3].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[3].0.as_ptr().cast::<__m128i>())
+    ] };
+
+    assert_eq!(unsafe { _mm_cmplt_epu64_mask(left[0], right[0]) }, 0x00000000);
+
+    assert_eq!(unsafe { _mm_cmplt_epu64_mask(left[1], right[1]) }, 0x00000001);
+
+    assert_eq!(unsafe { _mm_cmplt_epu64_mask(left[2], right[2]) }, 0x00000003);
+
+    assert_eq!(unsafe { _mm_cmplt_epu64_mask(left[3], right[3]) }, 0x00000003);
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[test]
+fn _mm_cmple_epu64_mask_test() {
+    let arr_v: [uint64x2; 4] = [
+        uint64x2 {
+            0: [
+                0x0000000000000000, 0xFFFFFFFFFFFFFFFF
+            ]
+        },
+        uint64x2 {
+            0: [
+                0x0000000000000000, 0x0000000000000000
+            ]
+        },
+        uint64x2 {
+            0: [
+                0x8000000000000000, 0x0000000000000001
+            ]
+        },
+        uint64x2 {
+            0: [
+                0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF
+            ]
+        }
+    ];
+
+    let left: [__m128i; 4] = unsafe { [
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[2].0.as_ptr().cast::<__m128i>())
+    ] };
+    let right: [__m128i; 4] = unsafe { [
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[2].0.as_ptr().cast::<__m128i> ()),
+        _mm_load_si128(arr_v[3].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[3].0.as_ptr().cast::<__m128i>())
+    ] };
+
+    assert_eq!(unsafe { _mm_cmple_epu64_mask(left[0], right[0]) }, 0x00000001);
+
+    assert_eq!(unsafe { _mm_cmple_epu64_mask(left[1], right[1]) }, 0x00000001);
+
+    assert_eq!(unsafe { _mm_cmple_epu64_mask(left[2], right[2]) }, 0x00000003);
+
+    assert_eq!(unsafe { _mm_cmple_epu64_mask(left[3], right[3]) }, 0x00000003);
 }
 
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
@@ -2695,6 +4183,1516 @@ fn _mm256_cmple_epu64_test() {
     assert_eq!(unsafe { transmute::<__m256i, [u64; 4]>(_mm256_cmple_epu64(left[3], right[3])) }, [
         0x0000000000000000, 0x0000000000000000, 0x0000000000000000, 0xFFFFFFFFFFFFFFFF
     ]);
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[test]
+fn _mm256_cmpgt_epi8_mask_test() {
+    let arr_v: [int8x32; 2] = [
+        int8x32 {
+            0: [
+                -0x80, 0x7F, 0x00, -0x01, 0x01, -0x80, 0x7F, 0x00, -0x01, 0x01, -0x80, 0x7F, 0x00, -0x01, 0x01, -0x80,
+                -0x80, 0x7F, 0x00, -0x01, 0x01, -0x80, 0x7F, 0x00, -0x01, 0x01, -0x80, 0x7F, 0x00, -0x01, 0x01, -0x80
+            ]
+        },
+        int8x32 {
+            0: [
+                -0x80, -0x80, -0x80, -0x80, -0x80, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x00, 0x00, 0x00, 0x00, 0x00, -0x01,
+                -0x80, -0x80, -0x80, -0x80, -0x80, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x00, 0x00, 0x00, 0x00, 0x00, -0x01
+            ]
+        }
+    ];
+
+    let left: [__m256i; 2] = unsafe { [
+        _mm256_load_si256(arr_v[0].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[1].0.as_ptr().cast::<__m256i>())
+    ] };
+    let right: [__m256i; 2] = unsafe { [
+        _mm256_load_si256(arr_v[1].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[0].0.as_ptr().cast::<__m256i>())
+    ] };
+
+    assert_eq!(unsafe { _mm256_cmpgt_epi8_mask(left[0], right[0]) }, 0x481E481E);
+
+    assert_eq!(unsafe { _mm256_cmpgt_epi8_mask(left[1], right[1]) }, -0x585F5860); // 0xA7A0A7A0
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[test]
+fn _mm256_cmpge_epi8_mask_test() {
+    let arr_v: [int8x32; 2] = [
+        int8x32 {
+            0: [
+                -0x80, 0x7F, 0x00, -0x01, 0x01, -0x80, 0x7F, 0x00, -0x01, 0x01, -0x80, 0x7F, 0x00, -0x01, 0x01, -0x80,
+                -0x80, 0x7F, 0x00, -0x01, 0x01, -0x80, 0x7F, 0x00, -0x01, 0x01, -0x80, 0x7F, 0x00, -0x01, 0x01, -0x80
+            ]
+        },
+        int8x32 {
+            0: [
+                -0x80, -0x80, -0x80, -0x80, -0x80, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x00, 0x00, 0x00, 0x00, 0x00, -0x01,
+                -0x80, -0x80, -0x80, -0x80, -0x80, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x00, 0x00, 0x00, 0x00, 0x00, -0x01
+            ]
+        }
+    ];
+
+    let left: [__m256i; 2] = unsafe { [
+        _mm256_load_si256(arr_v[0].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[1].0.as_ptr().cast::<__m256i>())
+    ] };
+    let right: [__m256i; 2] = unsafe { [
+        _mm256_load_si256(arr_v[1].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[0].0.as_ptr().cast::<__m256i>())
+    ] };
+
+    assert_eq!(unsafe { _mm256_cmpge_epi8_mask(left[0], right[0]) }, 0x585F585F);
+
+    assert_eq!(unsafe { _mm256_cmpge_epi8_mask(left[1], right[1]) }, -0x481E481F); // 0xB7E1B7E1
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[test]
+fn _mm256_cmpeq_epi8_mask_test() {
+    let arr_v: [int8x32; 2] = [
+        int8x32 {
+            0: [
+                -0x80, 0x7F, 0x00, -0x01, 0x01, -0x80, 0x7F, 0x00, -0x01, 0x01, -0x80, 0x7F, 0x00, -0x01, 0x01, -0x80,
+                -0x80, 0x7F, 0x00, -0x01, 0x01, -0x80, 0x7F, 0x00, -0x01, 0x01, -0x80, 0x7F, 0x00, -0x01, 0x01, -0x80
+            ]
+        },
+        int8x32 {
+            0: [
+                -0x80, -0x80, -0x80, -0x80, -0x80, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x00, 0x00, 0x00, 0x00, 0x00, -0x01,
+                -0x80, -0x80, -0x80, -0x80, -0x80, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x00, 0x00, 0x00, 0x00, 0x00, -0x01
+            ]
+        }
+    ];
+
+    let left: [__m256i; 2] = unsafe { [
+        _mm256_load_si256(arr_v[0].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[1].0.as_ptr().cast::<__m256i>())
+    ] };
+    let right: [__m256i; 2] = unsafe { [
+        _mm256_load_si256(arr_v[1].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[0].0.as_ptr().cast::<__m256i>())
+    ] };
+
+    assert_eq!(unsafe { _mm256_cmpeq_epi8_mask(left[0], right[0]) }, 0x10411041);
+
+    assert_eq!(unsafe { _mm256_cmpeq_epi8_mask(left[1], right[1]) }, 0x10411041);
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[test]
+fn _mm256_cmplt_epi8_mask_test() {
+    let arr_v: [int8x32; 2] = [
+        int8x32 {
+            0: [
+                -0x80, 0x7F, 0x00, -0x01, 0x01, -0x80, 0x7F, 0x00, -0x01, 0x01, -0x80, 0x7F, 0x00, -0x01, 0x01, -0x80,
+                -0x80, 0x7F, 0x00, -0x01, 0x01, -0x80, 0x7F, 0x00, -0x01, 0x01, -0x80, 0x7F, 0x00, -0x01, 0x01, -0x80
+            ]
+        },
+        int8x32 {
+            0: [
+                -0x80, -0x80, -0x80, -0x80, -0x80, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x00, 0x00, 0x00, 0x00, 0x00, -0x01,
+                -0x80, -0x80, -0x80, -0x80, -0x80, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x00, 0x00, 0x00, 0x00, 0x00, -0x01
+            ]
+        }
+    ];
+
+    let left: [__m256i; 2] = unsafe { [
+        _mm256_load_si256(arr_v[0].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[1].0.as_ptr().cast::<__m256i>())
+    ] };
+    let right: [__m256i; 2] = unsafe { [
+        _mm256_load_si256(arr_v[1].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[0].0.as_ptr().cast::<__m256i>())
+    ] };
+
+    assert_eq!(unsafe { _mm256_cmplt_epi8_mask(left[0], right[0]) }, -0x585F5860); // 0xA7A0A7A0
+
+    assert_eq!(unsafe { _mm256_cmplt_epi8_mask(left[1], right[1]) }, 0x481E481E);
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[test]
+fn _mm256_cmple_epi8_mask_test() {
+    let arr_v: [int8x32; 2] = [
+        int8x32 {
+            0: [
+                -0x80, 0x7F, 0x00, -0x01, 0x01, -0x80, 0x7F, 0x00, -0x01, 0x01, -0x80, 0x7F, 0x00, -0x01, 0x01, -0x80,
+                -0x80, 0x7F, 0x00, -0x01, 0x01, -0x80, 0x7F, 0x00, -0x01, 0x01, -0x80, 0x7F, 0x00, -0x01, 0x01, -0x80
+            ]
+        },
+        int8x32 {
+            0: [
+                -0x80, -0x80, -0x80, -0x80, -0x80, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x00, 0x00, 0x00, 0x00, 0x00, -0x01,
+                -0x80, -0x80, -0x80, -0x80, -0x80, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x00, 0x00, 0x00, 0x00, 0x00, -0x01
+            ]
+        }
+    ];
+
+    let left: [__m256i; 2] = unsafe { [
+        _mm256_load_si256(arr_v[0].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[1].0.as_ptr().cast::<__m256i>())
+    ] };
+    let right: [__m256i; 2] = unsafe { [
+        _mm256_load_si256(arr_v[1].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[0].0.as_ptr().cast::<__m256i>())
+    ] };
+
+    assert_eq!(unsafe { _mm256_cmple_epi8_mask(left[0], right[0]) }, -0x481E481F); // 0xB7E1B7E1
+
+    assert_eq!(unsafe { _mm256_cmple_epi8_mask(left[1], right[1]) }, 0x585F585F);
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[test]
+fn _mm256_cmpgt_epi16_mask_test() {
+    let arr_v: [int16x16; 2] = [
+        int16x16 {
+            0: [
+                -0x8000, 0x7FFF, 0x0000, -0x0001, 0x0001, -0x8000, 0x7FFF, 0x0000,
+                -0x0001, 0x0001, -0x8000, 0x7FFF, 0x0000, -0x0001, 0x0001, -0x8000
+            ]
+        },
+        int16x16 {
+            0: [
+                -0x8000, -0x8000, -0x8000, -0x8000, -0x8000, 0x7FFF, 0x7FFF, 0x7FFF,
+                0x7FFF, 0x7FFF, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, -0x0001
+            ]
+        }
+    ];
+
+    let left: [__m256i; 2] = unsafe { [
+        _mm256_load_si256(arr_v[0].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[1].0.as_ptr().cast::<__m256i>())
+    ] };
+    let right: [__m256i; 2] = unsafe { [
+        _mm256_load_si256(arr_v[1].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[0].0.as_ptr().cast::<__m256i>())
+    ] };
+
+    assert_eq!(unsafe { _mm256_cmpgt_epi16_mask(left[0], right[0]) }, 0x0000481E);
+
+    assert_eq!(unsafe { _mm256_cmpgt_epi16_mask(left[1], right[1]) }, 0x0000A7A0);
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[test]
+fn _mm256_cmpge_epi16_mask_test() {
+    let arr_v: [int16x16; 2] = [
+        int16x16 {
+            0: [
+                -0x8000, 0x7FFF, 0x0000, -0x0001, 0x0001, -0x8000, 0x7FFF, 0x0000,
+                -0x0001, 0x0001, -0x8000, 0x7FFF, 0x0000, -0x0001, 0x0001, -0x8000
+            ]
+        },
+        int16x16 {
+            0: [
+                -0x8000, -0x8000, -0x8000, -0x8000, -0x8000, 0x7FFF, 0x7FFF, 0x7FFF,
+                0x7FFF, 0x7FFF, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, -0x0001
+            ]
+        }
+    ];
+
+    let left: [__m256i; 2] = unsafe { [
+        _mm256_load_si256(arr_v[0].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[1].0.as_ptr().cast::<__m256i>())
+    ] };
+    let right: [__m256i; 2] = unsafe { [
+        _mm256_load_si256(arr_v[1].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[0].0.as_ptr().cast::<__m256i>())
+    ] };
+
+    assert_eq!(unsafe { _mm256_cmpge_epi16_mask(left[0], right[0]) }, 0x0000585F);
+
+    assert_eq!(unsafe { _mm256_cmpge_epi16_mask(left[1], right[1]) }, 0x0000B7E1);
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[test]
+fn _mm256_cmpeq_epi16_mask_test() {
+    let arr_v: [int16x16; 2] = [
+        int16x16 {
+            0: [
+                -0x8000, 0x7FFF, 0x0000, -0x0001, 0x0001, -0x8000, 0x7FFF, 0x0000,
+                -0x0001, 0x0001, -0x8000, 0x7FFF, 0x0000, -0x0001, 0x0001, -0x8000
+            ]
+        },
+        int16x16 {
+            0: [
+                -0x8000, -0x8000, -0x8000, -0x8000, -0x8000, 0x7FFF, 0x7FFF, 0x7FFF,
+                0x7FFF, 0x7FFF, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, -0x0001
+            ]
+        }
+    ];
+
+    let left: [__m256i; 2] = unsafe { [
+        _mm256_load_si256(arr_v[0].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[1].0.as_ptr().cast::<__m256i>())
+    ] };
+    let right: [__m256i; 2] = unsafe { [
+        _mm256_load_si256(arr_v[1].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[0].0.as_ptr().cast::<__m256i>())
+    ] };
+
+    assert_eq!(unsafe { _mm256_cmpeq_epi16_mask(left[0], right[0]) }, 0x00001041);
+
+    assert_eq!(unsafe { _mm256_cmpeq_epi16_mask(left[1], right[1]) }, 0x00001041);
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[test]
+fn _mm256_cmplt_epi16_mask_test() {
+    let arr_v: [int16x16; 2] = [
+        int16x16 {
+            0: [
+                -0x8000, 0x7FFF, 0x0000, -0x0001, 0x0001, -0x8000, 0x7FFF, 0x0000,
+                -0x0001, 0x0001, -0x8000, 0x7FFF, 0x0000, -0x0001, 0x0001, -0x8000
+            ]
+        },
+        int16x16 {
+            0: [
+                -0x8000, -0x8000, -0x8000, -0x8000, -0x8000, 0x7FFF, 0x7FFF, 0x7FFF,
+                0x7FFF, 0x7FFF, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, -0x0001
+            ]
+        }
+    ];
+
+    let left: [__m256i; 2] = unsafe { [
+        _mm256_load_si256(arr_v[0].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[1].0.as_ptr().cast::<__m256i>())
+    ] };
+    let right: [__m256i; 2] = unsafe { [
+        _mm256_load_si256(arr_v[1].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[0].0.as_ptr().cast::<__m256i>())
+    ] };
+
+    assert_eq!(unsafe { _mm256_cmplt_epi16_mask(left[0], right[0]) }, 0x0000A7A0);
+
+    assert_eq!(unsafe { _mm256_cmplt_epi16_mask(left[1], right[1]) }, 0x0000481E);
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[test]
+fn _mm256_cmple_epi16_mask_test() {
+    let arr_v: [int16x16; 2] = [
+        int16x16 {
+            0: [
+                -0x8000, 0x7FFF, 0x0000, -0x0001, 0x0001, -0x8000, 0x7FFF, 0x0000,
+                -0x0001, 0x0001, -0x8000, 0x7FFF, 0x0000, -0x0001, 0x0001, -0x8000
+            ]
+        },
+        int16x16 {
+            0: [
+                -0x8000, -0x8000, -0x8000, -0x8000, -0x8000, 0x7FFF, 0x7FFF, 0x7FFF,
+                0x7FFF, 0x7FFF, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, -0x0001
+            ]
+        }
+    ];
+
+    let left: [__m256i; 2] = unsafe { [
+        _mm256_load_si256(arr_v[0].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[1].0.as_ptr().cast::<__m256i>())
+    ] };
+    let right: [__m256i; 2] = unsafe { [
+        _mm256_load_si256(arr_v[1].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[0].0.as_ptr().cast::<__m256i>())
+    ] };
+
+    assert_eq!(unsafe { _mm256_cmple_epi16_mask(left[0], right[0]) }, 0x0000B7E1);
+
+    assert_eq!(unsafe { _mm256_cmple_epi16_mask(left[1], right[1]) }, 0x0000585F);
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[test]
+fn _mm256_cmpgt_epi32_mask_test() {
+    let arr_v: [int32x8; 3] = [
+        int32x8 {
+            0: [
+                -0x80000000, 0x7FFFFFFF, 0x00000000, -0x00000001, 0x00000001, -0x80000000, 0x7FFFFFFF, 0x00000000
+            ]
+        },
+        int32x8 {
+            0: [
+                -0x80000000, -0x80000000, -0x80000000, -0x80000000, -0x80000000, -0x80000000, -0x80000000, -0x80000000
+            ]
+        },
+        int32x8 {
+            0: [
+                0x7FFFFFFF, 0x7FFFFFFF, 0x7FFFFFFF, 0x7FFFFFFF, 0x7FFFFFFF, 0x7FFFFFFF, 0x7FFFFFFF, 0x7FFFFFFF
+            ]
+        }
+    ];
+
+    let left: [__m256i; 3] = unsafe { [
+        _mm256_load_si256(arr_v[0].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[0].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[1].0.as_ptr().cast::<__m256i>())
+    ] };
+    let right: [__m256i; 3] = unsafe { [
+        _mm256_load_si256(arr_v[1].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[2].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[2].0.as_ptr().cast::<__m256i>())
+    ] };
+
+    assert_eq!(unsafe { _mm256_cmpgt_epi32_mask(left[0], right[0]) }, 0x000000DE);
+
+    assert_eq!(unsafe { _mm256_cmpgt_epi32_mask(left[1], right[1]) }, 0x00000000);
+
+    assert_eq!(unsafe { _mm256_cmpgt_epi32_mask(left[2], right[2]) }, 0x00000000);
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[test]
+fn _mm256_cmpge_epi32_mask_test() {
+    let arr_v: [int32x8; 3] = [
+        int32x8 {
+            0: [
+                -0x80000000, 0x7FFFFFFF, 0x00000000, -0x00000001, 0x00000001, -0x80000000, 0x7FFFFFFF, 0x00000000
+            ]
+        },
+        int32x8 {
+            0: [
+                -0x80000000, -0x80000000, -0x80000000, -0x80000000, -0x80000000, -0x80000000, -0x80000000, -0x80000000
+            ]
+        },
+        int32x8 {
+            0: [
+                0x7FFFFFFF, 0x7FFFFFFF, 0x7FFFFFFF, 0x7FFFFFFF, 0x7FFFFFFF, 0x7FFFFFFF, 0x7FFFFFFF, 0x7FFFFFFF
+            ]
+        }
+    ];
+
+    let left: [__m256i; 3] = unsafe { [
+        _mm256_load_si256(arr_v[0].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[0].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[1].0.as_ptr().cast::<__m256i>())
+    ] };
+    let right: [__m256i; 3] = unsafe { [
+        _mm256_load_si256(arr_v[1].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[2].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[2].0.as_ptr().cast::<__m256i>())
+    ] };
+
+    assert_eq!(unsafe { _mm256_cmpge_epi32_mask(left[0], right[0]) }, 0x000000FF);
+
+    assert_eq!(unsafe { _mm256_cmpge_epi32_mask(left[1], right[1]) }, 0x00000042);
+
+    assert_eq!(unsafe { _mm256_cmpge_epi32_mask(left[2], right[2]) }, 0x00000000);
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[test]
+fn _mm256_cmpeq_epi32_mask_test() {
+    let arr_v: [int32x8; 3] = [
+        int32x8 {
+            0: [
+                -0x80000000, 0x7FFFFFFF, 0x00000000, -0x00000001, 0x00000001, -0x80000000, 0x7FFFFFFF, 0x00000000
+            ]
+        },
+        int32x8 {
+            0: [
+                -0x80000000, -0x80000000, -0x80000000, -0x80000000, -0x80000000, -0x80000000, -0x80000000, -0x80000000
+            ]
+        },
+        int32x8 {
+            0: [
+                0x7FFFFFFF, 0x7FFFFFFF, 0x7FFFFFFF, 0x7FFFFFFF, 0x7FFFFFFF, 0x7FFFFFFF, 0x7FFFFFFF, 0x7FFFFFFF
+            ]
+        }
+    ];
+
+    let left: [__m256i; 3] = unsafe { [
+        _mm256_load_si256(arr_v[0].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[0].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[1].0.as_ptr().cast::<__m256i>())
+    ] };
+    let right: [__m256i; 3] = unsafe { [
+        _mm256_load_si256(arr_v[1].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[2].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[2].0.as_ptr().cast::<__m256i>())
+    ] };
+
+    assert_eq!(unsafe { _mm256_cmpeq_epi32_mask(left[0], right[0]) }, 0x00000021);
+
+    assert_eq!(unsafe { _mm256_cmpeq_epi32_mask(left[1], right[1]) }, 0x00000042);
+
+    assert_eq!(unsafe { _mm256_cmpeq_epi32_mask(left[2], right[2]) }, 0x00000000);
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[test]
+fn _mm256_cmplt_epi32_mask_test() {
+    let arr_v: [int32x8; 3] = [
+        int32x8 {
+            0: [
+                -0x80000000, 0x7FFFFFFF, 0x00000000, -0x00000001, 0x00000001, -0x80000000, 0x7FFFFFFF, 0x00000000
+            ]
+        },
+        int32x8 {
+            0: [
+                -0x80000000, -0x80000000, -0x80000000, -0x80000000, -0x80000000, -0x80000000, -0x80000000, -0x80000000
+            ]
+        },
+        int32x8 {
+            0: [
+                0x7FFFFFFF, 0x7FFFFFFF, 0x7FFFFFFF, 0x7FFFFFFF, 0x7FFFFFFF, 0x7FFFFFFF, 0x7FFFFFFF, 0x7FFFFFFF
+            ]
+        }
+    ];
+
+    let left: [__m256i; 3] = unsafe { [
+        _mm256_load_si256(arr_v[0].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[0].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[1].0.as_ptr().cast::<__m256i>())
+    ] };
+    let right: [__m256i; 3] = unsafe { [
+        _mm256_load_si256(arr_v[1].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[2].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[2].0.as_ptr().cast::<__m256i>())
+    ] };
+
+    assert_eq!(unsafe { _mm256_cmplt_epi32_mask(left[0], right[0]) }, 0x00000000);
+
+    assert_eq!(unsafe { _mm256_cmplt_epi32_mask(left[1], right[1]) }, 0x000000BD);
+
+    assert_eq!(unsafe { _mm256_cmplt_epi32_mask(left[2], right[2]) }, 0x000000FF);
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[test]
+fn _mm256_cmple_epi32_mask_test() {
+    let arr_v: [int32x8; 3] = [
+        int32x8 {
+            0: [
+                -0x80000000, 0x7FFFFFFF, 0x00000000, -0x00000001, 0x00000001, -0x80000000, 0x7FFFFFFF, 0x00000000
+            ]
+        },
+        int32x8 {
+            0: [
+                -0x80000000, -0x80000000, -0x80000000, -0x80000000, -0x80000000, -0x80000000, -0x80000000, -0x80000000
+            ]
+        },
+        int32x8 {
+            0: [
+                0x7FFFFFFF, 0x7FFFFFFF, 0x7FFFFFFF, 0x7FFFFFFF, 0x7FFFFFFF, 0x7FFFFFFF, 0x7FFFFFFF, 0x7FFFFFFF
+            ]
+        }
+    ];
+
+    let left: [__m256i; 3] = unsafe { [
+        _mm256_load_si256(arr_v[0].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[0].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[1].0.as_ptr().cast::<__m256i>())
+    ] };
+    let right: [__m256i; 3] = unsafe { [
+        _mm256_load_si256(arr_v[1].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[2].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[2].0.as_ptr().cast::<__m256i>())
+    ] };
+
+    assert_eq!(unsafe { _mm256_cmple_epi32_mask(left[0], right[0]) }, 0x00000021);
+
+    assert_eq!(unsafe { _mm256_cmple_epi32_mask(left[1], right[1]) }, 0x000000FF);
+
+    assert_eq!(unsafe { _mm256_cmple_epi32_mask(left[2], right[2]) }, 0x000000FF);
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[test]
+fn _mm256_cmpgt_epi64_mask_test() {
+    let arr_v: [int64x4; 4] = [
+        int64x4 {
+            0: [
+                -0x8000000000000000, 0x7FFFFFFFFFFFFFFF, 0x0000000000000000, -0x0000000000000001
+            ]
+        },
+        int64x4 {
+            0: [
+                -0x8000000000000000, -0x8000000000000000, -0x8000000000000000, -0x8000000000000000
+            ]
+        },
+        int64x4 {
+            0: [
+                0x7FFFFFFFFFFFFFFF, 0x7FFFFFFFFFFFFFFF, 0x7FFFFFFFFFFFFFFF, 0x7FFFFFFFFFFFFFFF
+            ]
+        },
+        int64x4 {
+            0: [
+                0x0000000000000000, 0x0000000000000001, -0x0000000000000001, 0x0000000000000000
+            ]
+        }
+    ];
+
+    let left: [__m256i; 4] = unsafe { [
+        _mm256_load_si256(arr_v[0].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[0].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[0].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[1].0.as_ptr().cast::<__m256i>())
+    ] };
+    let right: [__m256i; 4] = unsafe { [
+        _mm256_load_si256(arr_v[1].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[2].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[3].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[2].0.as_ptr().cast::<__m256i>())
+    ] };
+
+    assert_eq!(unsafe { _mm256_cmpgt_epi64_mask(left[0], right[0]) }, 0x0000000E);
+
+    assert_eq!(unsafe { _mm256_cmpgt_epi64_mask(left[1], right[1]) }, 0x00000000);
+
+    assert_eq!(unsafe { _mm256_cmpgt_epi64_mask(left[2], right[2]) }, 0x00000006);
+
+    assert_eq!(unsafe { _mm256_cmpgt_epi64_mask(left[3], right[3]) }, 0x00000000);
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[test]
+fn _mm256_cmpge_epi64_mask_test() {
+    let arr_v: [int64x4; 4] = [
+        int64x4 {
+            0: [
+                -0x8000000000000000, 0x7FFFFFFFFFFFFFFF, 0x0000000000000000, -0x0000000000000001
+            ]
+        },
+        int64x4 {
+            0: [
+                -0x8000000000000000, -0x8000000000000000, -0x8000000000000000, -0x8000000000000000
+            ]
+        },
+        int64x4 {
+            0: [
+                0x7FFFFFFFFFFFFFFF, 0x7FFFFFFFFFFFFFFF, 0x7FFFFFFFFFFFFFFF, 0x7FFFFFFFFFFFFFFF
+            ]
+        },
+        int64x4 {
+            0: [
+                0x0000000000000000, 0x0000000000000001, -0x0000000000000001, 0x0000000000000000
+            ]
+        }
+    ];
+
+    let left: [__m256i; 4] = unsafe { [
+        _mm256_load_si256(arr_v[0].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[0].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[0].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[1].0.as_ptr().cast::<__m256i>())
+    ] };
+    let right: [__m256i; 4] = unsafe { [
+        _mm256_load_si256(arr_v[1].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[2].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[3].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[2].0.as_ptr().cast::<__m256i>())
+    ] };
+
+    assert_eq!(unsafe { _mm256_cmpge_epi64_mask(left[0], right[0]) }, 0x0000000F);
+
+    assert_eq!(unsafe { _mm256_cmpge_epi64_mask(left[1], right[1]) }, 0x00000002);
+
+    assert_eq!(unsafe { _mm256_cmpge_epi64_mask(left[2], right[2]) }, 0x00000006);
+
+    assert_eq!(unsafe { _mm256_cmpge_epi64_mask(left[3], right[3]) }, 0x00000000);
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[test]
+fn _mm256_cmpeq_epi64_mask_test() {
+    let arr_v: [int64x4; 4] = [
+        int64x4 {
+            0: [
+                -0x8000000000000000, 0x7FFFFFFFFFFFFFFF, 0x0000000000000000, -0x0000000000000001
+            ]
+        },
+        int64x4 {
+            0: [
+                -0x8000000000000000, -0x8000000000000000, -0x8000000000000000, -0x8000000000000000
+            ]
+        },
+        int64x4 {
+            0: [
+                0x7FFFFFFFFFFFFFFF, 0x7FFFFFFFFFFFFFFF, 0x7FFFFFFFFFFFFFFF, 0x7FFFFFFFFFFFFFFF
+            ]
+        },
+        int64x4 {
+            0: [
+                0x0000000000000000, 0x0000000000000001, -0x0000000000000001, 0x0000000000000000
+            ]
+        }
+    ];
+
+    let left: [__m256i; 4] = unsafe { [
+        _mm256_load_si256(arr_v[0].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[0].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[0].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[1].0.as_ptr().cast::<__m256i>())
+    ] };
+    let right: [__m256i; 4] = unsafe { [
+        _mm256_load_si256(arr_v[1].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[2].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[3].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[2].0.as_ptr().cast::<__m256i>())
+    ] };
+
+    assert_eq!(unsafe { _mm256_cmpeq_epi64_mask(left[0], right[0]) }, 0x00000001);
+
+    assert_eq!(unsafe { _mm256_cmpeq_epi64_mask(left[1], right[1]) }, 0x00000002);
+
+    assert_eq!(unsafe { _mm256_cmpeq_epi64_mask(left[2], right[2]) }, 0x00000000);
+
+    assert_eq!(unsafe { _mm256_cmpeq_epi64_mask(left[3], right[3]) }, 0x00000000);
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[test]
+fn _mm256_cmplt_epi64_mask_test() {
+    let arr_v: [int64x4; 4] = [
+        int64x4 {
+            0: [
+                -0x8000000000000000, 0x7FFFFFFFFFFFFFFF, 0x0000000000000000, -0x0000000000000001
+            ]
+        },
+        int64x4 {
+            0: [
+                -0x8000000000000000, -0x8000000000000000, -0x8000000000000000, -0x8000000000000000
+            ]
+        },
+        int64x4 {
+            0: [
+                0x7FFFFFFFFFFFFFFF, 0x7FFFFFFFFFFFFFFF, 0x7FFFFFFFFFFFFFFF, 0x7FFFFFFFFFFFFFFF
+            ]
+        },
+        int64x4 {
+            0: [
+                0x0000000000000000, 0x0000000000000001, -0x0000000000000001, 0x0000000000000000
+            ]
+        }
+    ];
+
+    let left: [__m256i; 4] = unsafe { [
+        _mm256_load_si256(arr_v[0].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[0].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[1].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[2].0.as_ptr().cast::<__m256i>())
+    ] };
+    let right: [__m256i; 4] = unsafe { [
+        _mm256_load_si256(arr_v[1].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[2].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[2].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[3].0.as_ptr().cast::<__m256i>())
+    ] };
+
+    assert_eq!(unsafe { _mm256_cmplt_epi64_mask(left[0], right[0]) }, 0x00000000);
+
+    assert_eq!(unsafe { _mm256_cmplt_epi64_mask(left[1], right[1]) }, 0x0000000D);
+
+    assert_eq!(unsafe { _mm256_cmplt_epi64_mask(left[2], right[2]) }, 0x0000000F);
+
+    assert_eq!(unsafe { _mm256_cmplt_epi64_mask(left[3], right[3]) }, 0x00000000);
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[test]
+fn _mm256_cmple_epi64_mask_test() {
+    let arr_v: [int64x4; 4] = [
+        int64x4 {
+            0: [
+                -0x8000000000000000, 0x7FFFFFFFFFFFFFFF, 0x0000000000000000, -0x0000000000000001
+            ]
+        },
+        int64x4 {
+            0: [
+                -0x8000000000000000, -0x8000000000000000, -0x8000000000000000, -0x8000000000000000
+            ]
+        },
+        int64x4 {
+            0: [
+                0x7FFFFFFFFFFFFFFF, 0x7FFFFFFFFFFFFFFF, 0x7FFFFFFFFFFFFFFF, 0x7FFFFFFFFFFFFFFF
+            ]
+        },
+        int64x4 {
+            0: [
+                0x0000000000000000, 0x0000000000000001, -0x0000000000000001, 0x0000000000000000
+            ]
+        }
+    ];
+
+    let left: [__m256i; 4] = unsafe { [
+        _mm256_load_si256(arr_v[0].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[0].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[1].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[2].0.as_ptr().cast::<__m256i>())
+    ] };
+    let right: [__m256i; 4] = unsafe { [
+        _mm256_load_si256(arr_v[1].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[2].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[2].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[3].0.as_ptr().cast::<__m256i>())
+    ] };
+
+    assert_eq!(unsafe { _mm256_cmple_epi64_mask(left[0], right[0]) }, 0x00000001);
+
+    assert_eq!(unsafe { _mm256_cmple_epi64_mask(left[1], right[1]) }, 0x0000000F);
+
+    assert_eq!(unsafe { _mm256_cmple_epi64_mask(left[2], right[2]) }, 0x0000000F);
+
+    assert_eq!(unsafe { _mm256_cmple_epi64_mask(left[3], right[3]) }, 0x00000000);
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[test]
+fn _mm256_cmpgt_epu8_mask_test() {
+    let arr_v: [uint8x32; 2] = [
+        uint8x32 {
+            0: [
+                0x00, 0xFF, 0x80, 0x01, 0x00, 0xFF, 0x80, 0x01, 0x00, 0xFF, 0x80, 0x01, 0x00, 0xFF, 0x80, 0x01,
+                0x00, 0xFF, 0x80, 0x01, 0x00, 0xFF, 0x80, 0x01, 0x00, 0xFF, 0x80, 0x01, 0x00, 0xFF, 0x80, 0x01
+            ]
+        },
+        uint8x32 {
+            0: [
+                0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0x80, 0x80, 0x80, 0x80, 0x01, 0x01, 0x01, 0x01,
+                0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0x80, 0x80, 0x80, 0x80, 0x01, 0x01, 0x01, 0x01
+            ]
+        }
+    ];
+
+    let left: [__m256i; 2] = unsafe { [
+        _mm256_load_si256(arr_v[0].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[1].0.as_ptr().cast::<__m256i>())
+    ] };
+    let right: [__m256i; 2] = unsafe { [
+        _mm256_load_si256(arr_v[1].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[0].0.as_ptr().cast::<__m256i>())
+    ] };
+
+    assert_eq!(unsafe { _mm256_cmpgt_epu8_mask(left[0], right[0]) }, 0x620E620E);
+
+    assert_eq!(unsafe { _mm256_cmpgt_epu8_mask(left[1], right[1]) }, 0x19D019D0);
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[test]
+fn _mm256_cmpge_epu8_mask_test() {
+    let arr_v: [uint8x32; 2] = [
+        uint8x32 {
+            0: [
+                0x00, 0xFF, 0x80, 0x01, 0x00, 0xFF, 0x80, 0x01, 0x00, 0xFF, 0x80, 0x01, 0x00, 0xFF, 0x80, 0x01,
+                0x00, 0xFF, 0x80, 0x01, 0x00, 0xFF, 0x80, 0x01, 0x00, 0xFF, 0x80, 0x01, 0x00, 0xFF, 0x80, 0x01
+            ]
+        },
+        uint8x32 {
+            0: [
+                0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0x80, 0x80, 0x80, 0x80, 0x01, 0x01, 0x01, 0x01,
+                0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0x80, 0x80, 0x80, 0x80, 0x01, 0x01, 0x01, 0x01
+            ]
+        }
+    ];
+
+    let left: [__m256i; 2] = unsafe { [
+        _mm256_load_si256(arr_v[0].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[1].0.as_ptr().cast::<__m256i>())
+    ] };
+    let right: [__m256i; 2] = unsafe { [
+        _mm256_load_si256(arr_v[1].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[0].0.as_ptr().cast::<__m256i>())
+    ] };
+
+    assert_eq!(unsafe { _mm256_cmpge_epu8_mask(left[0], right[0]) }, -0x19D019D1); // 0xE62FE62F
+
+    assert_eq!(unsafe { _mm256_cmpge_epu8_mask(left[1], right[1]) }, -0x620E620F); // 0x9DF19DF1
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[test]
+fn _mm256_cmpeq_epu8_mask_test() {
+    let arr_v: [uint8x32; 2] = [
+        uint8x32 {
+            0: [
+                0x00, 0xFF, 0x80, 0x01, 0x00, 0xFF, 0x80, 0x01, 0x00, 0xFF, 0x80, 0x01, 0x00, 0xFF, 0x80, 0x01,
+                0x00, 0xFF, 0x80, 0x01, 0x00, 0xFF, 0x80, 0x01, 0x00, 0xFF, 0x80, 0x01, 0x00, 0xFF, 0x80, 0x01
+            ]
+        },
+        uint8x32 {
+            0: [
+                0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0x80, 0x80, 0x80, 0x80, 0x01, 0x01, 0x01, 0x01,
+                0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0x80, 0x80, 0x80, 0x80, 0x01, 0x01, 0x01, 0x01
+            ]
+        }
+    ];
+
+    let left: [__m256i; 2] = unsafe { [
+        _mm256_load_si256(arr_v[0].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[1].0.as_ptr().cast::<__m256i>())
+    ] };
+    let right: [__m256i; 2] = unsafe { [
+        _mm256_load_si256(arr_v[1].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[0].0.as_ptr().cast::<__m256i>())
+    ] };
+
+    assert_eq!(unsafe { _mm256_cmpeq_epu8_mask(left[0], right[0]) }, -0x7BDE7BDF); // 0x84218421
+
+    assert_eq!(unsafe { _mm256_cmpeq_epu8_mask(left[1], right[1]) }, -0x7BDE7BDF); // 0x84218421
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[test]
+fn _mm256_cmplt_epu8_mask_test() {
+    let arr_v: [uint8x32; 2] = [
+        uint8x32 {
+            0: [
+                0x00, 0xFF, 0x80, 0x01, 0x00, 0xFF, 0x80, 0x01, 0x00, 0xFF, 0x80, 0x01, 0x00, 0xFF, 0x80, 0x01,
+                0x00, 0xFF, 0x80, 0x01, 0x00, 0xFF, 0x80, 0x01, 0x00, 0xFF, 0x80, 0x01, 0x00, 0xFF, 0x80, 0x01
+            ]
+        },
+        uint8x32 {
+            0: [
+                0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0x80, 0x80, 0x80, 0x80, 0x01, 0x01, 0x01, 0x01,
+                0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0x80, 0x80, 0x80, 0x80, 0x01, 0x01, 0x01, 0x01
+            ]
+        }
+    ];
+
+    let left: [__m256i; 2] = unsafe { [
+        _mm256_load_si256(arr_v[0].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[1].0.as_ptr().cast::<__m256i>())
+    ] };
+    let right: [__m256i; 2] = unsafe { [
+        _mm256_load_si256(arr_v[1].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[0].0.as_ptr().cast::<__m256i>())
+    ] };
+
+    assert_eq!(unsafe { _mm256_cmplt_epu8_mask(left[0], right[0]) }, 0x19D019D0);
+
+    assert_eq!(unsafe { _mm256_cmplt_epu8_mask(left[1], right[1]) }, 0x620E620E);
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[test]
+fn _mm256_cmple_epu8_mask_test() {
+    let arr_v: [uint8x32; 2] = [
+        uint8x32 {
+            0: [
+                0x00, 0xFF, 0x80, 0x01, 0x00, 0xFF, 0x80, 0x01, 0x00, 0xFF, 0x80, 0x01, 0x00, 0xFF, 0x80, 0x01,
+                0x00, 0xFF, 0x80, 0x01, 0x00, 0xFF, 0x80, 0x01, 0x00, 0xFF, 0x80, 0x01, 0x00, 0xFF, 0x80, 0x01
+            ]
+        },
+        uint8x32 {
+            0: [
+                0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0x80, 0x80, 0x80, 0x80, 0x01, 0x01, 0x01, 0x01,
+                0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0x80, 0x80, 0x80, 0x80, 0x01, 0x01, 0x01, 0x01
+            ]
+        }
+    ];
+
+    let left: [__m256i; 2] = unsafe { [
+        _mm256_load_si256(arr_v[0].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[1].0.as_ptr().cast::<__m256i>())
+    ] };
+    let right: [__m256i; 2] = unsafe { [
+        _mm256_load_si256(arr_v[1].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[0].0.as_ptr().cast::<__m256i>())
+    ] };
+
+    assert_eq!(unsafe { _mm256_cmple_epu8_mask(left[0], right[0]) }, -0x620E620F); // 0x9DF19DF1
+
+    assert_eq!(unsafe { _mm256_cmple_epu8_mask(left[1], right[1]) }, -0x19D019D1); // 0xE62FE62F
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[test]
+fn _mm256_cmpgt_epu16_mask_test() {
+    let arr_v: [uint16x16; 2] = [
+        uint16x16 {
+            0: [
+                0x0000, 0xFFFF, 0x8000, 0x0001, 0x0000, 0xFFFF, 0x8000, 0x0001,
+                0x0000, 0xFFFF, 0x8000, 0x0001, 0x0000, 0xFFFF, 0x8000, 0x0001
+            ]
+        },
+        uint16x16 {
+            0: [
+                0x0000, 0x0000, 0x0000, 0x0000, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF,
+                0x8000, 0x8000, 0x8000, 0x8000, 0x0001, 0x0001, 0x0001, 0x0001
+            ]
+        }
+    ];
+
+    let left: [__m256i; 2] = unsafe { [
+        _mm256_load_si256(arr_v[0].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[1].0.as_ptr().cast::<__m256i>())
+    ] };
+    let right: [__m256i; 2] = unsafe { [
+        _mm256_load_si256(arr_v[1].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[0].0.as_ptr().cast::<__m256i>())
+    ] };
+
+    assert_eq!(unsafe { _mm256_cmpgt_epu16_mask(left[0], right[0]) }, 0x0000620E);
+
+    assert_eq!(unsafe { _mm256_cmpgt_epu16_mask(left[1], right[1]) }, 0x000019D0);
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[test]
+fn _mm256_cmpge_epu16_mask_test() {
+    let arr_v: [uint16x16; 2] = [
+        uint16x16 {
+            0: [
+                0x0000, 0xFFFF, 0x8000, 0x0001, 0x0000, 0xFFFF, 0x8000, 0x0001,
+                0x0000, 0xFFFF, 0x8000, 0x0001, 0x0000, 0xFFFF, 0x8000, 0x0001
+            ]
+        },
+        uint16x16 {
+            0: [
+                0x0000, 0x0000, 0x0000, 0x0000, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF,
+                0x8000, 0x8000, 0x8000, 0x8000, 0x0001, 0x0001, 0x0001, 0x0001
+            ]
+        }
+    ];
+
+    let left: [__m256i; 2] = unsafe { [
+        _mm256_load_si256(arr_v[0].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[1].0.as_ptr().cast::<__m256i>())
+    ] };
+    let right: [__m256i; 2] = unsafe { [
+        _mm256_load_si256(arr_v[1].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[0].0.as_ptr().cast::<__m256i>())
+    ] };
+
+    assert_eq!(unsafe { _mm256_cmpge_epu16_mask(left[0], right[0]) }, 0x0000E62F);
+
+    assert_eq!(unsafe { _mm256_cmpge_epu16_mask(left[1], right[1]) }, 0x00009DF1);
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[test]
+fn _mm256_cmpeq_epu16_mask_test() {
+    let arr_v: [uint16x16; 2] = [
+        uint16x16 {
+            0: [
+                0x0000, 0xFFFF, 0x8000, 0x0001, 0x0000, 0xFFFF, 0x8000, 0x0001,
+                0x0000, 0xFFFF, 0x8000, 0x0001, 0x0000, 0xFFFF, 0x8000, 0x0001
+            ]
+        },
+        uint16x16 {
+            0: [
+                0x0000, 0x0000, 0x0000, 0x0000, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF,
+                0x8000, 0x8000, 0x8000, 0x8000, 0x0001, 0x0001, 0x0001, 0x0001
+            ]
+        }
+    ];
+
+    let left: [__m256i; 2] = unsafe { [
+        _mm256_load_si256(arr_v[0].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[1].0.as_ptr().cast::<__m256i>())
+    ] };
+    let right: [__m256i; 2] = unsafe { [
+        _mm256_load_si256(arr_v[1].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[0].0.as_ptr().cast::<__m256i>())
+    ] };
+
+    assert_eq!(unsafe { _mm256_cmpeq_epu16_mask(left[0], right[0]) }, 0x00008421);
+
+    assert_eq!(unsafe { _mm256_cmpeq_epu16_mask(left[1], right[1]) }, 0x00008421);
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[test]
+fn _mm256_cmplt_epu16_mask_test() {
+    let arr_v: [uint16x16; 2] = [
+        uint16x16 {
+            0: [
+                0x0000, 0xFFFF, 0x8000, 0x0001, 0x0000, 0xFFFF, 0x8000, 0x0001,
+                0x0000, 0xFFFF, 0x8000, 0x0001, 0x0000, 0xFFFF, 0x8000, 0x0001
+            ]
+        },
+        uint16x16 {
+            0: [
+                0x0000, 0x0000, 0x0000, 0x0000, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF,
+                0x8000, 0x8000, 0x8000, 0x8000, 0x0001, 0x0001, 0x0001, 0x0001
+            ]
+        }
+    ];
+
+    let left: [__m256i; 2] = unsafe { [
+        _mm256_load_si256(arr_v[0].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[1].0.as_ptr().cast::<__m256i>())
+    ] };
+    let right: [__m256i; 2] = unsafe { [
+        _mm256_load_si256(arr_v[1].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[0].0.as_ptr().cast::<__m256i>())
+    ] };
+
+    assert_eq!(unsafe { _mm256_cmplt_epu16_mask(left[0], right[0]) }, 0x000019D0);
+
+    assert_eq!(unsafe { _mm256_cmplt_epu16_mask(left[1], right[1]) }, 0x0000620E);
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[test]
+fn _mm256_cmple_epu16_mask_test() {
+    let arr_v: [uint16x16; 2] = [
+        uint16x16 {
+            0: [
+                0x0000, 0xFFFF, 0x8000, 0x0001, 0x0000, 0xFFFF, 0x8000, 0x0001,
+                0x0000, 0xFFFF, 0x8000, 0x0001, 0x0000, 0xFFFF, 0x8000, 0x0001
+            ]
+        },
+        uint16x16 {
+            0: [
+                0x0000, 0x0000, 0x0000, 0x0000, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF,
+                0x8000, 0x8000, 0x8000, 0x8000, 0x0001, 0x0001, 0x0001, 0x0001
+            ]
+        }
+    ];
+
+    let left: [__m256i; 2] = unsafe { [
+        _mm256_load_si256(arr_v[0].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[1].0.as_ptr().cast::<__m256i>())
+    ] };
+    let right: [__m256i; 2] = unsafe { [
+        _mm256_load_si256(arr_v[1].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[0].0.as_ptr().cast::<__m256i>())
+    ] };
+
+    assert_eq!(unsafe { _mm256_cmple_epu16_mask(left[0], right[0]) }, 0x00009DF1);
+
+    assert_eq!(unsafe { _mm256_cmple_epu16_mask(left[1], right[1]) }, 0x0000E62F);
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[test]
+fn _mm256_cmpgt_epu32_mask_test() {
+    let arr_v: [uint32x8; 3] = [
+        uint32x8 {
+            0: [
+                0x00000000, 0xFFFFFFFF, 0x80000000, 0x00000001, 0x00000000, 0xFFFFFFFF, 0x80000000, 0x00000001
+            ]
+        },
+        uint32x8 {
+            0: [
+                0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000
+            ]
+        },
+        uint32x8 {
+            0: [
+                0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF
+            ]
+        }
+    ];
+
+    let left: [__m256i; 3] = unsafe { [
+        _mm256_load_si256(arr_v[0].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[0].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[1].0.as_ptr().cast::<__m256i>())
+    ] };
+    let right: [__m256i; 3] = unsafe { [
+        _mm256_load_si256(arr_v[1].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[2].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[2].0.as_ptr().cast::<__m256i>())
+    ] };
+
+    assert_eq!(unsafe { _mm256_cmpgt_epu32_mask(left[0], right[0]) }, 0x000000EE);
+
+    assert_eq!(unsafe { _mm256_cmpgt_epu32_mask(left[1], right[1]) }, 0x00000000);
+
+    assert_eq!(unsafe { _mm256_cmpgt_epu32_mask(left[2], right[2]) }, 0x00000000);
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[test]
+fn _mm256_cmpge_epu32_mask_test() {
+    let arr_v: [uint32x8; 3] = [
+        uint32x8 {
+            0: [
+                0x00000000, 0xFFFFFFFF, 0x80000000, 0x00000001, 0x00000000, 0xFFFFFFFF, 0x80000000, 0x00000001
+            ]
+        },
+        uint32x8 {
+            0: [
+                0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000
+            ]
+        },
+        uint32x8 {
+            0: [
+                0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF
+            ]
+        }
+    ];
+
+    let left: [__m256i; 3] = unsafe { [
+        _mm256_load_si256(arr_v[0].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[0].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[1].0.as_ptr().cast::<__m256i>())
+    ] };
+    let right: [__m256i; 3] = unsafe { [
+        _mm256_load_si256(arr_v[1].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[2].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[2].0.as_ptr().cast::<__m256i>())
+    ] };
+
+    assert_eq!(unsafe { _mm256_cmpge_epu32_mask(left[0], right[0]) }, 0x000000FF);
+
+    assert_eq!(unsafe { _mm256_cmpge_epu32_mask(left[1], right[1]) }, 0x00000022);
+
+    assert_eq!(unsafe { _mm256_cmpge_epu32_mask(left[2], right[2]) }, 0x00000000);
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[test]
+fn _mm256_cmpeq_epu32_mask_test() {
+    let arr_v: [uint32x8; 3] = [
+        uint32x8 {
+            0: [
+                0x00000000, 0xFFFFFFFF, 0x80000000, 0x00000001, 0x00000000, 0xFFFFFFFF, 0x80000000, 0x00000001
+            ]
+        },
+        uint32x8 {
+            0: [
+                0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000
+            ]
+        },
+        uint32x8 {
+            0: [
+                0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF
+            ]
+        }
+    ];
+
+    let left: [__m256i; 3] = unsafe { [
+        _mm256_load_si256(arr_v[0].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[0].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[1].0.as_ptr().cast::<__m256i>())
+    ] };
+    let right: [__m256i; 3] = unsafe { [
+        _mm256_load_si256(arr_v[1].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[2].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[2].0.as_ptr().cast::<__m256i>())
+    ] };
+
+    assert_eq!(unsafe { _mm256_cmpeq_epu32_mask(left[0], right[0]) }, 0x00000011);
+
+    assert_eq!(unsafe { _mm256_cmpeq_epu32_mask(left[1], right[1]) }, 0x00000022);
+
+    assert_eq!(unsafe { _mm256_cmpeq_epu32_mask(left[2], right[2]) }, 0x00000000);
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[test]
+fn _mm256_cmplt_epu32_mask_test() {
+    let arr_v: [uint32x8; 3] = [
+        uint32x8 {
+            0: [
+                0x00000000, 0xFFFFFFFF, 0x80000000, 0x00000001, 0x00000000, 0xFFFFFFFF, 0x80000000, 0x00000001
+            ]
+        },
+        uint32x8 {
+            0: [
+                0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000
+            ]
+        },
+        uint32x8 {
+            0: [
+                0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF
+            ]
+        }
+    ];
+
+    let left: [__m256i; 3] = unsafe { [
+        _mm256_load_si256(arr_v[0].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[0].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[1].0.as_ptr().cast::<__m256i>())
+    ] };
+    let right: [__m256i; 3] = unsafe { [
+        _mm256_load_si256(arr_v[1].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[2].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[2].0.as_ptr().cast::<__m256i>())
+    ] };
+
+    assert_eq!(unsafe { _mm256_cmplt_epu32_mask(left[0], right[0]) }, 0x00000000);
+
+    assert_eq!(unsafe { _mm256_cmplt_epu32_mask(left[1], right[1]) }, 0x000000DD);
+
+    assert_eq!(unsafe { _mm256_cmplt_epu32_mask(left[2], right[2]) }, 0x000000FF);
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[test]
+fn _mm256_cmple_epu32_mask_test() {
+    let arr_v: [uint32x8; 3] = [
+        uint32x8 {
+            0: [
+                0x00000000, 0xFFFFFFFF, 0x80000000, 0x00000001, 0x00000000, 0xFFFFFFFF, 0x80000000, 0x00000001
+            ]
+        },
+        uint32x8 {
+            0: [
+                0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000
+            ]
+        },
+        uint32x8 {
+            0: [
+                0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF
+            ]
+        }
+    ];
+
+    let left: [__m256i; 3] = unsafe { [
+        _mm256_load_si256(arr_v[0].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[0].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[1].0.as_ptr().cast::<__m256i>())
+    ] };
+    let right: [__m256i; 3] = unsafe { [
+        _mm256_load_si256(arr_v[1].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[2].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[2].0.as_ptr().cast::<__m256i>())
+    ] };
+
+    assert_eq!(unsafe { _mm256_cmple_epu32_mask(left[0], right[0]) }, 0x00000011);
+
+    assert_eq!(unsafe { _mm256_cmple_epu32_mask(left[1], right[1]) }, 0x000000FF);
+
+    assert_eq!(unsafe { _mm256_cmple_epu32_mask(left[2], right[2]) }, 0x000000FF);
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[test]
+fn _mm256_cmpgt_epu64_mask_test() {
+    let arr_v: [uint64x4; 4] = [
+        uint64x4 {
+            0: [
+                0x0000000000000000, 0xFFFFFFFFFFFFFFFF, 0x8000000000000000, 0x0000000000000001
+            ]
+        },
+        uint64x4 {
+            0: [
+                0x0000000000000000, 0x0000000000000000, 0x0000000000000000, 0x0000000000000000
+            ]
+        },
+        uint64x4 {
+            0: [
+                0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF
+            ]
+        },
+        uint64x4 {
+            0: [
+                0x8000000000000000, 0x0000000000000001, 0x0000000000000000, 0xFFFFFFFFFFFFFFFF
+            ]
+        }
+    ];
+
+    let left: [__m256i; 4] = unsafe { [
+        _mm256_load_si256(arr_v[0].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[0].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[1].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[2].0.as_ptr().cast::<__m256i>())
+    ] };
+    let right: [__m256i; 4] = unsafe { [
+        _mm256_load_si256(arr_v[1].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[2].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[2].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[3].0.as_ptr().cast::<__m256i>())
+    ] };
+
+    assert_eq!(unsafe { _mm256_cmpgt_epu64_mask(left[0], right[0]) }, 0x0000000E);
+
+    assert_eq!(unsafe { _mm256_cmpgt_epu64_mask(left[1], right[1]) }, 0x00000000);
+
+    assert_eq!(unsafe { _mm256_cmpgt_epu64_mask(left[2], right[2]) }, 0x00000000);
+
+    assert_eq!(unsafe { _mm256_cmpgt_epu64_mask(left[3], right[3]) }, 0x00000007);
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[test]
+fn _mm256_cmpge_epu64_mask_test() {
+    let arr_v: [uint64x4; 4] = [
+        uint64x4 {
+            0: [
+                0x0000000000000000, 0xFFFFFFFFFFFFFFFF, 0x8000000000000000, 0x0000000000000001
+            ]
+        },
+        uint64x4 {
+            0: [
+                0x0000000000000000, 0x0000000000000000, 0x0000000000000000, 0x0000000000000000
+            ]
+        },
+        uint64x4 {
+            0: [
+                0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF
+            ]
+        },
+        uint64x4 {
+            0: [
+                0x8000000000000000, 0x0000000000000001, 0x0000000000000000, 0xFFFFFFFFFFFFFFFF
+            ]
+        }
+    ];
+
+    let left: [__m256i; 4] = unsafe { [
+        _mm256_load_si256(arr_v[0].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[0].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[1].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[2].0.as_ptr().cast::<__m256i>())
+    ] };
+    let right: [__m256i; 4] = unsafe { [
+        _mm256_load_si256(arr_v[1].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[2].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[2].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[3].0.as_ptr().cast::<__m256i>())
+    ] };
+
+    assert_eq!(unsafe { _mm256_cmpge_epu64_mask(left[0], right[0]) }, 0x0000000F);
+
+    assert_eq!(unsafe { _mm256_cmpge_epu64_mask(left[1], right[1]) }, 0x00000002);
+
+    assert_eq!(unsafe { _mm256_cmpge_epu64_mask(left[2], right[2]) }, 0x00000000);
+
+    assert_eq!(unsafe { _mm256_cmpge_epu64_mask(left[3], right[3]) }, 0x0000000F);
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[test]
+fn _mm256_cmpeq_epu64_mask_test() {
+    let arr_v: [uint64x4; 4] = [
+        uint64x4 {
+            0: [
+                0x0000000000000000, 0xFFFFFFFFFFFFFFFF, 0x8000000000000000, 0x0000000000000001
+            ]
+        },
+        uint64x4 {
+            0: [
+                0x0000000000000000, 0x0000000000000000, 0x0000000000000000, 0x0000000000000000
+            ]
+        },
+        uint64x4 {
+            0: [
+                0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF
+            ]
+        },
+        uint64x4 {
+            0: [
+                0x8000000000000000, 0x0000000000000001, 0x0000000000000000, 0xFFFFFFFFFFFFFFFF
+            ]
+        }
+    ];
+
+    let left: [__m256i; 4] = unsafe { [
+        _mm256_load_si256(arr_v[0].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[0].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[0].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[1].0.as_ptr().cast::<__m256i>())
+    ] };
+    let right: [__m256i; 4] = unsafe { [
+        _mm256_load_si256(arr_v[1].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[2].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[3].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[2].0.as_ptr().cast::<__m256i>())
+    ] };
+
+    assert_eq!(unsafe { _mm256_cmpeq_epu64_mask(left[0], right[0]) }, 0x00000001);
+
+    assert_eq!(unsafe { _mm256_cmpeq_epu64_mask(left[1], right[1]) }, 0x00000002);
+
+    assert_eq!(unsafe { _mm256_cmpeq_epu64_mask(left[2], right[2]) }, 0x00000000);
+
+    assert_eq!(unsafe { _mm256_cmpeq_epu64_mask(left[3], right[3]) }, 0x00000000);
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[test]
+fn _mm256_cmplt_epu64_mask_test() {
+    let arr_v: [uint64x4; 4] = [
+        uint64x4 {
+            0: [
+                0x0000000000000000, 0xFFFFFFFFFFFFFFFF, 0x8000000000000000, 0x0000000000000001
+            ]
+        },
+        uint64x4 {
+            0: [
+                0x0000000000000000, 0x0000000000000000, 0x0000000000000000, 0x0000000000000000
+            ]
+        },
+        uint64x4 {
+            0: [
+                0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF
+            ]
+        },
+        uint64x4 {
+            0: [
+                0x8000000000000000, 0x0000000000000001, 0x0000000000000000, 0xFFFFFFFFFFFFFFFF
+            ]
+        }
+    ];
+
+    let left: [__m256i; 4] = unsafe { [
+        _mm256_load_si256(arr_v[0].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[0].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[1].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[2].0.as_ptr().cast::<__m256i>())
+    ] };
+    let right: [__m256i; 4] = unsafe { [
+        _mm256_load_si256(arr_v[1].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[2].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[2].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[3].0.as_ptr().cast::<__m256i>())
+    ] };
+
+    assert_eq!(unsafe { _mm256_cmplt_epu64_mask(left[0], right[0]) }, 0x00000000);
+
+    assert_eq!(unsafe { _mm256_cmplt_epu64_mask(left[1], right[1]) }, 0x0000000D);
+
+    assert_eq!(unsafe { _mm256_cmplt_epu64_mask(left[2], right[2]) }, 0x0000000F);
+
+    assert_eq!(unsafe { _mm256_cmplt_epu64_mask(left[3], right[3]) }, 0x00000000);
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[test]
+fn _mm256_cmple_epu64_mask_test() {
+    let arr_v: [uint64x4; 4] = [
+        uint64x4 {
+            0: [
+                0x0000000000000000, 0xFFFFFFFFFFFFFFFF, 0x8000000000000000, 0x0000000000000001
+            ]
+        },
+        uint64x4 {
+            0: [
+                0x0000000000000000, 0x0000000000000000, 0x0000000000000000, 0x0000000000000000
+            ]
+        },
+        uint64x4 {
+            0: [
+                0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF
+            ]
+        },
+        uint64x4 {
+            0: [
+                0x8000000000000000, 0x0000000000000001, 0x0000000000000000, 0xFFFFFFFFFFFFFFFF
+            ]
+        }
+    ];
+
+    let left: [__m256i; 4] = unsafe { [
+        _mm256_load_si256(arr_v[0].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[0].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[1].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[2].0.as_ptr().cast::<__m256i>())
+    ] };
+    let right: [__m256i; 4] = unsafe { [
+        _mm256_load_si256(arr_v[1].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[2].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[2].0.as_ptr().cast::<__m256i>()),
+        _mm256_load_si256(arr_v[3].0.as_ptr().cast::<__m256i>())
+    ] };
+
+    assert_eq!(unsafe { _mm256_cmple_epu64_mask(left[0], right[0]) }, 0x00000001);
+
+    assert_eq!(unsafe { _mm256_cmple_epu64_mask(left[1], right[1]) }, 0x0000000F);
+
+    assert_eq!(unsafe { _mm256_cmple_epu64_mask(left[2], right[2]) }, 0x0000000F);
+
+    assert_eq!(unsafe { _mm256_cmple_epu64_mask(left[3], right[3]) }, 0x00000008);
 }
 
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx512bw"))]

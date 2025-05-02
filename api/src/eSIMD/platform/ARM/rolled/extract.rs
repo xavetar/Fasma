@@ -67,6 +67,7 @@ use core::{
     }
 };
 
+
 /// - Source: ```[01, 02, 03, 04, 05, 06, 07, 08]```
 /// - Addition: ```[09, 0a, 0b, 0c, 0d, 0e, 0f, 10]```
 ///
@@ -86,7 +87,7 @@ use core::{
 /// - Vext'ed left by 14 bytes: ```[0f, 10, 00, 00, 00, 00, 00, 00]```
 /// - Vext'ed left by 15 bytes: ```[10, 00, 00, 00, 00, 00, 00, 00]```
 /// - Vext'ed left by 16 bytes: ```[00, 00, 00, 00, 00, 00, 00, 00]```
-#[target_feature(enable = "neon")]
+#[cfg(all(any(all(target_arch = "arm", target_feature = "v7"), target_arch = "aarch64"), target_feature = "neon"))]
 pub unsafe fn alvext_u8(vector: uint8x8_t, addition: uint8x8_t, shift: usize) -> uint8x8_t {
     return match shift {
         0x00 => vector,
@@ -128,7 +129,7 @@ pub unsafe fn alvext_u8(vector: uint8x8_t, addition: uint8x8_t, shift: usize) ->
 /// - Vext'ed right by 14 bytes: ```[00, 00, 00, 00, 00, 00, 09, 0a]```
 /// - Vext'ed right by 15 bytes: ```[00, 00, 00, 00, 00, 00, 00, 09]```
 /// - Vext'ed right by 16 bytes: ```[00, 00, 00, 00, 00, 00, 00, 00]```
-#[target_feature(enable = "neon")]
+#[cfg(all(any(all(target_arch = "arm", target_feature = "v7"), target_arch = "aarch64"), target_feature = "neon"))]
 pub unsafe fn arvext_u8(vector: uint8x8_t, addition: uint8x8_t, shift: usize) -> uint8x8_t {
     return match shift {
         0x00 => vector,
@@ -186,7 +187,7 @@ pub unsafe fn arvext_u8(vector: uint8x8_t, addition: uint8x8_t, shift: usize) ->
 /// - Vext'ed left by 30 bytes: ```[1f, 20, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00]```
 /// - Vext'ed left by 31 bytes: ```[20, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00]```
 /// - Vext'ed left by 32 bytes: ```[00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00]```
-#[target_feature(enable = "neon")]
+#[cfg(all(any(all(target_arch = "arm", target_feature = "v7"), target_arch = "aarch64"), target_feature = "neon"))]
 pub unsafe fn alvextq_u8(vector: uint8x16_t, addition: uint8x16_t, shift: usize) -> uint8x16_t {
     return match shift {
         0x00 => vector,
@@ -260,7 +261,7 @@ pub unsafe fn alvextq_u8(vector: uint8x16_t, addition: uint8x16_t, shift: usize)
 /// - Vext'ed right by 30 bytes: ```[00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 11, 12]```
 /// - Vext'ed right by 31 bytes: ```[00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 11]```
 /// - Vext'ed right by 32 bytes: ```[00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00]```
-#[target_feature(enable = "neon")]
+#[cfg(all(any(all(target_arch = "arm", target_feature = "v7"), target_arch = "aarch64"), target_feature = "neon"))]
 pub unsafe fn arvextq_u8(vector: uint8x16_t, addition: uint8x16_t, shift: usize) -> uint8x16_t {
     return match shift {
         0x00 => vector,
@@ -310,7 +311,7 @@ pub unsafe fn arvextq_u8(vector: uint8x16_t, addition: uint8x16_t, shift: usize)
 /// - Vext'ed left by 6 pairs: ```[07, 08, 00, 00]```
 /// - Vext'ed left by 7 pairs: ```[08, 00, 00, 00]```
 /// - Vext'ed left by 8 pairs: ```[00, 00, 00, 00]```
-#[target_feature(enable = "neon")]
+#[cfg(all(any(all(target_arch = "arm", target_feature = "v7"), target_arch = "aarch64"), target_feature = "neon"))]
 pub unsafe fn alvext_u16(vector: uint16x4_t, addition: uint16x4_t, shift: usize) -> uint16x4_t {
     return match shift {
         0x00 => vector,
@@ -336,7 +337,7 @@ pub unsafe fn alvext_u16(vector: uint16x4_t, addition: uint16x4_t, shift: usize)
 /// - Vext'ed right by 6 pairs: ```[00, 00, 05, 06]```
 /// - Vext'ed right by 7 pairs: ```[00, 00, 00, 05]```
 /// - Vext'ed right by 8 pairs: ```[00, 00, 00, 00]```
-#[target_feature(enable = "neon")]
+#[cfg(all(any(all(target_arch = "arm", target_feature = "v7"), target_arch = "aarch64"), target_feature = "neon"))]
 pub unsafe fn arvext_u16(vector: uint16x4_t, addition: uint16x4_t, shift: usize) -> uint16x4_t {
     return match shift {
         0x00 => vector,
@@ -370,7 +371,7 @@ pub unsafe fn arvext_u16(vector: uint16x4_t, addition: uint16x4_t, shift: usize)
 /// - Vext'ed left by 14 pairs: ```[0f, 10, 00, 00, 00, 00, 00, 00]```
 /// - Vext'ed left by 15 pairs: ```[10, 00, 00, 00, 00, 00, 00, 00]```
 /// - Vext'ed left by 16 pairs: ```[00, 00, 00, 00, 00, 00, 00, 00]```
-#[target_feature(enable = "neon")]
+#[cfg(all(any(all(target_arch = "arm", target_feature = "v7"), target_arch = "aarch64"), target_feature = "neon"))]
 pub unsafe fn alvextq_u16(vector: uint16x8_t, addition: uint16x8_t, shift: usize) -> uint16x8_t {
     return match shift {
         0x00 => vector,
@@ -412,7 +413,7 @@ pub unsafe fn alvextq_u16(vector: uint16x8_t, addition: uint16x8_t, shift: usize
 /// - Vext'ed right by 14 pairs: ```[00, 00, 00, 00, 00, 00, 09, 0a]```
 /// - Vext'ed right by 15 pairs: ```[00, 00, 00, 00, 00, 00, 00, 09]```
 /// - Vext'ed right by 16 pairs: ```[00, 00, 00, 00, 00, 00, 00, 00]```
-#[target_feature(enable = "neon")]
+#[cfg(all(any(all(target_arch = "arm", target_feature = "v7"), target_arch = "aarch64"), target_feature = "neon"))]
 pub unsafe fn arvextq_u16(vector: uint16x8_t, addition: uint16x8_t, shift: usize) -> uint16x8_t {
     return match shift {
         0x00 => vector,
@@ -442,7 +443,7 @@ pub unsafe fn arvextq_u16(vector: uint16x8_t, addition: uint16x8_t, shift: usize
 /// - Vext'ed left by 2 pairs: ```[03, 04]```
 /// - Vext'ed left by 3 pairs: ```[04, 00]```
 /// - Vext'ed left by 4 pairs: ```[00, 00]```
-#[target_feature(enable = "neon")]
+#[cfg(all(any(all(target_arch = "arm", target_feature = "v7"), target_arch = "aarch64"), target_feature = "neon"))]
 pub unsafe fn alvext_u32(vector: uint32x2_t, addition: uint32x2_t, shift: usize) -> uint32x2_t {
     return match shift {
         0x00 => vector,
@@ -460,7 +461,7 @@ pub unsafe fn alvext_u32(vector: uint32x2_t, addition: uint32x2_t, shift: usize)
 /// - Vext'ed right by 2 pairs: ```[03, 04]```
 /// - Vext'ed right by 3 pairs: ```[00, 03]```
 /// - Vext'ed right by 4 pairs: ```[00, 00]```
-#[target_feature(enable = "neon")]
+#[cfg(all(any(all(target_arch = "arm", target_feature = "v7"), target_arch = "aarch64"), target_feature = "neon"))]
 pub unsafe fn arvext_u32(vector: uint32x2_t, addition: uint32x2_t, shift: usize) -> uint32x2_t {
     return match shift {
         0x00 => vector,
@@ -482,7 +483,7 @@ pub unsafe fn arvext_u32(vector: uint32x2_t, addition: uint32x2_t, shift: usize)
 /// - Vext'ed left by 6 pairs: ```[07, 08, 00, 00]```
 /// - Vext'ed left by 7 pairs: ```[08, 00, 00, 00]```
 /// - Vext'ed left by 8 pairs: ```[00, 00, 00, 00]```
-#[target_feature(enable = "neon")]
+#[cfg(all(any(all(target_arch = "arm", target_feature = "v7"), target_arch = "aarch64"), target_feature = "neon"))]
 pub unsafe fn alvextq_u32(vector: uint32x4_t, addition: uint32x4_t, shift: usize) -> uint32x4_t {
     return match shift {
         0x00 => vector,
@@ -508,7 +509,7 @@ pub unsafe fn alvextq_u32(vector: uint32x4_t, addition: uint32x4_t, shift: usize
 /// - Vext'ed right by 6 pairs: ```[00, 00, 05, 06]```
 /// - Vext'ed right by 7 pairs: ```[00, 00, 00, 05]```
 /// - Vext'ed right by 8 pairs: ```[00, 00, 00, 00]```
-#[target_feature(enable = "neon")]
+#[cfg(all(any(all(target_arch = "arm", target_feature = "v7"), target_arch = "aarch64"), target_feature = "neon"))]
 pub unsafe fn arvextq_u32(vector: uint32x4_t, addition: uint32x4_t, shift: usize) -> uint32x4_t {
     return match shift {
         0x00 => vector,
@@ -528,7 +529,7 @@ pub unsafe fn arvextq_u32(vector: uint32x4_t, addition: uint32x4_t, shift: usize
 ///
 /// - Vext'ed left by 1 pair: ```[02]```
 /// - Vext'ed left by 2 pairs: ```[00]```
-#[target_feature(enable = "neon")]
+#[cfg(all(any(all(target_arch = "arm", target_feature = "v7"), target_arch = "aarch64"), target_feature = "neon"))]
 pub unsafe fn alvext_u64(vector: uint64x1_t, addition: uint64x1_t, shift: usize) -> uint64x1_t {
     return match shift {
         0x00 => vector,
@@ -542,7 +543,7 @@ pub unsafe fn alvext_u64(vector: uint64x1_t, addition: uint64x1_t, shift: usize)
 ///
 /// - Vext'ed right by 1 pair: ```[02]```
 /// - Vext'ed right by 2 pairs: ```[00]```
-#[target_feature(enable = "neon")]
+#[cfg(all(any(all(target_arch = "arm", target_feature = "v7"), target_arch = "aarch64"), target_feature = "neon"))]
 pub unsafe fn arvext_u64(vector: uint64x1_t, addition: uint64x1_t, shift: usize) -> uint64x1_t {
     return match shift {
         0x00 => vector,
@@ -558,7 +559,7 @@ pub unsafe fn arvext_u64(vector: uint64x1_t, addition: uint64x1_t, shift: usize)
 /// - Vext'ed left by 2 pairs: ```[03, 04]```
 /// - Vext'ed left by 3 pairs: ```[04, 00]```
 /// - Vext'ed left by 4 pairs: ```[00, 00]```
-#[target_feature(enable = "neon")]
+#[cfg(all(any(all(target_arch = "arm", target_feature = "v7"), target_arch = "aarch64"), target_feature = "neon"))]
 pub unsafe fn alvextq_u64(vector: uint64x2_t, addition: uint64x2_t, shift: usize) -> uint64x2_t {
     return match shift {
         0x00 => vector,
@@ -576,7 +577,7 @@ pub unsafe fn alvextq_u64(vector: uint64x2_t, addition: uint64x2_t, shift: usize
 /// - Vext'ed right by 2 pairs: ```[03, 04]```
 /// - Vext'ed right by 3 pairs: ```[00, 03]```
 /// - Vext'ed right by 4 pairs: ```[00, 00]```
-#[target_feature(enable = "neon")]
+#[cfg(all(any(all(target_arch = "arm", target_feature = "v7"), target_arch = "aarch64"), target_feature = "neon"))]
 pub unsafe fn arvextq_u64(vector: uint64x2_t, addition: uint64x2_t, shift: usize) -> uint64x2_t {
     return match shift {
         0x00 => vector,

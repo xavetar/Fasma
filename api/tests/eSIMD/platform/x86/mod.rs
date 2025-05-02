@@ -32,3 +32,4 @@ mod extract;
 mod reverse;
 mod compare;
 mod bitwise;
+mod scalar;

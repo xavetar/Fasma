@@ -129,6 +129,7 @@ use core::{
     }
 };
 
+
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
 #[repr(align(16))]
 struct int8x16([i8; 16_usize]);

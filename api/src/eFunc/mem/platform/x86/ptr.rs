@@ -144,6 +144,7 @@ use core::{
     }
 };
 
+
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
 #[repr(align(16))]
 struct uint8x16([u8; 16_usize]);
@@ -199,6 +200,7 @@ struct uint64x8([u64; 8_usize]);
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx512f", target_feature = "avx512bw"))]
 #[repr(align(64))]
 struct uint128x4([u128; 4_usize]);
+
 
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
 macro_rules! align_remainder_sse2 {

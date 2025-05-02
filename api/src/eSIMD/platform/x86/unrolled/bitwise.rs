@@ -93,6 +93,7 @@ use core::{
     }
 };
 
+
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
 #[inline]
 pub unsafe fn _mm_not_si128(vector: __m128i) -> __m128i {

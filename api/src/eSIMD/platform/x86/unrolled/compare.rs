@@ -38,6 +38,7 @@ use core::{
             _mm_cmpgt_epi16, _mm_cmpeq_epi16, _mm_cmplt_epi16,
             _mm_cmpgt_epi32, _mm_cmpeq_epi32, _mm_cmplt_epi32,
             _mm_subs_epu8, _mm_subs_epu16,
+            _mm_movemask_epi8,
             _mm_setzero_si128
         }
     }
@@ -91,6 +92,60 @@ use core::{
     }
 };
 
+#[cfg(all(target_arch = "x86", target_feature = "avx", target_feature = "avx2"))]
+use core::{
+    arch::{
+        x86::{
+            __m256i,
+            _mm256_set1_epi8, _mm256_set1_epi16, _mm256_set1_epi32, _mm256_set1_epi64x,
+            _mm256_xor_si256, _mm256_or_si256,
+            _mm256_cmpgt_epi8, _mm256_cmpeq_epi8,
+            _mm256_cmpgt_epi16, _mm256_cmpeq_epi16,
+            _mm256_cmpgt_epi32, _mm256_cmpeq_epi32,
+            _mm256_cmpgt_epi64, _mm256_cmpeq_epi64,
+            _mm256_subs_epu8, _mm256_subs_epu16,
+            _mm256_movemask_epi8,
+            _mm256_setzero_si256
+        }
+    }
+};
+
+#[cfg(all(target_arch = "x86", any(target_feature = "avx512f", target_feature = "avx512bw")))]
+use core::{
+    arch::{
+        x86::{
+            __m512i,
+            _mm512_set1_epi8
+        }
+    }
+};
+
+#[cfg(all(target_arch = "x86", target_feature = "avx512f"))]
+use core::{
+    arch::{
+        x86::{
+            _mm512_maskz_mov_epi32, _mm512_maskz_mov_epi64,
+            _mm512_cmpgt_epi32_mask, _mm512_cmpge_epi32_mask, _mm512_cmpeq_epi32_mask, _mm512_cmplt_epi32_mask, _mm512_cmple_epi32_mask,
+            _mm512_cmpgt_epi64_mask, _mm512_cmpge_epi64_mask, _mm512_cmpeq_epi64_mask, _mm512_cmplt_epi64_mask, _mm512_cmple_epi64_mask,
+            _mm512_cmpgt_epu32_mask, _mm512_cmpge_epu32_mask, _mm512_cmpeq_epu32_mask, _mm512_cmplt_epu32_mask, _mm512_cmple_epu32_mask,
+            _mm512_cmpgt_epu64_mask, _mm512_cmpge_epu64_mask, _mm512_cmpeq_epu64_mask, _mm512_cmplt_epu64_mask, _mm512_cmple_epu64_mask
+        }
+    }
+};
+
+#[cfg(all(target_arch = "x86", target_feature = "avx512bw"))]
+use core::{
+    arch::{
+        x86::{
+            _mm512_maskz_mov_epi8, _mm512_maskz_mov_epi16,
+            _mm512_cmpgt_epi8_mask, _mm512_cmpge_epi8_mask, _mm512_cmpeq_epi8_mask, _mm512_cmplt_epi8_mask, _mm512_cmple_epi8_mask,
+            _mm512_cmpgt_epi16_mask, _mm512_cmpge_epi16_mask, _mm512_cmpeq_epi16_mask, _mm512_cmplt_epi16_mask, _mm512_cmple_epi16_mask,
+            _mm512_cmpgt_epu8_mask, _mm512_cmpge_epu8_mask, _mm512_cmpeq_epu8_mask, _mm512_cmplt_epu8_mask, _mm512_cmple_epu8_mask,
+            _mm512_cmpgt_epu16_mask, _mm512_cmpge_epu16_mask, _mm512_cmpeq_epu16_mask, _mm512_cmplt_epu16_mask, _mm512_cmple_epu16_mask
+        }
+    }
+};
+
 #[cfg(all(target_arch = "x86_64", target_feature = "sse2"))]
 use core::{
     arch::{
@@ -102,6 +157,7 @@ use core::{
             _mm_cmpgt_epi16, _mm_cmpeq_epi16, _mm_cmplt_epi16,
             _mm_cmpgt_epi32, _mm_cmpeq_epi32, _mm_cmplt_epi32,
             _mm_subs_epu8, _mm_subs_epu16,
+            _mm_movemask_epi8,
             _mm_setzero_si128
         }
     }
@@ -155,23 +211,6 @@ use core::{
     }
 };
 
-#[cfg(all(target_arch = "x86", target_feature = "avx", target_feature = "avx2"))]
-use core::{
-    arch::{
-        x86::{
-            __m256i,
-            _mm256_set1_epi8, _mm256_set1_epi16, _mm256_set1_epi32, _mm256_set1_epi64x,
-            _mm256_xor_si256, _mm256_or_si256,
-            _mm256_cmpgt_epi8, _mm256_cmpeq_epi8,
-            _mm256_cmpgt_epi16, _mm256_cmpeq_epi16,
-            _mm256_cmpgt_epi32, _mm256_cmpeq_epi32,
-            _mm256_cmpgt_epi64, _mm256_cmpeq_epi64,
-            _mm256_subs_epu8, _mm256_subs_epu16,
-            _mm256_setzero_si256
-        }
-    }
-};
-
 #[cfg(all(target_arch = "x86_64", target_feature = "avx", target_feature = "avx2"))]
 use core::{
     arch::{
@@ -184,43 +223,8 @@ use core::{
             _mm256_cmpgt_epi32, _mm256_cmpeq_epi32,
             _mm256_cmpgt_epi64, _mm256_cmpeq_epi64,
             _mm256_subs_epu8, _mm256_subs_epu16,
+            _mm256_movemask_epi8,
             _mm256_setzero_si256
-        }
-    }
-};
-
-#[cfg(all(target_arch = "x86", any(target_feature = "avx512f", target_feature = "avx512bw")))]
-use core::{
-    arch::{
-        x86::{
-            __m512i,
-            _mm512_set1_epi8
-        }
-    }
-};
-
-#[cfg(all(target_arch = "x86", target_feature = "avx512f"))]
-use core::{
-    arch::{
-        x86::{
-            _mm512_maskz_mov_epi32, _mm512_maskz_mov_epi64,
-            _mm512_cmpgt_epi32_mask, _mm512_cmpge_epi32_mask, _mm512_cmpeq_epi32_mask, _mm512_cmplt_epi32_mask, _mm512_cmple_epi32_mask,
-            _mm512_cmpgt_epi64_mask, _mm512_cmpge_epi64_mask, _mm512_cmpeq_epi64_mask, _mm512_cmplt_epi64_mask, _mm512_cmple_epi64_mask,
-            _mm512_cmpgt_epu32_mask, _mm512_cmpge_epu32_mask, _mm512_cmpeq_epu32_mask, _mm512_cmplt_epu32_mask, _mm512_cmple_epu32_mask,
-            _mm512_cmpgt_epu64_mask, _mm512_cmpge_epu64_mask, _mm512_cmpeq_epu64_mask, _mm512_cmplt_epu64_mask, _mm512_cmple_epu64_mask
-        }
-    }
-};
-
-#[cfg(all(target_arch = "x86", target_feature = "avx512bw"))]
-use core::{
-    arch::{
-        x86::{
-            _mm512_maskz_mov_epi8, _mm512_maskz_mov_epi16,
-            _mm512_cmpgt_epi8_mask, _mm512_cmpge_epi8_mask, _mm512_cmpeq_epi8_mask, _mm512_cmplt_epi8_mask, _mm512_cmple_epi8_mask,
-            _mm512_cmpgt_epi16_mask, _mm512_cmpge_epi16_mask, _mm512_cmpeq_epi16_mask, _mm512_cmplt_epi16_mask, _mm512_cmple_epi16_mask,
-            _mm512_cmpgt_epu8_mask, _mm512_cmpge_epu8_mask, _mm512_cmpeq_epu8_mask, _mm512_cmplt_epu8_mask, _mm512_cmple_epu8_mask,
-            _mm512_cmpgt_epu16_mask, _mm512_cmpge_epu16_mask, _mm512_cmpeq_epu16_mask, _mm512_cmplt_epu16_mask, _mm512_cmple_epu16_mask
         }
     }
 };
@@ -260,6 +264,21 @@ use core::{
         }
     }
 };
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+use super::{
+    scalar::{
+        _mm_movemask_epi16, _mm_movemask_epi32, _mm_movemask_epi64
+    }
+};
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+use super::{
+    scalar::{
+        _mm256_movemask_epi16, _mm256_movemask_epi32, _mm256_movemask_epi64
+    }
+};
+
 
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
 #[inline]
@@ -996,6 +1015,246 @@ pub unsafe fn _mm_cmple_epu64(left: __m128i, right: __m128i) -> __m128i {
     return _mm_or_si128(_mm_cmplt_epu64(left, right), _mm_cmpeq_epi64(left, right));
 }
 
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[inline]
+pub unsafe fn _mm_cmpgt_epi8_mask(left: __m128i, right: __m128i) -> i32 {
+    return _mm_movemask_epi8(_mm_cmpgt_epi8(left, right));
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[inline]
+pub unsafe fn _mm_cmpge_epi8_mask(left: __m128i, right: __m128i) -> i32 {
+    return _mm_movemask_epi8(_mm_cmpge_epi8(left, right));
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[inline]
+pub unsafe fn _mm_cmpeq_epi8_mask(left: __m128i, right: __m128i) -> i32 {
+    return _mm_movemask_epi8(_mm_cmpeq_epi8(left, right));
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[inline]
+pub unsafe fn _mm_cmplt_epi8_mask(left: __m128i, right: __m128i) -> i32 {
+    return _mm_movemask_epi8(_mm_cmplt_epi8(left, right));
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[inline]
+pub unsafe fn _mm_cmple_epi8_mask(left: __m128i, right: __m128i) -> i32 {
+    return _mm_movemask_epi8(_mm_cmple_epi8(left, right));
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[inline]
+pub unsafe fn _mm_cmpgt_epi16_mask(left: __m128i, right: __m128i) -> i32 {
+    return _mm_movemask_epi16(_mm_cmpgt_epi16(left, right));
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[inline]
+pub unsafe fn _mm_cmpge_epi16_mask(left: __m128i, right: __m128i) -> i32 {
+    return _mm_movemask_epi16(_mm_cmpge_epi16(left, right));
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[inline]
+pub unsafe fn _mm_cmpeq_epi16_mask(left: __m128i, right: __m128i) -> i32 {
+    return _mm_movemask_epi16(_mm_cmpeq_epi16(left, right));
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[inline]
+pub unsafe fn _mm_cmplt_epi16_mask(left: __m128i, right: __m128i) -> i32 {
+    return _mm_movemask_epi16(_mm_cmplt_epi16(left, right));
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[inline]
+pub unsafe fn _mm_cmple_epi16_mask(left: __m128i, right: __m128i) -> i32 {
+    return _mm_movemask_epi16(_mm_cmple_epi16(left, right));
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[inline]
+pub unsafe fn _mm_cmpgt_epi32_mask(left: __m128i, right: __m128i) -> i32 {
+    return _mm_movemask_epi32(_mm_cmpgt_epi32(left, right));
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[inline]
+pub unsafe fn _mm_cmpge_epi32_mask(left: __m128i, right: __m128i) -> i32 {
+    return _mm_movemask_epi32(_mm_cmpge_epi32(left, right));
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[inline]
+pub unsafe fn _mm_cmpeq_epi32_mask(left: __m128i, right: __m128i) -> i32 {
+    return _mm_movemask_epi32(_mm_cmpeq_epi32(left, right));
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[inline]
+pub unsafe fn _mm_cmplt_epi32_mask(left: __m128i, right: __m128i) -> i32 {
+    return _mm_movemask_epi32(_mm_cmplt_epi32(left, right));
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[inline]
+pub unsafe fn _mm_cmple_epi32_mask(left: __m128i, right: __m128i) -> i32 {
+    return _mm_movemask_epi32(_mm_cmple_epi32(left, right));
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[inline]
+pub unsafe fn _mm_cmpgt_epi64_mask(left: __m128i, right: __m128i) -> i32 {
+    return _mm_movemask_epi64(_mm_cmpgt_epi64(left, right));
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[inline]
+pub unsafe fn _mm_cmpge_epi64_mask(left: __m128i, right: __m128i) -> i32 {
+    return _mm_movemask_epi64(_mm_cmpge_epi64(left, right));
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[inline]
+pub unsafe fn _mm_cmpeq_epi64_mask(left: __m128i, right: __m128i) -> i32 {
+    return _mm_movemask_epi64(_mm_cmpeq_epi64(left, right));
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[inline]
+pub unsafe fn _mm_cmplt_epi64_mask(left: __m128i, right: __m128i) -> i32 {
+    return _mm_movemask_epi64(_mm_cmplt_epi64(left, right));
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[inline]
+pub unsafe fn _mm_cmple_epi64_mask(left: __m128i, right: __m128i) -> i32 {
+    return _mm_movemask_epi64(_mm_cmple_epi64(left, right));
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[inline]
+pub unsafe fn _mm_cmpgt_epu8_mask(left: __m128i, right: __m128i) -> i32 {
+    return _mm_movemask_epi8(_mm_cmpgt_epu8(left, right));
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[inline]
+pub unsafe fn _mm_cmpge_epu8_mask(left: __m128i, right: __m128i) -> i32 {
+    return _mm_movemask_epi8(_mm_cmpge_epu8(left, right));
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[inline]
+pub unsafe fn _mm_cmpeq_epu8_mask(left: __m128i, right: __m128i) -> i32 {
+    return _mm_movemask_epi8(_mm_cmpeq_epi8(left, right));
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[inline]
+pub unsafe fn _mm_cmplt_epu8_mask(left: __m128i, right: __m128i) -> i32 {
+    return _mm_movemask_epi8(_mm_cmplt_epu8(left, right));
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[inline]
+pub unsafe fn _mm_cmple_epu8_mask(left: __m128i, right: __m128i) -> i32 {
+    return _mm_movemask_epi8(_mm_cmple_epu8(left, right));
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[inline]
+pub unsafe fn _mm_cmpgt_epu16_mask(left: __m128i, right: __m128i) -> i32 {
+    return _mm_movemask_epi16(_mm_cmpgt_epu16(left, right));
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[inline]
+pub unsafe fn _mm_cmpge_epu16_mask(left: __m128i, right: __m128i) -> i32 {
+    return _mm_movemask_epi16(_mm_cmpge_epu16(left, right));
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[inline]
+pub unsafe fn _mm_cmpeq_epu16_mask(left: __m128i, right: __m128i) -> i32 {
+    return _mm_movemask_epi16(_mm_cmpeq_epi16(left, right));
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[inline]
+pub unsafe fn _mm_cmplt_epu16_mask(left: __m128i, right: __m128i) -> i32 {
+    return _mm_movemask_epi16(_mm_cmplt_epu16(left, right));
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[inline]
+pub unsafe fn _mm_cmple_epu16_mask(left: __m128i, right: __m128i) -> i32 {
+    return _mm_movemask_epi16(_mm_cmple_epu16(left, right));
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[inline]
+pub unsafe fn _mm_cmpgt_epu32_mask(left: __m128i, right: __m128i) -> i32 {
+    return _mm_movemask_epi32(_mm_cmpgt_epu32(left, right));
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[inline]
+pub unsafe fn _mm_cmpge_epu32_mask(left: __m128i, right: __m128i) -> i32 {
+    return _mm_movemask_epi32(_mm_cmpge_epu32(left, right));
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[inline]
+pub unsafe fn _mm_cmpeq_epu32_mask(left: __m128i, right: __m128i) -> i32 {
+    return _mm_movemask_epi32(_mm_cmpeq_epi32(left, right));
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[inline]
+pub unsafe fn _mm_cmplt_epu32_mask(left: __m128i, right: __m128i) -> i32 {
+    return _mm_movemask_epi32(_mm_cmplt_epu32(left, right));
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[inline]
+pub unsafe fn _mm_cmple_epu32_mask(left: __m128i, right: __m128i) -> i32 {
+    return _mm_movemask_epi32(_mm_cmple_epu32(left, right));
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[inline]
+pub unsafe fn _mm_cmpgt_epu64_mask(left: __m128i, right: __m128i) -> i32 {
+    return _mm_movemask_epi64(_mm_cmpgt_epu64(left, right));
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[inline]
+pub unsafe fn _mm_cmpge_epu64_mask(left: __m128i, right: __m128i) -> i32 {
+    return _mm_movemask_epi64(_mm_cmpge_epu64(left, right));
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[inline]
+pub unsafe fn _mm_cmpeq_epu64_mask(left: __m128i, right: __m128i) -> i32 {
+    return _mm_movemask_epi64(_mm_cmpeq_epi64(left, right));
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[inline]
+pub unsafe fn _mm_cmplt_epu64_mask(left: __m128i, right: __m128i) -> i32 {
+    return _mm_movemask_epi64(_mm_cmplt_epu64(left, right));
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2"))]
+#[inline]
+pub unsafe fn _mm_cmple_epu64_mask(left: __m128i, right: __m128i) -> i32 {
+    return _mm_movemask_epi64(_mm_cmple_epu64(left, right));
+}
+
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
 #[inline]
 pub unsafe fn _mm256_cmpgt_epu8(left: __m256i, right: __m256i) -> __m256i {
@@ -1192,6 +1451,246 @@ pub unsafe fn _mm256_cmple_epu64(left: __m256i, right: __m256i) -> __m256i {
     // 3. return _mm256_andnot_si256(_mm256_cmplt_epu64(right, left), _mm256_set1_epi8(-0x01));
     // 4. return _mm256_or_si256(_mm256_cmpgt_epu64(right, left), _mm256_cmpeq_epi64(left, right));
     return _mm256_or_si256(_mm256_cmplt_epu64(left, right), _mm256_cmpeq_epi64(left, right));
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[inline]
+pub unsafe fn _mm256_cmpgt_epi8_mask(left: __m256i, right: __m256i) -> i32 {
+    return _mm256_movemask_epi8(_mm256_cmpgt_epi8(left, right));
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[inline]
+pub unsafe fn _mm256_cmpge_epi8_mask(left: __m256i, right: __m256i) -> i32 {
+    return _mm256_movemask_epi8(_mm256_cmpge_epi8(left, right));
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[inline]
+pub unsafe fn _mm256_cmpeq_epi8_mask(left: __m256i, right: __m256i) -> i32 {
+    return _mm256_movemask_epi8(_mm256_cmpeq_epi8(left, right));
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[inline]
+pub unsafe fn _mm256_cmplt_epi8_mask(left: __m256i, right: __m256i) -> i32 {
+    return _mm256_movemask_epi8(_mm256_cmplt_epi8(left, right));
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[inline]
+pub unsafe fn _mm256_cmple_epi8_mask(left: __m256i, right: __m256i) -> i32 {
+    return _mm256_movemask_epi8(_mm256_cmple_epi8(left, right));
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[inline]
+pub unsafe fn _mm256_cmpgt_epi16_mask(left: __m256i, right: __m256i) -> i32 {
+    return _mm256_movemask_epi16(_mm256_cmpgt_epi16(left, right));
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[inline]
+pub unsafe fn _mm256_cmpge_epi16_mask(left: __m256i, right: __m256i) -> i32 {
+    return _mm256_movemask_epi16(_mm256_cmpge_epi16(left, right));
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[inline]
+pub unsafe fn _mm256_cmpeq_epi16_mask(left: __m256i, right: __m256i) -> i32 {
+    return _mm256_movemask_epi16(_mm256_cmpeq_epi16(left, right));
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[inline]
+pub unsafe fn _mm256_cmplt_epi16_mask(left: __m256i, right: __m256i) -> i32 {
+    return _mm256_movemask_epi16(_mm256_cmplt_epi16(left, right));
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[inline]
+pub unsafe fn _mm256_cmple_epi16_mask(left: __m256i, right: __m256i) -> i32 {
+    return _mm256_movemask_epi16(_mm256_cmple_epi16(left, right));
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[inline]
+pub unsafe fn _mm256_cmpgt_epi32_mask(left: __m256i, right: __m256i) -> i32 {
+    return _mm256_movemask_epi32(_mm256_cmpgt_epi32(left, right));
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[inline]
+pub unsafe fn _mm256_cmpge_epi32_mask(left: __m256i, right: __m256i) -> i32 {
+    return _mm256_movemask_epi32(_mm256_cmpge_epi32(left, right));
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[inline]
+pub unsafe fn _mm256_cmpeq_epi32_mask(left: __m256i, right: __m256i) -> i32 {
+    return _mm256_movemask_epi32(_mm256_cmpeq_epi32(left, right));
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[inline]
+pub unsafe fn _mm256_cmplt_epi32_mask(left: __m256i, right: __m256i) -> i32 {
+    return _mm256_movemask_epi32(_mm256_cmplt_epi32(left, right));
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[inline]
+pub unsafe fn _mm256_cmple_epi32_mask(left: __m256i, right: __m256i) -> i32 {
+    return _mm256_movemask_epi32(_mm256_cmple_epi32(left, right));
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[inline]
+pub unsafe fn _mm256_cmpgt_epi64_mask(left: __m256i, right: __m256i) -> i32 {
+    return _mm256_movemask_epi64(_mm256_cmpgt_epi64(left, right));
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[inline]
+pub unsafe fn _mm256_cmpge_epi64_mask(left: __m256i, right: __m256i) -> i32 {
+    return _mm256_movemask_epi64(_mm256_cmpge_epi64(left, right));
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[inline]
+pub unsafe fn _mm256_cmpeq_epi64_mask(left: __m256i, right: __m256i) -> i32 {
+    return _mm256_movemask_epi64(_mm256_cmpeq_epi64(left, right));
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[inline]
+pub unsafe fn _mm256_cmplt_epi64_mask(left: __m256i, right: __m256i) -> i32 {
+    return _mm256_movemask_epi64(_mm256_cmplt_epi64(left, right));
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[inline]
+pub unsafe fn _mm256_cmple_epi64_mask(left: __m256i, right: __m256i) -> i32 {
+    return _mm256_movemask_epi64(_mm256_cmple_epi64(left, right));
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[inline]
+pub unsafe fn _mm256_cmpgt_epu8_mask(left: __m256i, right: __m256i) -> i32 {
+    return _mm256_movemask_epi8(_mm256_cmpgt_epu8(left, right));
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[inline]
+pub unsafe fn _mm256_cmpge_epu8_mask(left: __m256i, right: __m256i) -> i32 {
+    return _mm256_movemask_epi8(_mm256_cmpge_epu8(left, right));
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[inline]
+pub unsafe fn _mm256_cmpeq_epu8_mask(left: __m256i, right: __m256i) -> i32 {
+    return _mm256_movemask_epi8(_mm256_cmpeq_epi8(left, right));
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[inline]
+pub unsafe fn _mm256_cmplt_epu8_mask(left: __m256i, right: __m256i) -> i32 {
+    return _mm256_movemask_epi8(_mm256_cmplt_epu8(left, right));
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[inline]
+pub unsafe fn _mm256_cmple_epu8_mask(left: __m256i, right: __m256i) -> i32 {
+    return _mm256_movemask_epi8(_mm256_cmple_epu8(left, right));
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[inline]
+pub unsafe fn _mm256_cmpgt_epu16_mask(left: __m256i, right: __m256i) -> i32 {
+    return _mm256_movemask_epi16(_mm256_cmpgt_epu16(left, right));
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[inline]
+pub unsafe fn _mm256_cmpge_epu16_mask(left: __m256i, right: __m256i) -> i32 {
+    return _mm256_movemask_epi16(_mm256_cmpge_epu16(left, right));
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[inline]
+pub unsafe fn _mm256_cmpeq_epu16_mask(left: __m256i, right: __m256i) -> i32 {
+    return _mm256_movemask_epi16(_mm256_cmpeq_epi16(left, right));
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[inline]
+pub unsafe fn _mm256_cmplt_epu16_mask(left: __m256i, right: __m256i) -> i32 {
+    return _mm256_movemask_epi16(_mm256_cmplt_epu16(left, right));
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[inline]
+pub unsafe fn _mm256_cmple_epu16_mask(left: __m256i, right: __m256i) -> i32 {
+    return _mm256_movemask_epi16(_mm256_cmple_epu16(left, right));
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[inline]
+pub unsafe fn _mm256_cmpgt_epu32_mask(left: __m256i, right: __m256i) -> i32 {
+    return _mm256_movemask_epi32(_mm256_cmpgt_epu32(left, right));
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[inline]
+pub unsafe fn _mm256_cmpge_epu32_mask(left: __m256i, right: __m256i) -> i32 {
+    return _mm256_movemask_epi32(_mm256_cmpge_epu32(left, right));
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[inline]
+pub unsafe fn _mm256_cmpeq_epu32_mask(left: __m256i, right: __m256i) -> i32 {
+    return _mm256_movemask_epi32(_mm256_cmpeq_epi32(left, right));
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[inline]
+pub unsafe fn _mm256_cmplt_epu32_mask(left: __m256i, right: __m256i) -> i32 {
+    return _mm256_movemask_epi32(_mm256_cmplt_epu32(left, right));
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[inline]
+pub unsafe fn _mm256_cmple_epu32_mask(left: __m256i, right: __m256i) -> i32 {
+    return _mm256_movemask_epi32(_mm256_cmple_epu32(left, right));
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[inline]
+pub unsafe fn _mm256_cmpgt_epu64_mask(left: __m256i, right: __m256i) -> i32 {
+    return _mm256_movemask_epi64(_mm256_cmpgt_epu64(left, right));
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[inline]
+pub unsafe fn _mm256_cmpge_epu64_mask(left: __m256i, right: __m256i) -> i32 {
+    return _mm256_movemask_epi64(_mm256_cmpge_epu64(left, right));
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[inline]
+pub unsafe fn _mm256_cmpeq_epu64_mask(left: __m256i, right: __m256i) -> i32 {
+    return _mm256_movemask_epi64(_mm256_cmpeq_epi64(left, right));
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[inline]
+pub unsafe fn _mm256_cmplt_epu64_mask(left: __m256i, right: __m256i) -> i32 {
+    return _mm256_movemask_epi64(_mm256_cmplt_epu64(left, right));
+}
+
+#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx", target_feature = "avx2"))]
+#[inline]
+pub unsafe fn _mm256_cmple_epu64_mask(left: __m256i, right: __m256i) -> i32 {
+    return _mm256_movemask_epi64(_mm256_cmple_epu64(left, right));
 }
 
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "avx512bw"))]
