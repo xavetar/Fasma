@@ -33,3 +33,4 @@ mod reverse;
 mod compare;
 mod bitwise;
 mod scalar;
+mod shuffle;

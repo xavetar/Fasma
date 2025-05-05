@@ -33,3 +33,4 @@ pub mod reverse;
 pub mod compare;
 pub mod bitwise;
 pub mod scalar;
+pub mod shuffle;
