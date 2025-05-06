@@ -33,10 +33,8 @@ use core::{
         x86::{
             __m128i,
             _mm_set1_epi8, _mm_set1_epi16, _mm_set1_epi32,
-            _mm_slli_epi16, _mm_srli_epi16,
             _mm_cmplt_epi8, _mm_cmplt_epi16, _mm_cmplt_epi32,
             _mm_and_si128, _mm_andnot_si128,
-            _mm_unpacklo_epi8, _mm_packus_epi16,
             _mm_setzero_si128
         }
     }
@@ -48,10 +46,8 @@ use core::{
         x86_64::{
             __m128i,
             _mm_set1_epi8, _mm_set1_epi16, _mm_set1_epi32,
-            _mm_slli_epi16, _mm_srli_epi16,
             _mm_cmplt_epi8, _mm_cmplt_epi16, _mm_cmplt_epi32,
             _mm_and_si128, _mm_andnot_si128,
-            _mm_unpacklo_epi8, _mm_packus_epi16,
             _mm_setzero_si128
         }
     }
@@ -59,11 +55,6 @@ use core::{
 
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2", not(target_feature = "ssse3")))]
 macro_rules! define_shuffle {
-    (struct $name:ident, align($align:expr), $inner_ty:ty, $size:expr) => {
-        #[repr(align($align))]
-        #[derive(Copy, Clone)]
-        struct $name([$inner_ty; $size]);
-    };
     (union $name:ident, $vector_ty:ty, $byte_ty:ty, $size:expr) => {
         #[repr(C)]
         union $name {
@@ -72,9 +63,6 @@ macro_rules! define_shuffle {
         }
     };
 }
-
-#[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2", not(target_feature = "ssse3")))]
-define_shuffle!(struct U256, align(32), __m128i, 2_usize);
 
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2", not(target_feature = "ssse3")))]
 define_shuffle!(union ShuffleEPI8, __m128i, u8, 16_usize);
