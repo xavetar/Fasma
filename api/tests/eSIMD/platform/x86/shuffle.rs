@@ -83,7 +83,7 @@ struct uint32x4([u32; 4_usize]);
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2", not(target_feature = "ssse3")))]
 #[test]
 fn _mm_shuffle_epi8_test() {
-    let arr_v: [uint8x16; 2_usize] = [
+    let arr_v: [uint8x16; 4_usize] = [
         uint8x16 {
             0: [
                 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F
@@ -93,24 +93,41 @@ fn _mm_shuffle_epi8_test() {
             0: [
                 0x0F, 0x0E, 0x0D, 0x0C, 0x0B, 0x0A, 0x09, 0x08, 0x07, 0x06, 0x05, 0x04, 0x03, 0x02, 0x01, 0x00
             ],
-        }
+        },
+        uint8x16 {
+            0: [
+                0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0xFF
+            ]
+        },
+        uint8x16 {
+            0: [
+                0xFF, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x07, 0x06, 0x05, 0x04, 0x03, 0x02, 0x01, 0x00
+            ],
+        },
     ];
 
-    let v: [__m128i; 2_usize] = unsafe { [
+    let v: [__m128i; 4_usize] = unsafe { [
         _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>()),
-        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>())
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[2].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[3].0.as_ptr().cast::<__m128i>())
     ] };
 
-    let indexes: __m128i = unsafe { _mm_set_epi8(0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F) };
+    let indexes: [__m128i; 2_usize] = unsafe { [
+        _mm_set_epi8(0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F),
+        _mm_set_epi8(-0x80, -0x80, -0x80, -0x80, -0x80, -0x80, -0x80, -0x80, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F)
+    ] };
 
-    assert_eq!(unsafe { transmute::<__m128i, [u8; 16_usize]>(_mm_shuffle_epi8(v[0], indexes)) }, [0x0F, 0x0E, 0x0D, 0x0C, 0x0B, 0x0A, 0x09, 0x08, 0x07, 0x06, 0x05, 0x04, 0x03, 0x02, 0x01, 0x00]);
-    assert_eq!(unsafe { transmute::<__m128i, [u8; 16_usize]>(_mm_shuffle_epi8(v[1], indexes)) }, [0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F]);
+    assert_eq!(unsafe { transmute::<__m128i, [u8; 16_usize]>(_mm_shuffle_epi8(v[0], indexes[0])) }, [0x0F, 0x0E, 0x0D, 0x0C, 0x0B, 0x0A, 0x09, 0x08, 0x07, 0x06, 0x05, 0x04, 0x03, 0x02, 0x01, 0x00]);
+    assert_eq!(unsafe { transmute::<__m128i, [u8; 16_usize]>(_mm_shuffle_epi8(v[1], indexes[0])) }, [0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F]);
+    assert_eq!(unsafe { transmute::<__m128i, [u8; 16_usize]>(_mm_shuffle_epi8(v[2], indexes[1])) }, [0xFF, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]);
+    assert_eq!(unsafe { transmute::<__m128i, [u8; 16_usize]>(_mm_shuffle_epi8(v[3], indexes[1])) }, [0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]);
 }
 
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2", not(target_feature = "ssse3")))]
 #[test]
 fn _mm_shuffle_epi16_test() {
-    let arr_v: [uint16x8; 2_usize] = [
+    let arr_v: [uint16x8; 4_usize] = [
         uint16x8 {
             0: [
                 0x0001, 0x0002, 0x0003, 0x0004, 0x0005, 0x0006, 0x0007, 0x0008
@@ -120,24 +137,41 @@ fn _mm_shuffle_epi16_test() {
             0: [
                 0x0008, 0x0007, 0x0006, 0x0005, 0x0004, 0x0003, 0x0002, 0x0001
             ]
+        },
+        uint16x8 {
+            0: [
+                0x0001, 0x0002, 0x0003, 0x0004, 0x8000, 0x8000, 0x8000, 0xFFFF
+            ]
+        },
+        uint16x8 {
+            0: [
+                0xFFFF, 0x8000, 0x8000, 0x8000, 0x0004, 0x0003, 0x0002, 0x0001
+            ]
         }
     ];
 
-    let v: [__m128i; 2_usize] = unsafe { [
+    let v: [__m128i; 4_usize] = unsafe { [
         _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>()),
-        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>())
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[2].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[3].0.as_ptr().cast::<__m128i>())
     ] };
 
-    let indexes: __m128i = unsafe { _mm_set_epi16(0x0000, 0x0001, 0x0002, 0x0003, 0x0004, 0x0005, 0x0006, 0x0007) };
+    let indexes: [__m128i; 2_usize] = unsafe { [
+        _mm_set_epi16(0x0000, 0x0001, 0x0002, 0x0003, 0x0004, 0x0005, 0x0006, 0x0007),
+        _mm_set_epi16(-0x8000, -0x8000, -0x8000, -0x0001, 0x0004, 0x0005, 0x0006, 0x0007)
+    ] };
 
-    assert_eq!(unsafe { transmute::<__m128i, [u16; 8_usize]>(_mm_shuffle_epi16(v[0], indexes)) }, [0x0008, 0x0007, 0x0006, 0x0005, 0x0004, 0x0003, 0x0002, 0x0001]);
-    assert_eq!(unsafe { transmute::<__m128i, [u16; 8_usize]>(_mm_shuffle_epi16(v[1], indexes)) }, [0x0001, 0x0002, 0x0003, 0x0004, 0x0005, 0x0006, 0x0007, 0x0008]);
+    assert_eq!(unsafe { transmute::<__m128i, [u16; 8_usize]>(_mm_shuffle_epi16(v[0], indexes[0])) }, [0x0008, 0x0007, 0x0006, 0x0005, 0x0004, 0x0003, 0x0002, 0x0001]);
+    assert_eq!(unsafe { transmute::<__m128i, [u16; 8_usize]>(_mm_shuffle_epi16(v[1], indexes[0])) }, [0x0001, 0x0002, 0x0003, 0x0004, 0x0005, 0x0006, 0x0007, 0x0008]);
+    assert_eq!(unsafe { transmute::<__m128i, [u16; 8_usize]>(_mm_shuffle_epi16(v[2], indexes[1])) }, [0xFFFF, 0x8000, 0x8000, 0x8000, 0x0000, 0x0000, 0x0000, 0x0000]);
+    assert_eq!(unsafe { transmute::<__m128i, [u16; 8_usize]>(_mm_shuffle_epi16(v[3], indexes[1])) }, [0x0001, 0x0002, 0x0003, 0x0004, 0x0000, 0x0000, 0x0000, 0x0000]);
 }
 
 #[cfg(all(any(target_arch = "x86", target_arch = "x86_64"), target_feature = "sse2", not(target_feature = "ssse3")))]
 #[test]
 fn _mm_shuffle_epi32_test() {
-    let arr_v: [uint32x4; 2_usize] = [
+    let arr_v: [uint32x4; 4_usize] = [
         uint32x4 {
             0: [
                 0x00000001, 0x00000002, 0x00000003, 0x00000004
@@ -147,16 +181,33 @@ fn _mm_shuffle_epi32_test() {
             0: [
                 0x00000004, 0x00000003, 0x00000002, 0x00000001
             ]
+        },
+        uint32x4 {
+            0: [
+                0x80000000, 0xFFFFFFFF, 0x00000001, 0x00000002
+            ]
+        },
+        uint32x4 {
+            0: [
+                0x00000001, 0x00000002, 0xFFFFFFFF, 0x80000000
+            ]
         }
     ];
 
-    let v: [__m128i; 2_usize] = unsafe { [
+    let v: [__m128i; 4_usize] = unsafe { [
         _mm_load_si128(arr_v[0].0.as_ptr().cast::<__m128i>()),
-        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>())
+        _mm_load_si128(arr_v[1].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[2].0.as_ptr().cast::<__m128i>()),
+        _mm_load_si128(arr_v[3].0.as_ptr().cast::<__m128i>())
     ] };
 
-    let indexes: __m128i = unsafe { _mm_set_epi32(0x00000000, 0x00000001, 0x00000002, 0x00000003) };
+    let indexes: [__m128i; 2_usize] = unsafe { [
+        _mm_set_epi32(0x00000000, 0x00000001, 0x00000002, 0x00000003),
+        _mm_set_epi32(-0x80000000, -0x00000001, 0x00000002, 0x00000003)
+    ] };
 
-    assert_eq!(unsafe { transmute::<__m128i, [u32; 4_usize]>(_mm_shuffle_epi32(v[0], indexes)) }, [0x00000004, 0x00000003, 0x00000002, 0x00000001]);
-    assert_eq!(unsafe { transmute::<__m128i, [u32; 4_usize]>(_mm_shuffle_epi32(v[1], indexes)) }, [0x00000001, 0x00000002, 0x00000003, 0x00000004]);
+    assert_eq!(unsafe { transmute::<__m128i, [u32; 4_usize]>(_mm_shuffle_epi32(v[0], indexes[0])) }, [0x00000004, 0x00000003, 0x00000002, 0x00000001]);
+    assert_eq!(unsafe { transmute::<__m128i, [u32; 4_usize]>(_mm_shuffle_epi32(v[1], indexes[0])) }, [0x00000001, 0x00000002, 0x00000003, 0x00000004]);
+    assert_eq!(unsafe { transmute::<__m128i, [u32; 4_usize]>(_mm_shuffle_epi32(v[2], indexes[1])) }, [0x00000002, 0x00000001, 0x00000000, 0x00000000]);
+    assert_eq!(unsafe { transmute::<__m128i, [u32; 4_usize]>(_mm_shuffle_epi32(v[3], indexes[1])) }, [0x80000000, 0xFFFFFFFF, 0x00000000, 0x00000000]);
 }
