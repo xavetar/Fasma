@@ -47,9 +47,6 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
-# IDEA IDE
-.idea
-
 # Environment
 .env
 venv
