@@ -141,7 +141,7 @@ The form **logically** expressing the **result of inversion**, through reducing 
 			
 			Ironic joke: `A friend had 0x00 rubles, gave a friend 0xFF rubles, how much money does he have now?`.
 			
-			Downward overflow is **prohibited**! In **unsigned** arithmetic, one cannot speak of the **absence** of something, only of its **presence**. However, the **absence** of something is **expressed by the presence of its opposite**.
+		Downward overflow is **prohibited**! In **unsigned** arithmetic, one cannot speak of the **absence** of something, only of its **presence**. However, the **absence** of something is **expressed by the presence of its opposite**.
 
 ## Description
 
