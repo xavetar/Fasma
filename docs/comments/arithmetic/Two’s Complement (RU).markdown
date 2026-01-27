@@ -172,7 +172,8 @@
 ### Формулы (SFG = `i8`/`u8`)
 
 Сложение (`a + b`): **a - ~(b - 0x01) ≡ a - (~b + 0x01)** ⇌ **a - ~(b + 0xFF) ≡ a - (~b - 0xFF)**
-Вычитание (`a - b`): **a + (~b + 0x01) ≡ a + ~(b -0x01)** ⇌ **a + (~b - 0xFF) ≡ a + ~(b + 0xFF)**
+
+Вычитание (`a - b`): **a + (~b + 0x01) ≡ a + ~(b - 0x01)** ⇌ **a + (~b - 0xFF) ≡ a + ~(b + 0xFF)**
 
 #### Сложение
 
@@ -458,6 +459,9 @@ def babs(x: int, bits: int = 32) -> int: # -x
 #include <stdint.h>
 
 int8_t nabs(uint8_t x) {
+	/*
+    Корректное negative abs для значения
+    */
     if (x <= UINT8_C(0x80)) {
         return (int8_t) (~x + UINT8_C(0x01));
     } else {
@@ -470,6 +474,9 @@ int8_t nabs(uint8_t x) {
 #include <stdint.h>
 
 int8_t nabs(uint8_t x) {
+	/*
+    Корректное negative abs для значения
+    */
     if (x <= UINT8_C(0x80)) {
         return (int8_t) (~x + UINT8_C(0x01));
     } else {
@@ -539,7 +546,7 @@ int8_t uas(uint8_t x) {
 static inline __attribute__((always_inline, used))
 int8_t uas(uint8_t x) {
 	/*
-    Корректное unsigned as signed для значения, распостраняющее знак
+    Корректное unsigned as signed для значения, распространяющее знак
     */
     return (int8_t) (
 	    (
@@ -582,7 +589,7 @@ int64_t uas(uint64_t value, uint8_t sfg) {
 #[inline(always)]
 fn uas(x: u8) -> i8 {
     /*
-    Корректное unsigned as signed для значения, распостраняющее знак
+    Корректное unsigned as signed для значения, распространяющее знак
     */
     return (
 	    (
@@ -599,7 +606,7 @@ fn uas(x: u8) -> i8 {
 #[inline(always)]
 fn uas(x: u8) -> i8 {
     /*
-    Корректное unsigned as signed для значения, распостраняющее знак
+    Корректное unsigned as signed для значения, распространяющее знак
     */
     return (
 	    (
@@ -616,7 +623,7 @@ fn uas(x: u8) -> i8 {
 #[inline(always)]
 fn uas(x: u8) -> i8 {
 	/*
-    Корректное unsigned as signed для значения, распостраняющее знак
+    Корректное unsigned as signed для значения, распространяющее знак
     */
     return (
 	    (
@@ -635,14 +642,14 @@ fn uas(x: u8) -> i8 {
 #[inline(always)]
 pub const fn uas<const SFG: u8>(value: u128) -> i128 {
 	/*
-    Корректное unsigned as signed для значения любой длины под-поля внутри длины поля типа данных, распостраняющее знак
+    Корректное unsigned as signed для значения любой длины под-поля внутри длины поля типа данных, распространяющее знак
     */
     let sign_shift: i128 = 0x80_i128 - (SFG & 0x7F_u8) as i128;
     return ((value as i128) << sign_shift) >> sign_shift;
 }
 ```
 
-- Реализация в Python:
+- Эквивалент в Python:
 
 ```python
 def uas(x: int, bits: int) -> int:
