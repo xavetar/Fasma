@@ -17,131 +17,131 @@ The form **logically** expressing the **result of inversion**, through reducing 
 - **Field cyclicity** — for `i8`/`u8`, the field is closed in a ring, where `V + 0x01 ⇌ V - 0xFF` ≡ `V - 0x01 ⇌ V + 0xFF` or `+1 = -255` ⇌ `-1 = +255`, mutual equivalence of representations (valid for simulations using **TC** instructions for **signed** and **unsigned** data types).
 - **Operations over reflection** - performing operations over reflections in an 8-bit ring, the values completely destroy each other (**collapse**):
 
-	- For signed reflections (`[-128, -1] => [-128, 127] => [0, 127]`):
+    - For signed reflections (`[-128, -1] => [-128, 127] => [0, 127]`):
 
-		1) Addition (**expansion**) paired with `reflections` (`A = V`, `B = -V`):
-			
-				- `-x = ~(B - 1) = ~(B + 255)`:
-				
-					**A ⊕ B** ≡ **A ⊖ ¬(B ⊖ 1)**
-					**A + B** ≡ **A - ~(B - 1)**
-					
-					**A ⊕ B** ≡ **A ⊖ ¬(B ⊕ 255)**
-					**A + B** ≡ **A - ~(B + 255)**
-				
-				- `-x = (~B + 1) = (~B - 255)`:
-				
-					**A ⊕ B** ≡ **A ⊖ (¬B ⊕ 1)**
-					**A + B** ≡ **A - (~B + 1)**
-					
-					**A ⊕ B** ≡ **A ⊖ (¬B ⊖ 255)**
-					**A + B** ≡ **A - (~B - 255)** 
-				
-		2) Subtraction (**contraction**) paired with `number` (`A = V`, `B = V`):
-			
-				- `-x = ~(B - 1) = ~(B + 255)`:
-				
-					**A ⊖ B** ≡ **A ⊕ ~(B ⊖ 1)**
-					**A - B** ≡ **A + ~(B - 1)**
-					
-					**A ⊖ B** ≡ **A ⊕ ~(B ⊕ 255)**
-					**A - B** ≡ **A + ~(B + 255)**
-					
-				- `-x = (~B + 1) = (~B - 255)`:
-				
-					**A ⊖ B** ≡ **A ⊕ (~B ⊕ 1)**
-					**A - B** ≡ **A + (~B + 1)**
-					
-					**A ⊖ B** ≡ **A ⊕ (~B ⊖ 255)**
-					**A - B** ≡ **A + (~B - 255)**
+        1) Addition (**expansion**) paired with `reflections` (`A = V`, `B = -V`):
+            
+                - `-x = ~(B - 1) = ~(B + 255)`:
+                
+                    **A ⊕ B** ≡ **A ⊖ ¬(B ⊖ 1)**
+                    **A + B** ≡ **A - ~(B - 1)**
+                    
+                    **A ⊕ B** ≡ **A ⊖ ¬(B ⊕ 255)**
+                    **A + B** ≡ **A - ~(B + 255)**
+                
+                - `-x = (~B + 1) = (~B - 255)`:
+                
+                    **A ⊕ B** ≡ **A ⊖ (¬B ⊕ 1)**
+                    **A + B** ≡ **A - (~B + 1)**
+                    
+                    **A ⊕ B** ≡ **A ⊖ (¬B ⊖ 255)**
+                    **A + B** ≡ **A - (~B - 255)** 
+                
+        2) Subtraction (**contraction**) paired with `number` (`A = V`, `B = V`):
+            
+                - `-x = ~(B - 1) = ~(B + 255)`:
+                
+                    **A ⊖ B** ≡ **A ⊕ ~(B ⊖ 1)**
+                    **A - B** ≡ **A + ~(B - 1)**
+                    
+                    **A ⊖ B** ≡ **A ⊕ ~(B ⊕ 255)**
+                    **A - B** ≡ **A + ~(B + 255)**
+                    
+                - `-x = (~B + 1) = (~B - 255)`:
+                
+                    **A ⊖ B** ≡ **A ⊕ (~B ⊕ 1)**
+                    **A - B** ≡ **A + (~B + 1)**
+                    
+                    **A ⊖ B** ≡ **A ⊕ (~B ⊖ 255)**
+                    **A - B** ≡ **A + (~B - 255)**
 
-	- For unsigned reflections (`[0, 255]`):
+    - For unsigned reflections (`[0, 255]`):
 
-		1) Addition (**expansion**) paired with `reflections (magnitudes of reflections - inversely proportional - to magnitudes of presence)` (`A = V`, `B = -V`):
-			
-				- `-x = ~(B - 1) = ~(B + 255)`:
-				
-					**A ⊕ B** ≡ **A ⊖ ¬(B ⊖ 1)** 
-					**A + B** ≡ **A - ~(B - 1)**
-					
-					**A ⊕ B** ≡ **A ⊖ ¬(B ⊕ 255)**
-					**A + B** ≡ **A - ~(B + 255)**
-				
-				- `-x = (~B + 1) = (~B - 255)`:
-				
-					**A ⊕ B** ≡ **A ⊖ (¬B ⊕ 1)**
-					**A + B** ≡ **A - (~B + 1)** 
-					
-					**A ⊕ B** ≡ **A ⊖ (¬B ⊖ 255)**
-					**A + B** ≡ **A - (~B - 255)**
-			
-			Addition upward does not create a trap for imitating **unsigned** logic **LPU:LAU:ALU** and **TC**, through its simulation.
-			
-		2) Subtraction (**contraction**) paired with `number` (`A = V`, `B = V`):
-				
-				 - `-x = ~(B - 1) = ~(B + 255)`:
- 
-					**if A < B { B ⊖ A } else { A ⊖ B }** ≡ **if A < B { ¬A ⊕ (B ⊕ 1) } else { A ⊕ ¬(B ⊖ 1) }**
-					**if A < B { B - A } else { A - B }** ≡ **if A < B { ~A + (B + 1) } else { A + ~(B - 1) }**
-					
-					**if A < B { B ⊖ A } else { A ⊖ B }** ≡ **if A < B { ¬A ⊕ (B ⊖ 255) } else { A ⊕ ¬(B ⊕ 255) }**
-					**if A < B { B - A } else { A - B }** ≡ **if A < B { ~A + (B - 255) } else { A + ~(B + 255) }**
-					
-					**if A < B { B ⊖ A } else { A ⊖ B }** ≡ **if A < B { B ⊕ (¬A ⊕ 1) } else { A ⊕ ¬(B ⊖ 1) }**
-					**if A < B { B - A } else { A - B }** ≡ **if A < B { B + (~A + 1) } else { A + ~(B - 1) }**
-					
-					**if A < B { B ⊖ A } else { A ⊖ B }** ≡ **if A < B { B ⊕ (¬A ⊖ 255) } else { A ⊕ ¬(B ⊕ 255) }**
-					**if A < B { B - A } else { A - B }** ≡ **if A < B { B + (~A - 255) } else { A + ~(B + 255) }**
-					
-					**if A < B { ¬A ⊖ ¬B } else { A ⊖ B }** ≡ **if A < B { ¬A ⊕ (B ⊕ 1) } else { A ⊕ ¬(B ⊖ 1) }**
-					**if A < B { ~A - ~B } else { A - B }** ≡ **if A < B { ~A + (B + 1) } else { A + ~(B - 1) }**
-					
-					**if A < B { ¬A ⊖ ¬B } else { A ⊖ B }** ≡ **if A < B { ¬A ⊕ (B ⊖ 255) } else { A ⊕ ¬(B ⊕ 255) }**
-					**if A < B { ~A - ~B } else { A - B }** ≡ **if A < B { ~A + (B - 255) } else { A + ~(B + 255) }**
-					
-					**if A < B { ¬A ⊖ ¬B } else { A ⊖ B }** ≡ **if A < B { B ⊕ (¬A ⊕ 1) } else { A ⊕ ¬(B ⊖ 1) }**
-					**if A < B { ~A - ~B } else { A - B }** ≡ **if A < B { B + (~A + 1) } else { A + ~(B - 1) }**
-					
-					**if A < B { ¬A ⊖ ¬B } else { A ⊖ B }** ≡ **if A < B { B ⊕ (¬A ⊖ 255) } else { A ⊕ ¬(B ⊕ 255) }**
-					**if A < B { ~A - ~B } else { A - B }** ≡ **if A < B { B + (~A - 255) } else { A + ~(B + 255) }**
-				
-				- `-x = (~B + 1) = (~B - 255)`:
-				
-					**if A < B { B ⊖ A } else { A ⊖ B }** ≡ **if A < B { ¬A ⊕ (B ⊕ 1) } else { A ⊕ (¬B ⊕ 1) }**
-					**if A < B { B - A } else { A - B }** ≡ **if A < B { ~A + (B + 1) } else { A + (~B + 1) }**
-					
-					**if A < B { B ⊖ A } else { A ⊖ B }** ≡ **if A < B { ¬A ⊕ (B ⊖ 255) } else { A ⊕ (¬B ⊖ 255) }**
-					**if A < B { B - A } else { A - B }** ≡ **if A < B { ~A + (B - 255) } else { A + (~B - 255) }**
-					
-					**if A < B { B ⊖ A } else { A ⊖ B }** ≡ **if A < B { B ⊕ (¬A ⊕ 1) } else { A ⊕ (¬B ⊕ 1) }**
-					**if A < B { B - A } else { A - B }** ≡ **if A < B { B + (~A + 1) } else { A + (~B + 1) }**
-					
-					**if A < B { B ⊖ A } else { A ⊖ B }** ≡ **if A < B { B ⊕ (¬A ⊖ 255) } else { A ⊕ (¬B ⊖ 255) }**
-					**if A < B { B - A } else { A - B }** ≡ **if A < B { B + (~A - 255) } else { A + (~B - 255) }**
-					
-					**if A < B { ¬A ⊖ ¬B } else { A ⊖ B }** ≡ **if A < B { ¬A ⊕ (B ⊕ 1) } else { A ⊕ (¬B ⊕ 1) }**
-					**if A < B { ~A - ~B } else { A - B }** ≡ **if A < B { ~A + (B + 1) } else { A + (~B + 1) }**
-					
-					**if A < B { ¬A ⊖ ¬B } else { A ⊖ B }** ≡ **if A < B { ¬A ⊕ (B ⊖ 255) } else { A ⊕ (¬B ⊖ 255) }**
-					**if A < B { ~A - ~B } else { A - B }** ≡ **if A < B { ~A + (B - 255) } else { A + (~B - 255) }**
-					
-					**if A < B { ¬A ⊖ ¬B } else { A ⊖ B }** ≡ **if A < B { B ⊕ (¬A ⊕ 1) } else { A ⊕ (¬B ⊕ 1) }**
-					**if A < B { ~A - ~B } else { A - B }** ≡ **if A < B { B + (~A + 1) } else { A + (~B + 1) }**
-					
-					**if A < B { ¬A ⊖ ¬B } else { A ⊖ B }** ≡ **if A < B { B ⊕ (¬A ⊖ 255) } else { A ⊕ (¬B ⊖ 255) }**
-					**if A < B { ~A - ~B } else { A - B }** ≡ **if A < B { B + (~A - 255) } else { A + (~B - 255) }**
-					
-			- Additional formulas: `A < B` : `~(A - ~B)`, `~(A - B) + 1`, `~(A + ~(B - 1)) + 1`, `~(A + (~B + 1)) + 1`, `~(A + ~(B + 255)) - 255`, `~(A + (~B - 255)) - 255`.
-			
-			Subtraction downward creates a trap for imitating **unsigned** logic **LPU:LAU:ALU** and **TC**, through its simulation. Subtraction in **unsigned** logic corresponds to the **absolute distance** between numbers.
-			
-			Through the mathematics of **TC** it is explained by the ring **ℤ/256ℤ** (where borrow arises from the “virtual bit”: 2⁸ for 8-bit numbers), however **mathematics** possesses symmetry and is a derivative of **arithmetic** based on **logic**, and any **arithmetic-mathematical** justification is **incomplete and secondary**. Using **mathematics or arithmetic** to prove **logic** is akin to the idea: `using nails to chop an axe`.
-			
-			Compilers use simplified **logic** for **unsigned** data types — creating conditions for a **logical simulation error (for unsigned types)**: `0 (0x00) - 255 (0xFF) = 1 (0x01)`, which is logically equivalent to the **law of double negation** (`involution`) for signed numbers: `0 (0x00) - (-1) (0xFF) = 1 (0x01)`.
-			
-			Ironic joke: `A friend had 0x00 rubles, gave a friend 0xFF rubles, how much money does he have now?`.
-			
-		Downward overflow is **prohibited**! In **unsigned** arithmetic, one cannot speak of the **absence** of something, only of its **presence**. However, the **absence** of something is **expressed by the presence of its opposite**.
+        1) Addition (**expansion**) paired with `reflections (magnitudes of reflections - inversely proportional - to magnitudes of presence)` (`A = V`, `B = -V`):
+            
+                - `-x = ~(B - 1) = ~(B + 255)`:
+                
+                    **A ⊕ B** ≡ **A ⊖ ¬(B ⊖ 1)** 
+                    **A + B** ≡ **A - ~(B - 1)**
+                    
+                    **A ⊕ B** ≡ **A ⊖ ¬(B ⊕ 255)**
+                    **A + B** ≡ **A - ~(B + 255)**
+                
+                - `-x = (~B + 1) = (~B - 255)`:
+                
+                    **A ⊕ B** ≡ **A ⊖ (¬B ⊕ 1)**
+                    **A + B** ≡ **A - (~B + 1)** 
+                    
+                    **A ⊕ B** ≡ **A ⊖ (¬B ⊖ 255)**
+                    **A + B** ≡ **A - (~B - 255)**
+            
+            Addition upward does not create a trap for imitating **unsigned** logic **LPU:LAU:ALU** and **TC**, through its simulation.
+            
+        2) Subtraction (**contraction**) paired with `number` (`A = V`, `B = V`):
+                
+                - `-x = ~(B - 1) = ~(B + 255)`:
+
+                    **if A < B { B ⊖ A } else { A ⊖ B }** ≡ **if A < B { ¬A ⊕ (B ⊕ 1) } else { A ⊕ ¬(B ⊖ 1) }**
+                    **if A < B { B - A } else { A - B }** ≡ **if A < B { ~A + (B + 1) } else { A + ~(B - 1) }**
+                    
+                    **if A < B { B ⊖ A } else { A ⊖ B }** ≡ **if A < B { ¬A ⊕ (B ⊖ 255) } else { A ⊕ ¬(B ⊕ 255) }**
+                    **if A < B { B - A } else { A - B }** ≡ **if A < B { ~A + (B - 255) } else { A + ~(B + 255) }**
+                    
+                    **if A < B { B ⊖ A } else { A ⊖ B }** ≡ **if A < B { B ⊕ (¬A ⊕ 1) } else { A ⊕ ¬(B ⊖ 1) }**
+                    **if A < B { B - A } else { A - B }** ≡ **if A < B { B + (~A + 1) } else { A + ~(B - 1) }**
+                    
+                    **if A < B { B ⊖ A } else { A ⊖ B }** ≡ **if A < B { B ⊕ (¬A ⊖ 255) } else { A ⊕ ¬(B ⊕ 255) }**
+                    **if A < B { B - A } else { A - B }** ≡ **if A < B { B + (~A - 255) } else { A + ~(B + 255) }**
+                    
+                    **if A < B { ¬A ⊖ ¬B } else { A ⊖ B }** ≡ **if A < B { ¬A ⊕ (B ⊕ 1) } else { A ⊕ ¬(B ⊖ 1) }**
+                    **if A < B { ~A - ~B } else { A - B }** ≡ **if A < B { ~A + (B + 1) } else { A + ~(B - 1) }**
+                    
+                    **if A < B { ¬A ⊖ ¬B } else { A ⊖ B }** ≡ **if A < B { ¬A ⊕ (B ⊖ 255) } else { A ⊕ ¬(B ⊕ 255) }**
+                    **if A < B { ~A - ~B } else { A - B }** ≡ **if A < B { ~A + (B - 255) } else { A + ~(B + 255) }**
+                    
+                    **if A < B { ¬A ⊖ ¬B } else { A ⊖ B }** ≡ **if A < B { B ⊕ (¬A ⊕ 1) } else { A ⊕ ¬(B ⊖ 1) }**
+                    **if A < B { ~A - ~B } else { A - B }** ≡ **if A < B { B + (~A + 1) } else { A + ~(B - 1) }**
+                    
+                    **if A < B { ¬A ⊖ ¬B } else { A ⊖ B }** ≡ **if A < B { B ⊕ (¬A ⊖ 255) } else { A ⊕ ¬(B ⊕ 255) }**
+                    **if A < B { ~A - ~B } else { A - B }** ≡ **if A < B { B + (~A - 255) } else { A + ~(B + 255) }**
+                
+                - `-x = (~B + 1) = (~B - 255)`:
+                
+                    **if A < B { B ⊖ A } else { A ⊖ B }** ≡ **if A < B { ¬A ⊕ (B ⊕ 1) } else { A ⊕ (¬B ⊕ 1) }**
+                    **if A < B { B - A } else { A - B }** ≡ **if A < B { ~A + (B + 1) } else { A + (~B + 1) }**
+                    
+                    **if A < B { B ⊖ A } else { A ⊖ B }** ≡ **if A < B { ¬A ⊕ (B ⊖ 255) } else { A ⊕ (¬B ⊖ 255) }**
+                    **if A < B { B - A } else { A - B }** ≡ **if A < B { ~A + (B - 255) } else { A + (~B - 255) }**
+                    
+                    **if A < B { B ⊖ A } else { A ⊖ B }** ≡ **if A < B { B ⊕ (¬A ⊕ 1) } else { A ⊕ (¬B ⊕ 1) }**
+                    **if A < B { B - A } else { A - B }** ≡ **if A < B { B + (~A + 1) } else { A + (~B + 1) }**
+                    
+                    **if A < B { B ⊖ A } else { A ⊖ B }** ≡ **if A < B { B ⊕ (¬A ⊖ 255) } else { A ⊕ (¬B ⊖ 255) }**
+                    **if A < B { B - A } else { A - B }** ≡ **if A < B { B + (~A - 255) } else { A + (~B - 255) }**
+                    
+                    **if A < B { ¬A ⊖ ¬B } else { A ⊖ B }** ≡ **if A < B { ¬A ⊕ (B ⊕ 1) } else { A ⊕ (¬B ⊕ 1) }**
+                    **if A < B { ~A - ~B } else { A - B }** ≡ **if A < B { ~A + (B + 1) } else { A + (~B + 1) }**
+                    
+                    **if A < B { ¬A ⊖ ¬B } else { A ⊖ B }** ≡ **if A < B { ¬A ⊕ (B ⊖ 255) } else { A ⊕ (¬B ⊖ 255) }**
+                    **if A < B { ~A - ~B } else { A - B }** ≡ **if A < B { ~A + (B - 255) } else { A + (~B - 255) }**
+                    
+                    **if A < B { ¬A ⊖ ¬B } else { A ⊖ B }** ≡ **if A < B { B ⊕ (¬A ⊕ 1) } else { A ⊕ (¬B ⊕ 1) }**
+                    **if A < B { ~A - ~B } else { A - B }** ≡ **if A < B { B + (~A + 1) } else { A + (~B + 1) }**
+                    
+                    **if A < B { ¬A ⊖ ¬B } else { A ⊖ B }** ≡ **if A < B { B ⊕ (¬A ⊖ 255) } else { A ⊕ (¬B ⊖ 255) }**
+                    **if A < B { ~A - ~B } else { A - B }** ≡ **if A < B { B + (~A - 255) } else { A + (~B - 255) }**
+                    
+            - Additional formulas: `A < B` : `~(A - ~B)`, `~(A - B) + 1`, `~(A + ~(B - 1)) + 1`, `~(A + (~B + 1)) + 1`, `~(A + ~(B + 255)) - 255`, `~(A + (~B - 255)) - 255`.
+            
+            Subtraction downward creates a trap for imitating **unsigned** logic **LPU:LAU:ALU** and **TC**, through its simulation. Subtraction in **unsigned** logic corresponds to the **absolute distance** between numbers.
+            
+            Through the mathematics of **TC** it is explained by the ring **ℤ/256ℤ** (where borrow arises from the “virtual bit”: 2⁸ for 8-bit numbers), however **mathematics** possesses symmetry and is a derivative of **arithmetic** based on **logic**, and any **arithmetic-mathematical** justification is **incomplete and secondary**. Using **mathematics or arithmetic** to prove **logic** is akin to the idea: `using nails to chop an axe`.
+            
+            Compilers use simplified **logic** for **unsigned** data types — creating conditions for a **logical simulation error (for unsigned types)**: `0 (0x00) - 255 (0xFF) = 1 (0x01)`, which is logically equivalent to the **law of double negation** (`involution`) for signed numbers: `0 (0x00) - (-1) (0xFF) = 1 (0x01)`.
+            
+            Ironic joke: `A friend had 0x00 rubles, gave a friend 0xFF rubles, how much money does he have now?`.
+            
+        Downward overflow is **prohibited**! In **unsigned** arithmetic, one cannot speak of the **absence** of something, only of its **presence**. However, the **absence** of something is **expressed by the presence of its opposite**.
 
 ## Description
 
@@ -149,25 +149,25 @@ The form **logically** expressing the **result of inversion**, through reducing 
 
 - `-x = (~B + 1) = (~B - 255)`:
 
-	- For signed reflections (`[-128, -1] => [-128, 127] => [0, 127]`):
+    - For signed reflections (`[-128, -1] => [-128, 127] => [0, 127]`):
 
-		1) Logic-arithmetic addition of one to an inverted **positive number** reactively forms a **complementary representation** (`corrects the distortion that occurred, for symmetry of the linear ratio`). It brings the number closer to **0**, compensating the **arithmetic asymmetry of logical inversion** relative to the **numerical plane** for the subsequent operation over **linear reflections of magnitudes** within the **numerical plane**: `(~1 + 1) = -1 (0xFF)`
-		2) Logic-arithmetic addition of one to an inverted **negative number** reactively forms a **complementary representation** (`corrects the distortion that occurred, for symmetry of the linear ratio`). It moves the number away from **0**, compensating the **arithmetic asymmetry of logical inversion** relative to the **numerical plane** for the subsequent operation over **linear reflections of magnitudes** within the **numerical plane**: `(~-1 + 1) = 1 (0x01)`
+        1) Logic-arithmetic addition of one to an inverted **positive number** reactively forms a **complementary representation** (`corrects the distortion that occurred, for symmetry of the linear ratio`). It brings the number closer to **0**, compensating the **arithmetic asymmetry of logical inversion** relative to the **numerical plane** for the subsequent operation over **linear reflections of magnitudes** within the **numerical plane**: `(~1 + 1) = -1 (0xFF)`
+        2) Logic-arithmetic addition of one to an inverted **negative number** reactively forms a **complementary representation** (`corrects the distortion that occurred, for symmetry of the linear ratio`). It moves the number away from **0**, compensating the **arithmetic asymmetry of logical inversion** relative to the **numerical plane** for the subsequent operation over **linear reflections of magnitudes** within the **numerical plane**: `(~-1 + 1) = 1 (0x01)`
 
-	- For unsigned reflections (`[0, 255]`):
+    - For unsigned reflections (`[0, 255]`):
 
-		1) Logic-arithmetic addition of one to an inverted **number** reactively forms a **magnitude of reflection inversely proportional to the magnitude of presence** (`corrects the distortion that occurred, for symmetry of the linear ratio`). It compensates the **arithmetic asymmetry of logical inversion** relative to the **numerical plane** for the subsequent operation over **linear reflections of magnitudes** within the **numerical plane**: `(~1 + 1) = 255 (0xFF)`
+        1) Logic-arithmetic addition of one to an inverted **number** reactively forms a **magnitude of reflection inversely proportional to the magnitude of presence** (`corrects the distortion that occurred, for symmetry of the linear ratio`). It compensates the **arithmetic asymmetry of logical inversion** relative to the **numerical plane** for the subsequent operation over **linear reflections of magnitudes** within the **numerical plane**: `(~1 + 1) = 255 (0xFF)`
 
 - `-x = ~(B - 1) = ~(B + 255)`:
 
-	- For signed reflections (`[-128, -1] => [-128, 127] => [0, 127]`):
+    - For signed reflections (`[-128, -1] => [-128, 127] => [0, 127]`):
 
-		1) Logic-arithmetic subtraction of one from a **positive number** (before inversion) proactively forms a **complementary representation** (`prepares the distortion, for symmetry of the linear ratio`). It brings the number closer to **0** after inversion, compensating the **arithmetic asymmetry of logical inversion** relative to the **numerical plane** for the subsequent operation over **linear reflections of magnitudes** within the **numerical plane**: `~(1 - 1) = -1 (0xFF)`, `~(1 - 1) = 255 (0xFF)`
-		2) Logic-arithmetic subtraction of one from a **negative number** (before inversion) proactively forms a **complementary representation** (`prepares the distortion, for symmetry of the linear ratio`). It moves the number away from **0** after inversion, compensating the **arithmetic asymmetry of logical inversion** relative to the **numerical plane** for the subsequent operation over **linear reflections of magnitudes** within the **numerical plane**: `~(-1 - 1) = 1 (0x01)`
+        1) Logic-arithmetic subtraction of one from a **positive number** (before inversion) proactively forms a **complementary representation** (`prepares the distortion, for symmetry of the linear ratio`). It brings the number closer to **0** after inversion, compensating the **arithmetic asymmetry of logical inversion** relative to the **numerical plane** for the subsequent operation over **linear reflections of magnitudes** within the **numerical plane**: `~(1 - 1) = -1 (0xFF)`, `~(1 - 1) = 255 (0xFF)`
+        2) Logic-arithmetic subtraction of one from a **negative number** (before inversion) proactively forms a **complementary representation** (`prepares the distortion, for symmetry of the linear ratio`). It moves the number away from **0** after inversion, compensating the **arithmetic asymmetry of logical inversion** relative to the **numerical plane** for the subsequent operation over **linear reflections of magnitudes** within the **numerical plane**: `~(-1 - 1) = 1 (0x01)`
 
-	- For unsigned reflections (`[0, 255]`):
+    - For unsigned reflections (`[0, 255]`):
 
-		1) Logic-arithmetic subtraction of one from a **number** (before inversion) proactively forms a **complementary representation** (`prepares the distortion, for symmetry of the linear ratio`). It compensates the **arithmetic asymmetry of logical inversion** relative to the **numerical plane** for the subsequent operation over **linear reflections of magnitudes** within the **numerical plane**: `~(1 - 1) = 255 (0xFF)`
+        1) Logic-arithmetic subtraction of one from a **number** (before inversion) proactively forms a **complementary representation** (`prepares the distortion, for symmetry of the linear ratio`). It compensates the **arithmetic asymmetry of logical inversion** relative to the **numerical plane** for the subsequent operation over **linear reflections of magnitudes** within the **numerical plane**: `~(1 - 1) = 255 (0xFF)`
 
 ## Fundamental transformations
 
@@ -268,14 +268,14 @@ This reveals itself as an **unsigned data types simulation error**: in **unsigne
 - For 32-bit:
 
 1. x >> 31 → arithmetic shift right (unlike logical shifts (sll, srl), it propagates the sign)
-		→ the most significant bit (sign) is extended (sra; there is no sla — the sign is at the beginning of the register, and sla would contradict x86 architecture)
-		→ for negative: 0xFFFFFFFF (-1)
-		→ for positive: 0x00000000 (0)
+        → the most significant bit (sign) is extended (sra; there is no sla — the sign is at the beginning of the register, and sla would contradict x86 architecture)
+        → for negative: 0xFFFFFFFF (-1)
+        → for positive: 0x00000000 (0)
 2. (x ^ mask) - mask
-		→ if x ≥ 0 and x ≤ (2**(32-1) - 1):
-			(x ^ 0) - 0 = x - 0 = x
-		→ if x ≥ -(2**(32-1)) and x ≤ 0:
-			(x ^ (-1)) - (-1) = ~x + 1
+        → if x ≥ 0 and x ≤ (2**(32-1) - 1):
+            (x ^ 0) - 0 = x - 0 = x
+        → if x ≥ -(2**(32-1)) and x ≤ 0:
+            (x ^ (-1)) - (-1) = ~x + 1
 
 #### Implementation:
 
@@ -284,7 +284,7 @@ This reveals itself as an **unsigned data types simulation error**: in **unsigne
 ```c
 static inline __attribute__((always_inline, used))
 int8_t abs(int8_t x) {
-	/*
+    /*
     Correct |x| for a value in two's complement
     */
     if (x < 0) { return !x + 0x01; } else { return x; }
@@ -294,7 +294,7 @@ int8_t abs(int8_t x) {
 ```c
 static inline __attribute__((always_inline, used))
 int8_t abs(int8_t x) {
-	/*
+    /*
     Correct |x| for a value in two's complement
     */
     int8_t mask = x >> 7;
@@ -307,7 +307,7 @@ int8_t abs(int8_t x) {
 ```rust
 #[unsafe(no_mangle)]
 fn abs(x: i8) -> i8 {
-	/*
+    /*
     Correct |x| for a value in two's complement
     */
     if x < 0 { return !x + 0x01; } else { return x; }
@@ -317,7 +317,7 @@ fn abs(x: i8) -> i8 {
 ```rust
 #[unsafe(no_mangle)]
 fn abs(x: i8) -> i8 {
-	/*
+    /*
     Correct |x| for a value in two's complement
     */
     let mask: i8 = x >> 7;
@@ -329,7 +329,7 @@ fn abs(x: i8) -> i8 {
 
 ```python
 def abs_two_complement(x: int, bits: int = 32) -> int:
-	"""
+    """
     Correct |x| for a value in two's complement (to ±2^{bits-1}).
     """
     min_u: int = -1 ^ ((1 << (bits - 1)) - 1)
@@ -338,8 +338,8 @@ def abs_two_complement(x: int, bits: int = 32) -> int:
         raise ValueError("Value out of signed bits-bit range")
     # The most significant sign bit = 1
     if x >> (bits - 1):
-	    return (((-1) ^ x) + 1) & max_u
-	return x
+        return (((-1) ^ x) + 1) & max_u
+    return x
 ```
 
 - Equivalent in Python:
@@ -370,20 +370,20 @@ def abs_two_complement(x: int, bits: int = 32) -> int:
 ```c
 static inline __attribute__((always_inline, used))
 int8_t babs(int8_t x) { // -x
-	/*
+    /*
     Correct -x for value in two's complement
     */
-	return ~x + 0x01;
+    return ~x + 0x01;
 }
 ```
 
 ```c
 static inline __attribute__((always_inline, used))
 uint8_t babs(uint8_t x) {
-	/*
+    /*
     Correctly returns the magnitude of reflection inversely proportional to the magnitude of presence for unsigned data type in two's complement
     */
-	return ~x + 0x01;
+    return ~x + 0x01;
 }
 ```
 
@@ -393,10 +393,10 @@ uint8_t babs(uint8_t x) {
 #[unsafe(no_mangle)]
 #[inline(always)]
 fn babs(x: i8) -> i8 { // -x
-	/*
+    /*
     Correct -x for value in two's complement
     */
-	return !x + 0x01;
+    return !x + 0x01;
 }
 ```
 
@@ -404,10 +404,10 @@ fn babs(x: i8) -> i8 { // -x
 #[unsafe(no_mangle)]
 #[inline(always)]
 fn babs(x: u8) -> u8 { // -x
-	/*
+    /*
     Correctly returns the magnitude of reflection inversely proportional to the magnitude of presence for unsigned data type in two's complement
     */
-	return !x + 0x01;
+    return !x + 0x01;
 }
 ```
 
@@ -415,7 +415,7 @@ fn babs(x: u8) -> u8 { // -x
 
 ```python
 def babs(x: int, bits: int = 32) -> int: # -x
-	"""
+    """
     Correct -x for value in two's complement (to ±2^{bits-1})
     """
     min_u: int = -1 << (bits - 1)
@@ -424,17 +424,17 @@ def babs(x: int, bits: int = 32) -> int: # -x
         raise ValueError("Value out of signed bits-bit range")
     # The most significant sign bit = 1
     if x >> (bits - 1):
-	    if x == min_u:
-		    return min_u
-		else:
-		    return (((-1) ^ x) + 1) & max_u
+        if x == min_u:
+            return min_u
+        else:
+            return (((-1) ^ x) + 1) & max_u
     else:
-		return (((-1) ^ x) + 1) | min_u
+        return (((-1) ^ x) + 1) | min_u
 ```
 
 ```python
 def babs(x: int, bits: int = 32) -> int: # -x
-	"""
+    """
     Correct -x for value in two's complement (covering ±2^{bits})-1)
     """
     min_u: int = -1 << bits
@@ -443,12 +443,12 @@ def babs(x: int, bits: int = 32) -> int: # -x
         raise ValueError("Value out of unsigned bits-bit range")
     # The most significant sign bit = 1
     if x >> (bits - 1):
-	    if x == min_u:
-		    return min_u
-		else:
-		    return (((-1) ^ x) + 1) & max_u
+        if x == min_u:
+            return min_u
+        else:
+            return (((-1) ^ x) + 1) & max_u
     else:
-		return (((-1) ^ x) + 1) | min_u
+        return (((-1) ^ x) + 1) | min_u
 ```
 
 ### Formalization nabs (-|x|)
@@ -461,7 +461,7 @@ def babs(x: int, bits: int = 32) -> int: # -x
 #include <stdint.h>
 
 int8_t nabs(uint8_t x) {
-	/*
+    /*
     Correct negative abs for the value
     */
     if (x <= UINT8_C(0x80)) {
@@ -476,7 +476,7 @@ int8_t nabs(uint8_t x) {
 #include <stdint.h>
 
 int8_t nabs(uint8_t x) {
-	/*
+    /*
     Correct negative abs for the value
     */
     if (x <= UINT8_C(0x80)) {
@@ -492,7 +492,7 @@ int8_t nabs(uint8_t x) {
 ```rust
 #[unsafe(no_mangle)]
 fn nabs(x: u8) -> i8 {
-	/*
+    /*
     Correct negative abs for the value
     */
     if x <= 0x80 {
@@ -506,7 +506,7 @@ fn nabs(x: u8) -> i8 {
 ```rust
 #[unsafe(no_mangle)]
 fn nabs(x: u8) -> i8 {
-	/*
+    /*
     Correct negative abs for the value
     */
     if x <= 0x80 {
@@ -528,17 +528,17 @@ fn nabs(x: u8) -> i8 {
 
 static inline __attribute__((always_inline, used))
 int8_t uas(uint8_t x) {
-	/*
+    /*
     Correct unsigned as signed for value
     */
     if (x == 0) { return x; }
-	return (int8_t) (
-		(
-			UINT8_C(0xFF) ^ x
-		) ^ (
-			(uint8_t) ((0x0001U << (0x0020U - __builtin_clz(x))) - 0x0001U)
-		)
-	);
+    return (int8_t) (
+        (
+            UINT8_C(0xFF) ^ x
+        ) ^ (
+            (uint8_t) ((0x0001U << (0x0020U - __builtin_clz(x))) - 0x0001U)
+        )
+    );
 }
 ```
 
@@ -547,18 +547,18 @@ int8_t uas(uint8_t x) {
 
 static inline __attribute__((always_inline, used))
 int8_t uas(uint8_t x) {
-	/*
+    /*
     Correct unsigned as signed for value, distributing the sign
     */
     return (int8_t) (
-	    (
-		    UINT8_C(0xFF) ^ x
-		) ^ (
-			(x | x >> 1)
-		  | ((x | x >> 1) >> 2)
-		  | (((x | x >> 1) | ((num | num >> 1) >> 2)) >> 4)
-		)
-	);
+        (
+            UINT8_C(0xFF) ^ x
+        ) ^ (
+            (x | x >> 1)
+        | ((x | x >> 1) >> 2)
+        | (((x | x >> 1) | ((num | num >> 1) >> 2)) >> 4)
+        )
+    );
 }
 ```
 
@@ -568,20 +568,20 @@ int8_t uas(uint8_t x) {
 static inline __attribute__((always_inline, used)) 
 int64_t uas(uint64_t value, uint8_t sfg) {
     /* 
-     * sign_shift: distance to the edge of the number plane.
-     * We use 64 bits (0x40), subtracting the subfield length.
-     * Masking (sfg & 0x3F) ensures that we do not exceed 63.
-     * Example (subfield group): SFG = 8 (for uint8_t)
+    * sign_shift: distance to the edge of the number plane.
+    * We use 64 bits (0x40), subtracting the subfield length.
+    * Masking (sfg & 0x3F) ensures that we do not exceed 63.
+    * Example (subfield group): SFG = 8 (for uint8_t)
 
-     */
+    */
     uint8_t sign_shift = UINT8_C(0x0040) - (sfg & UINT8_C(0x3F));
 
     /*
-     * 1. A left shift moves the sign bit of the subfield to the position of the i64 sign bit.
-     * 2. An arithmetic right shift “pulls” this bit back, 
-     *    filling the gap and restoring linear symmetry (propagating the sign).
+    * 1. A left shift moves the sign bit of the subfield to the position of the i64 sign bit.
+    * 2. An arithmetic right shift “pulls” this bit back, 
+    *    filling the gap and restoring linear symmetry (propagating the sign).
 
-     */
+    */
     return (((int64_t) value) << sign_shift) >> sign_shift;
 }
 ```
@@ -596,14 +596,14 @@ fn uas(x: u8) -> i8 {
     Correct unsigned as signed for value, distributing the sign
     */
     return (
-	    (
-		    0xFF_u8 ^ x
-		) ^ (
-			(
-				(0x00000001_u32 << (0x00000008_u32 - x.leading_zeros())) - 0x00000001_u32
-			) as u8
-		)
-	) as i8;
+        (
+            0xFF_u8 ^ x
+        ) ^ (
+            (
+                (0x00000001_u32 << (0x00000008_u32 - x.leading_zeros())) - 0x00000001_u32
+            ) as u8
+        )
+    ) as i8;
 }
 ```
 
@@ -615,14 +615,14 @@ fn uas(x: u8) -> i8 {
     Correct unsigned as signed for value, distributing the sign
     */
     return (
-	    (
-		    0xFF_u8 ^ x
-		) ^ (
-			(
-				(0x00000001_u32 << (x.ilog2() + 0x00000001_u32)) - 0x00000001_u32
-			) as u8
-		)
-	) as i8;
+        (
+            0xFF_u8 ^ x
+        ) ^ (
+            (
+                (0x00000001_u32 << (x.ilog2() + 0x00000001_u32)) - 0x00000001_u32
+            ) as u8
+        )
+    ) as i8;
 }
 ```
 
@@ -630,18 +630,18 @@ fn uas(x: u8) -> i8 {
 #[unsafe(no_mangle)]
 #[inline(always)]
 fn uas(x: u8) -> i8 {
-	/*
+    /*
     Correct unsigned as signed for value, distributing the sign
     */
     return (
-	    (
-		    0xFF_u8 ^ x
-		) ^ (
-			(x | x >> 1)
-		  | ((x | x >> 1) >> 2)
-		  | (((x | x >> 1) | ((x | x >> 1) >> 2)) >> 4)
-		)
-	) as i8;
+        (
+            0xFF_u8 ^ x
+        ) ^ (
+            (x | x >> 1)
+        | ((x | x >> 1) >> 2)
+        | (((x | x >> 1) | ((x | x >> 1) >> 2)) >> 4)
+        )
+    ) as i8;
 }
 ```
 
@@ -649,7 +649,7 @@ fn uas(x: u8) -> i8 {
 #[unsafe(no_mangle)]
 #[inline(always)]
 pub const fn uas<const SFG: u8>(value: u128) -> i128 {
-	/*
+    /*
     Correct unsigned as signed for the value of any length subfield within the length field of the data type, distributing the sign
     */
     let sign_shift: i128 = 0x80_i128 - (SFG & 0x7F_u8) as i128;
@@ -661,17 +661,17 @@ pub const fn uas<const SFG: u8>(value: u128) -> i128 {
 
 ```python
 def uas(x: int, bits: int) -> int:
-	min_u: int = 0
-	max_u: int = (1 << n) - 1
+    min_u: int = 0
+    max_u: int = (1 << n) - 1
     if not (min_u <= x <= max_u):
         raise ValueError("Value out of signed bits-bit range")
-	return ((-1) & (-1 << n)) | x
+    return ((-1) & (-1 << n)) | x
 ```
 
 ```python
 def uas(x: int, bits: int) -> int:
-	min_u: int = 0
-	max_u: int = (1 << n) - 1
+    min_u: int = 0
+    max_u: int = (1 << n) - 1
     if not (min_u <= x <= max_u):
         raise ValueError("Value out of signed bits-bit range")
     return (((-1) ^ x) ^ ((1 << n) - 1))
