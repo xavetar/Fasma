@@ -125,12 +125,7 @@ static inline uint64_t _m_rbit_sei64(int64_t var) {
     );
 
     v = _mm_or_si64(
-        // Alternative variants:
-        // 1. _mm_andnot_si64(_mm_set1_pi8(0x55), _mm_add_pi8(v, v)),
-        // 2. _mm_add_pi8(_mm_and_si64(v, _mm_set1_pi8(0x55)), _mm_and_si64(v, _mm_set1_pi8(0x55))),
         _mm_slli_pi16(_mm_and_si64(v, _mm_set1_pi8(0x55)), 0x01),
-        // Alternative variants:
-        // 1. _mm_and_si64(_mm_srli_pi16(v, 0x01), _mm_set1_pi8(0x55)) - poor instruction optimization by Rust/LLVM
         _mm_srli_pi16(_mm_andnot_si64(_mm_set1_pi8(0x55), v), 0x01)
     );
 
