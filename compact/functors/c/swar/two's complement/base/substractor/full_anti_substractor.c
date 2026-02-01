@@ -90,7 +90,7 @@ int main() {
     printf("Iter %" PRId32 ": DIFFERENCE = 0x%" PRIx64 ", Bout = 0x%" PRIx64 "\n", iterations++, DIFFERENCE, Bout);
 
     while (Bout != 0) {
-        Bin = Bout >> 1;
+        Bin = (Bout >> 1) & MASK;
         full_subtractor(DIFFERENCE, Bin, &DIFFERENCE, &Bout);
         printf("Iter %" PRId32 ": DIFFERENCE = 0x%" PRIx64 ", Bout = 0x%" PRIx64 "\n", iterations++, DIFFERENCE, Bout);
     }
